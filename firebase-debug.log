@@ -1,0 +1,634 @@
+[debug] [2025-08-16T02:01:55.895Z] ----------------------------------------------------------------------
+[debug] [2025-08-16T02:01:55.901Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\k_li_\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js init
+[debug] [2025-08-16T02:01:55.902Z] CLI Version:   14.12.1
+[debug] [2025-08-16T02:01:55.903Z] Platform:      win32
+[debug] [2025-08-16T02:01:55.903Z] Node Version:  v20.16.0
+[debug] [2025-08-16T02:01:55.904Z] Time:          Fri Aug 15 2025 21:01:55 GMT-0500 (hora estándar de Colombia)
+[debug] [2025-08-16T02:01:55.904Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2025-08-16T02:01:55.910Z] >>> [apiv2][query] GET https://firebase-public.firebaseio.com/cli.json [none]
+[debug] [2025-08-16T02:01:56.026Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-08-16T02:01:56.027Z] > authorizing via signed-in user (contacto10@gmail.com)
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  G:\Mi unidad\0 GätüTier\Commqat
+
+[debug] [2025-08-16T02:01:56.482Z] <<< [apiv2][status] GET https://firebase-public.firebaseio.com/cli.json 200
+[debug] [2025-08-16T02:01:56.482Z] <<< [apiv2][body] GET https://firebase-public.firebaseio.com/cli.json {"cloudBuildErrorAfter":1594252800000,"cloudBuildWarnAfter":1590019200000,"defaultNode10After":1594252800000,"minVersion":"3.0.5","node8DeploysDisabledAfter":1613390400000,"node8RuntimeDisabledAfter":1615809600000,"node8WarnAfter":1600128000000}
+[info] 
+=== Project Setup
+[info] 
+[info] First, let's associate this project directory with a Firebase project.
+[info] You can create multiple project aliases by running firebase use --add, 
+[info] but for now we'll just set up a default project.
+[info] 
+[debug] [2025-08-16T02:04:46.654Z] Checked if tokens are valid: false, expires at: 1737844530832
+[debug] [2025-08-16T02:04:46.655Z] Checked if tokens are valid: false, expires at: 1737844530832
+[debug] [2025-08-16T02:04:46.655Z] > refreshing access token with scopes: []
+[debug] [2025-08-16T02:04:46.656Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2025-08-16T02:04:46.656Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2025-08-16T02:04:46.974Z] <<< [apiv2][status] POST https://www.googleapis.com/oauth2/v3/token 200
+[debug] [2025-08-16T02:04:46.974Z] <<< [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2025-08-16T02:04:47.186Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects pageSize=100
+[debug] [2025-08-16T02:04:47.782Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects 200
+[debug] [2025-08-16T02:04:47.782Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects [omitted]
+[info] i  Using project commqat (commqat) 
+[info] 
+=== Dataconnect Setup
+[debug] [2025-08-16T02:04:57.976Z] Checked if tokens are valid: true, expires at: 1755313485974
+[debug] [2025-08-16T02:04:57.976Z] Checked if tokens are valid: true, expires at: 1755313485974
+[debug] [2025-08-16T02:04:57.976Z] >>> [apiv2][query] GET https://cloudbilling.googleapis.com/v1/projects/commqat/billingInfo [none]
+[debug] [2025-08-16T02:04:58.534Z] <<< [apiv2][status] GET https://cloudbilling.googleapis.com/v1/projects/commqat/billingInfo 200
+[debug] [2025-08-16T02:04:58.534Z] <<< [apiv2][body] GET https://cloudbilling.googleapis.com/v1/projects/commqat/billingInfo {"name":"projects/commqat/billingInfo","projectId":"commqat","billingAccountName":"","billingEnabled":false}
+[info] i  dataconnect: ensuring required API sqladmin.googleapis.com is enabled... 
+[debug] [2025-08-16T02:04:58.535Z] Checked if tokens are valid: true, expires at: 1755313485974
+[debug] [2025-08-16T02:04:58.535Z] Checked if tokens are valid: true, expires at: 1755313485974
+[debug] [2025-08-16T02:04:58.536Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/commqat/services/sqladmin.googleapis.com [none]
+[debug] [2025-08-16T02:04:58.536Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/commqat/services/sqladmin.googleapis.com x-goog-quota-user=projects/commqat
+[debug] [2025-08-16T02:04:59.360Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/commqat/services/sqladmin.googleapis.com 200
+[debug] [2025-08-16T02:04:59.360Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/commqat/services/sqladmin.googleapis.com [omitted]
+[warn] !  dataconnect: missing required API sqladmin.googleapis.com. Enabling now... 
+[debug] [2025-08-16T02:04:59.361Z] Checked if tokens are valid: true, expires at: 1755313485974
+[debug] [2025-08-16T02:04:59.361Z] Checked if tokens are valid: true, expires at: 1755313485974
+[debug] [2025-08-16T02:04:59.361Z] >>> [apiv2][query] POST https://serviceusage.googleapis.com/v1/projects/commqat/services/sqladmin.googleapis.com:enable [none]
+[debug] [2025-08-16T02:04:59.361Z] >>> [apiv2][(partial)header] POST https://serviceusage.googleapis.com/v1/projects/commqat/services/sqladmin.googleapis.com:enable x-goog-quota-user=projects/commqat
+[debug] [2025-08-16T02:05:00.219Z] <<< [apiv2][status] POST https://serviceusage.googleapis.com/v1/projects/commqat/services/sqladmin.googleapis.com:enable 200
+[debug] [2025-08-16T02:05:00.219Z] <<< [apiv2][body] POST https://serviceusage.googleapis.com/v1/projects/commqat/services/sqladmin.googleapis.com:enable [omitted]
+[info] i  dataconnect: ensuring required API firebasedataconnect.googleapis.com is enabled... 
+[debug] [2025-08-16T02:05:10.404Z] Checked if tokens are valid: true, expires at: 1755313485974
+[debug] [2025-08-16T02:05:10.404Z] Checked if tokens are valid: true, expires at: 1755313485974
+[debug] [2025-08-16T02:05:10.404Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/commqat/services/firebasedataconnect.googleapis.com [none]
+[debug] [2025-08-16T02:05:10.405Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/commqat/services/firebasedataconnect.googleapis.com x-goog-quota-user=projects/commqat
+[debug] [2025-08-16T02:05:11.134Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/commqat/services/firebasedataconnect.googleapis.com 200
+[debug] [2025-08-16T02:05:11.134Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/commqat/services/firebasedataconnect.googleapis.com [omitted]
+[warn] !  dataconnect: missing required API firebasedataconnect.googleapis.com. Enabling now... 
+[debug] [2025-08-16T02:05:11.135Z] Checked if tokens are valid: true, expires at: 1755313485974
+[debug] [2025-08-16T02:05:11.135Z] Checked if tokens are valid: true, expires at: 1755313485974
+[debug] [2025-08-16T02:05:11.135Z] >>> [apiv2][query] POST https://serviceusage.googleapis.com/v1/projects/commqat/services/firebasedataconnect.googleapis.com:enable [none]
+[debug] [2025-08-16T02:05:11.135Z] >>> [apiv2][(partial)header] POST https://serviceusage.googleapis.com/v1/projects/commqat/services/firebasedataconnect.googleapis.com:enable x-goog-quota-user=projects/commqat
+[debug] [2025-08-16T02:05:11.917Z] <<< [apiv2][status] POST https://serviceusage.googleapis.com/v1/projects/commqat/services/firebasedataconnect.googleapis.com:enable 200
+[debug] [2025-08-16T02:05:11.918Z] <<< [apiv2][body] POST https://serviceusage.googleapis.com/v1/projects/commqat/services/firebasedataconnect.googleapis.com:enable [omitted]
+[debug] [2025-08-16T02:05:22.049Z] Checked if tokens are valid: true, expires at: 1755313485974
+[debug] [2025-08-16T02:05:22.049Z] Checked if tokens are valid: true, expires at: 1755313485974
+[debug] [2025-08-16T02:05:22.049Z] >>> [apiv2][query] GET https://firebasedataconnect.googleapis.com/v1/projects/commqat/locations/-/services [none]
+[debug] [2025-08-16T02:05:23.193Z] <<< [apiv2][status] GET https://firebasedataconnect.googleapis.com/v1/projects/commqat/locations/-/services 200
+[debug] [2025-08-16T02:05:23.193Z] <<< [apiv2][body] GET https://firebasedataconnect.googleapis.com/v1/projects/commqat/locations/-/services {}
+[info] +  Wrote dataconnect\dataconnect.yaml 
+[info] +  Wrote dataconnect\schema\schema.gql 
+[info] +  Wrote dataconnect\connector\connector.yaml 
+[info] +  Wrote dataconnect\connector\queries.gql 
+[info] +  Wrote dataconnect\connector\mutations.gql 
+[info] i  If you'd like to add the generated SDK to your app later, run firebase init dataconnect:sdk 
+[info] i  If you'd like to provision a CloudSQL Postgres instance on the Firebase Data Connect no-cost trial:
+1. Please upgrade to the pay-as-you-go (Blaze) billing plan. Visit the following page:
+     https://console.firebase.google.com/project/commqat/usage/details
+2. Run firebase init dataconnect again to configure the Cloud SQL instance.
+3. Run firebase deploy --only dataconnect to deploy your Data Connect service. 
+[info] 
+=== Firestore Setup
+[info] i  firestore: ensuring required API firestore.googleapis.com is enabled... 
+[debug] [2025-08-16T02:05:23.829Z] Checked if tokens are valid: true, expires at: 1755313485974
+[debug] [2025-08-16T02:05:23.829Z] Checked if tokens are valid: true, expires at: 1755313485974
+[debug] [2025-08-16T02:05:23.829Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/commqat/services/firestore.googleapis.com [none]
+[debug] [2025-08-16T02:05:23.830Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/commqat/services/firestore.googleapis.com x-goog-quota-user=projects/commqat
+[debug] [2025-08-16T02:05:24.501Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/commqat/services/firestore.googleapis.com 200
+[debug] [2025-08-16T02:05:24.501Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/commqat/services/firestore.googleapis.com [omitted]
+[info] +  firestore: required API firestore.googleapis.com is enabled 
+[debug] [2025-08-16T02:05:24.638Z] Checked if tokens are valid: true, expires at: 1755313485974
+[debug] [2025-08-16T02:05:24.638Z] Checked if tokens are valid: true, expires at: 1755313485974
+[debug] [2025-08-16T02:05:24.639Z] >>> [apiv2][query] GET https://firestore.googleapis.com/v1/projects/commqat/databases [none]
+[debug] [2025-08-16T02:05:25.647Z] <<< [apiv2][status] GET https://firestore.googleapis.com/v1/projects/commqat/databases 200
+[debug] [2025-08-16T02:05:25.648Z] <<< [apiv2][body] GET https://firestore.googleapis.com/v1/projects/commqat/databases {}
+[debug] [2025-08-16T02:05:25.648Z] Checked if tokens are valid: true, expires at: 1755313485974
+[debug] [2025-08-16T02:05:25.648Z] Checked if tokens are valid: true, expires at: 1755313485974
+[debug] [2025-08-16T02:05:25.648Z] >>> [apiv2][query] GET https://firestore.googleapis.com/v1/projects/commqat/locations [none]
+[debug] [2025-08-16T02:05:25.904Z] <<< [apiv2][status] GET https://firestore.googleapis.com/v1/projects/commqat/locations 200
+[debug] [2025-08-16T02:05:25.905Z] <<< [apiv2][body] GET https://firestore.googleapis.com/v1/projects/commqat/locations {"locations":[{"name":"projects/commqat/locations/eur3","labels":{"appengine.googleapis.com/geo":"europe-west","cloud.googleapis.com/location":"eur3","cloud.googleapis.com/geo":"eur3"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"eur3","displayName":"Europe"},{"name":"projects/commqat/locations/nam5","labels":{"appengine.googleapis.com/geo":"us-central","cloud.googleapis.com/location":"nam5","cloud.googleapis.com/geo":"nam5"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"nam5","displayName":"United States"},{"name":"projects/commqat/locations/nam7","labels":{"cloud.googleapis.com/location":"nam7","cloud.googleapis.com/geo":"nam7"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"nam7","displayName":"United States"},{"name":"projects/commqat/locations/africa-south1","labels":{"cloud.googleapis.com/location":"africa-south1","cloud.googleapis.com/region":"africa-south1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"africa-south1","displayName":"Johannesburg"},{"name":"projects/commqat/locations/asia-east1","labels":{"appengine.googleapis.com/region":"asia-east1","cloud.googleapis.com/location":"asia-east1","cloud.googleapis.com/region":"asia-east1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"asia-east1","displayName":"Taiwan"},{"name":"projects/commqat/locations/asia-east2","labels":{"appengine.googleapis.com/region":"asia-east2","cloud.googleapis.com/location":"asia-east2","cloud.googleapis.com/region":"asia-east2"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"asia-east2","displayName":"Hong Kong"},{"name":"projects/commqat/locations/asia-northeast1","labels":{"appengine.googleapis.com/region":"asia-northeast1","cloud.googleapis.com/location":"asia-northeast1","cloud.googleapis.com/region":"asia-northeast1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"asia-northeast1","displayName":"Tokyo"},{"name":"projects/commqat/locations/asia-northeast2","labels":{"appengine.googleapis.com/region":"asia-northeast2","cloud.googleapis.com/location":"asia-northeast2","cloud.googleapis.com/region":"asia-northeast2"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"asia-northeast2","displayName":"Osaka"},{"name":"projects/commqat/locations/asia-northeast3","labels":{"appengine.googleapis.com/region":"asia-northeast3","cloud.googleapis.com/location":"asia-northeast3","cloud.googleapis.com/region":"asia-northeast3"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"asia-northeast3","displayName":"Seoul"},{"name":"projects/commqat/locations/asia-south1","labels":{"appengine.googleapis.com/region":"asia-south1","cloud.googleapis.com/location":"asia-south1","cloud.googleapis.com/region":"asia-south1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"asia-south1","displayName":"Mumbai"},{"name":"projects/commqat/locations/asia-south2","labels":{"cloud.googleapis.com/location":"asia-south2","cloud.googleapis.com/region":"asia-south2"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"asia-south2","displayName":"Delhi"},{"name":"projects/commqat/locations/asia-southeast1","labels":{"appengine.googleapis.com/region":"asia-southeast1","cloud.googleapis.com/location":"asia-southeast1","cloud.googleapis.com/region":"asia-southeast1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"asia-southeast1","displayName":"Singapore"},{"name":"projects/commqat/locations/asia-southeast2","labels":{"appengine.googleapis.com/region":"asia-southeast2","cloud.googleapis.com/location":"asia-southeast2","cloud.googleapis.com/region":"asia-southeast2"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"asia-southeast2","displayName":"Jakarta"},{"name":"projects/commqat/locations/australia-southeast1","labels":{"appengine.googleapis.com/region":"australia-southeast1","cloud.googleapis.com/location":"australia-southeast1","cloud.googleapis.com/region":"australia-southeast1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"australia-southeast1","displayName":"Sydney"},{"name":"projects/commqat/locations/australia-southeast2","labels":{"cloud.googleapis.com/location":"australia-southeast2","cloud.googleapis.com/region":"australia-southeast2"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"australia-southeast2","displayName":"Melbourne"},{"name":"projects/commqat/locations/europe-central2","labels":{"appengine.googleapis.com/region":"europe-central2","cloud.googleapis.com/location":"europe-central2","cloud.googleapis.com/region":"europe-central2"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"europe-central2","displayName":"Warsaw"},{"name":"projects/commqat/locations/europe-north1","labels":{"cloud.googleapis.com/location":"europe-north1","cloud.googleapis.com/region":"europe-north1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"europe-north1","displayName":"Finland"},{"name":"projects/commqat/locations/europe-north2","labels":{"cloud.googleapis.com/location":"europe-north2","cloud.googleapis.com/region":"europe-north2"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"europe-north2","displayName":"Stockholm"},{"name":"projects/commqat/locations/europe-southwest1","labels":{"cloud.googleapis.com/location":"europe-southwest1","cloud.googleapis.com/region":"europe-southwest1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"europe-southwest1","displayName":"Madrid"},{"name":"projects/commqat/locations/europe-west1","labels":{"cloud.googleapis.com/location":"europe-west1","cloud.googleapis.com/region":"europe-west1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"europe-west1","displayName":"Belgium"},{"name":"projects/commqat/locations/europe-west10","labels":{"cloud.googleapis.com/location":"europe-west10","cloud.googleapis.com/region":"europe-west10"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"europe-west10","displayName":"Berlin"},{"name":"projects/commqat/locations/europe-west12","labels":{"cloud.googleapis.com/location":"europe-west12","cloud.googleapis.com/region":"europe-west12"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"europe-west12","displayName":"Turin"},{"name":"projects/commqat/locations/europe-west2","labels":{"appengine.googleapis.com/region":"europe-west2","cloud.googleapis.com/location":"europe-west2","cloud.googleapis.com/region":"europe-west2"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"europe-west2","displayName":"London"},{"name":"projects/commqat/locations/europe-west3","labels":{"appengine.googleapis.com/region":"europe-west3","cloud.googleapis.com/location":"europe-west3","cloud.googleapis.com/region":"europe-west3"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"europe-west3","displayName":"Frankfurt"},{"name":"projects/commqat/locations/europe-west4","labels":{"cloud.googleapis.com/location":"europe-west4","cloud.googleapis.com/region":"europe-west4"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"europe-west4","displayName":"Netherlands"},{"name":"projects/commqat/locations/europe-west6","labels":{"appengine.googleapis.com/region":"europe-west6","cloud.googleapis.com/location":"europe-west6","cloud.googleapis.com/region":"europe-west6"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"europe-west6","displayName":"Zurich"},{"name":"projects/commqat/locations/europe-west8","labels":{"cloud.googleapis.com/location":"europe-west8","cloud.googleapis.com/region":"europe-west8"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"europe-west8","displayName":"Milan"},{"name":"projects/commqat/locations/europe-west9","labels":{"cloud.googleapis.com/location":"europe-west9","cloud.googleapis.com/region":"europe-west9"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"europe-west9","displayName":"Paris"},{"name":"projects/commqat/locations/me-central1","labels":{"cloud.googleapis.com/location":"me-central1","cloud.googleapis.com/region":"me-central1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"me-central1","displayName":"Doha"},{"name":"projects/commqat/locations/me-central2","labels":{"cloud.googleapis.com/location":"me-central2","cloud.googleapis.com/region":"me-central2"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"me-central2","displayName":"Dammam"},{"name":"projects/commqat/locations/me-west1","labels":{"cloud.googleapis.com/location":"me-west1","cloud.googleapis.com/region":"me-west1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"me-west1","displayName":"Tel Aviv"},{"name":"projects/commqat/locations/northamerica-northeast1","labels":{"appengine.googleapis.com/region":"northamerica-northeast1","cloud.googleapis.com/location":"northamerica-northeast1","cloud.googleapis.com/region":"northamerica-northeast1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"northamerica-northeast1","displayName":"Montréal"},{"name":"projects/commqat/locations/northamerica-northeast2","labels":{"cloud.googleapis.com/location":"northamerica-northeast2","cloud.googleapis.com/region":"northamerica-northeast2"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"northamerica-northeast2","displayName":"Toronto"},{"name":"projects/commqat/locations/northamerica-south1","labels":{"cloud.googleapis.com/location":"northamerica-south1","cloud.googleapis.com/region":"northamerica-south1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"northamerica-south1","displayName":"Mexico"},{"name":"projects/commqat/locations/southamerica-east1","labels":{"appengine.googleapis.com/region":"southamerica-east1","cloud.googleapis.com/location":"southamerica-east1","cloud.googleapis.com/region":"southamerica-east1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"southamerica-east1","displayName":"São Paulo"},{"name":"projects/commqat/locations/southamerica-west1","labels":{"cloud.googleapis.com/location":"southamerica-west1","cloud.googleapis.com/region":"southamerica-west1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"southamerica-west1","displayName":"Santiago"},{"name":"projects/commqat/locations/us-central1","labels":{"cloud.googleapis.com/location":"us-central1","cloud.googleapis.com/region":"us-central1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"us-central1","displayName":"Iowa"},{"name":"projects/commqat/locations/us-east1","labels":{"appengine.googleapis.com/region":"us-east1","cloud.googleapis.com/location":"us-east1","cloud.googleapis.com/region":"us-east1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"us-east1","displayName":"South Carolina"},{"name":"projects/commqat/locations/us-east4","labels":{"appengine.googleapis.com/region":"us-east4","cloud.googleapis.com/location":"us-east4","cloud.googleapis.com/region":"us-east4"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"us-east4","displayName":"Northern Virginia"},{"name":"projects/commqat/locations/us-east5","labels":{"cloud.googleapis.com/location":"us-east5","cloud.googleapis.com/region":"us-east5"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"us-east5","displayName":"Columbus"},{"name":"projects/commqat/locations/us-south1","labels":{"cloud.googleapis.com/location":"us-south1","cloud.googleapis.com/region":"us-south1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"us-south1","displayName":"Dallas"},{"name":"projects/commqat/locations/us-west1","labels":{"appengine.googleapis.com/region":"us-west1","cloud.googleapis.com/location":"us-west1","cloud.googleapis.com/region":"us-west1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"us-west1","displayName":"Oregon"},{"name":"projects/commqat/locations/us-west2","labels":{"appengine.googleapis.com/region":"us-west2","cloud.googleapis.com/location":"us-west2","cloud.googleapis.com/region":"us-west2"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"us-west2","displayName":"Los Angeles"},{"name":"projects/commqat/locations/us-west3","labels":{"appengine.googleapis.com/region":"us-west3","cloud.googleapis.com/location":"us-west3","cloud.googleapis.com/region":"us-west3"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"us-west3","displayName":"Salt Lake City"},{"name":"projects/commqat/locations/us-west4","labels":{"appengine.googleapis.com/region":"us-west4","cloud.googleapis.com/location":"us-west4","cloud.googleapis.com/region":"us-west4"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"us-west4","displayName":"Las Vegas"},{"name":"projects/commqat/locations/us-west8","labels":{"cloud.googleapis.com/location":"us-west8","cloud.googleapis.com/region":"us-west8"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"us-west8","displayName":"Phoenix"}]}
+[info] 
+[info] Firestore Security Rules allow you to define how and when to allow
+[info] requests. You can keep these rules in your project directory
+[info] and publish them with firebase deploy.
+[info] 
+[debug] [2025-08-16T02:05:50.748Z] Checked if tokens are valid: true, expires at: 1755313485974
+[debug] [2025-08-16T02:05:50.748Z] Checked if tokens are valid: true, expires at: 1755313485974
+[debug] [2025-08-16T02:05:50.748Z] >>> [apiv2][query] GET https://firebaserules.googleapis.com/v1/projects/commqat/releases pageSize=10&pageToken=
+[debug] [2025-08-16T02:05:51.325Z] <<< [apiv2][status] GET https://firebaserules.googleapis.com/v1/projects/commqat/releases 200
+[debug] [2025-08-16T02:05:51.325Z] <<< [apiv2][body] GET https://firebaserules.googleapis.com/v1/projects/commqat/releases {}
+[info] 
+[info] Firestore indexes allow you to perform complex queries while
+[info] maintaining performance that scales with the size of the result
+[info] set. You can keep index definitions in your project directory
+[info] and publish them with firebase deploy.
+[info] 
+[debug] [2025-08-16T02:05:53.080Z] Checked if tokens are valid: true, expires at: 1755313485974
+[debug] [2025-08-16T02:05:53.081Z] Checked if tokens are valid: true, expires at: 1755313485974
+[debug] [2025-08-16T02:05:53.081Z] Checked if tokens are valid: true, expires at: 1755313485974
+[debug] [2025-08-16T02:05:53.081Z] Checked if tokens are valid: true, expires at: 1755313485974
+[debug] [2025-08-16T02:05:53.081Z] >>> [apiv2][query] GET https://firestore.googleapis.com/v1/projects/commqat/databases/(default)/collectionGroups/-/indexes [none]
+[debug] [2025-08-16T02:05:53.085Z] >>> [apiv2][query] GET https://firestore.googleapis.com/v1/projects/commqat/databases/(default)/collectionGroups/-/fields?filter=indexConfig.usesAncestorConfig=false OR ttlConfig:* [none]
+[debug] [2025-08-16T02:05:53.798Z] <<< [apiv2][status] GET https://firestore.googleapis.com/v1/projects/commqat/databases/(default)/collectionGroups/-/fields?filter=indexConfig.usesAncestorConfig=false OR ttlConfig:* 404
+[debug] [2025-08-16T02:05:53.799Z] <<< [apiv2][body] GET https://firestore.googleapis.com/v1/projects/commqat/databases/(default)/collectionGroups/-/fields?filter=indexConfig.usesAncestorConfig=false OR ttlConfig:* {"error":{"code":404,"message":"Project 'commqat' or database '(default)' does not exist.","status":"NOT_FOUND"}}
+[info] +  Wrote firestore.rules 
+[info] +  Wrote firestore.indexes.json 
+[debug] [2025-08-16T02:05:54.073Z] <<< [apiv2][status] GET https://firestore.googleapis.com/v1/projects/commqat/databases/(default)/collectionGroups/-/indexes 404
+[debug] [2025-08-16T02:05:54.073Z] <<< [apiv2][body] GET https://firestore.googleapis.com/v1/projects/commqat/databases/(default)/collectionGroups/-/indexes {"error":{"code":404,"message":"Project 'commqat' or database '(default)' does not exist.","status":"NOT_FOUND"}}
+[info] 
+=== Genkit Setup
+[debug] [2025-08-16T02:06:17.746Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-08-16T02:06:17.747Z] > authorizing via signed-in user (contacto10@gmail.com)
+[debug] [2025-08-16T02:06:17.747Z] [iam] checking project commqat for permissions ["firebase.projects.get"]
+[debug] [2025-08-16T02:06:17.747Z] Checked if tokens are valid: true, expires at: 1755313485974
+[debug] [2025-08-16T02:06:17.748Z] Checked if tokens are valid: true, expires at: 1755313485974
+[debug] [2025-08-16T02:06:17.748Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/commqat:testIamPermissions [none]
+[debug] [2025-08-16T02:06:17.748Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/commqat:testIamPermissions x-goog-quota-user=projects/commqat
+[debug] [2025-08-16T02:06:17.748Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/commqat:testIamPermissions {"permissions":["firebase.projects.get"]}
+[debug] [2025-08-16T02:06:18.526Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/commqat:testIamPermissions 200
+[debug] [2025-08-16T02:06:18.526Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/commqat:testIamPermissions {"permissions":["firebase.projects.get"]}
+[debug] [2025-08-16T02:06:18.527Z] Checked if tokens are valid: true, expires at: 1755313485974
+[debug] [2025-08-16T02:06:18.527Z] Checked if tokens are valid: true, expires at: 1755313485974
+[debug] [2025-08-16T02:06:18.527Z] Checked if tokens are valid: true, expires at: 1755313485974
+[debug] [2025-08-16T02:06:18.527Z] Checked if tokens are valid: true, expires at: 1755313485974
+[debug] [2025-08-16T02:06:18.528Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/commqat/services/cloudfunctions.googleapis.com [none]
+[debug] [2025-08-16T02:06:18.528Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/commqat/services/cloudfunctions.googleapis.com x-goog-quota-user=projects/commqat
+[debug] [2025-08-16T02:06:18.530Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/commqat/services/runtimeconfig.googleapis.com [none]
+[debug] [2025-08-16T02:06:18.530Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/commqat/services/runtimeconfig.googleapis.com x-goog-quota-user=projects/commqat
+[debug] [2025-08-16T02:06:19.168Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/commqat/services/runtimeconfig.googleapis.com 200
+[debug] [2025-08-16T02:06:19.168Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/commqat/services/runtimeconfig.googleapis.com [omitted]
+[debug] [2025-08-16T02:06:19.196Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/commqat/services/cloudfunctions.googleapis.com 200
+[debug] [2025-08-16T02:06:19.197Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/commqat/services/cloudfunctions.googleapis.com [omitted]
+[debug] [2025-08-16T02:06:19.197Z] Checked if tokens are valid: true, expires at: 1755313485974
+[debug] [2025-08-16T02:06:19.197Z] Checked if tokens are valid: true, expires at: 1755313485974
+[debug] [2025-08-16T02:06:19.197Z] >>> [apiv2][query] POST https://serviceusage.googleapis.com/v1/projects/commqat/services/cloudfunctions.googleapis.com:enable [none]
+[debug] [2025-08-16T02:06:19.197Z] >>> [apiv2][(partial)header] POST https://serviceusage.googleapis.com/v1/projects/commqat/services/cloudfunctions.googleapis.com:enable x-goog-quota-user=projects/commqat
+[debug] [2025-08-16T02:06:19.966Z] <<< [apiv2][status] POST https://serviceusage.googleapis.com/v1/projects/commqat/services/cloudfunctions.googleapis.com:enable 200
+[debug] [2025-08-16T02:06:19.967Z] <<< [apiv2][body] POST https://serviceusage.googleapis.com/v1/projects/commqat/services/cloudfunctions.googleapis.com:enable [omitted]
+[info] Let's create a new codebase for your functions.
+[info] A directory corresponding to the codebase will be created in your project
+[info] with sample code pre-configured.
+
+[info] See https://firebase.google.com/docs/functions/organize-functions for
+[info] more information on organizing your functions using codebases.
+
+[info] Functions can be deployed with firebase deploy.
+
+[info] +  Wrote functions/package.json 
+[info] +  Wrote functions/.eslintrc.js 
+[info] +  Wrote functions/tsconfig.dev.json 
+[info] +  Wrote functions/tsconfig.json 
+[info] +  Wrote functions/src/index.ts 
+[info] +  Wrote functions/.gitignore 
+[debug] [2025-08-16T02:16:20.198Z] ----------------------------------------------------------------------
+[debug] [2025-08-16T02:16:20.203Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\k_li_\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js init
+[debug] [2025-08-16T02:16:20.204Z] CLI Version:   14.12.1
+[debug] [2025-08-16T02:16:20.204Z] Platform:      win32
+[debug] [2025-08-16T02:16:20.204Z] Node Version:  v20.16.0
+[debug] [2025-08-16T02:16:20.204Z] Time:          Fri Aug 15 2025 21:16:20 GMT-0500 (hora estándar de Colombia)
+[debug] [2025-08-16T02:16:20.205Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2025-08-16T02:16:20.217Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-08-16T02:16:20.218Z] > authorizing via signed-in user (contacto10@gmail.com)
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  G:\Mi unidad\0 GätüTier\Commqat
+
+[info] 
+=== Project Setup
+[info] 
+[info] First, let's associate this project directory with a Firebase project.
+[info] You can create multiple project aliases by running firebase use --add, 
+[info] but for now we'll just set up a default project.
+[info] 
+[debug] [2025-08-16T02:17:56.361Z] Checked if tokens are valid: true, expires at: 1755313485974
+[debug] [2025-08-16T02:17:56.362Z] Checked if tokens are valid: true, expires at: 1755313485974
+[debug] [2025-08-16T02:17:56.369Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects pageSize=100
+[debug] [2025-08-16T02:17:57.166Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects 200
+[debug] [2025-08-16T02:17:57.166Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects [omitted]
+[info] i  Using project commqat (commqat) 
+[info] 
+=== Dataconnect Setup
+[debug] [2025-08-16T02:18:00.747Z] Checked if tokens are valid: true, expires at: 1755313485974
+[debug] [2025-08-16T02:18:00.747Z] Checked if tokens are valid: true, expires at: 1755313485974
+[debug] [2025-08-16T02:18:00.747Z] >>> [apiv2][query] GET https://cloudbilling.googleapis.com/v1/projects/commqat/billingInfo [none]
+[debug] [2025-08-16T02:18:02.548Z] <<< [apiv2][status] GET https://cloudbilling.googleapis.com/v1/projects/commqat/billingInfo 200
+[debug] [2025-08-16T02:18:02.548Z] <<< [apiv2][body] GET https://cloudbilling.googleapis.com/v1/projects/commqat/billingInfo {"name":"projects/commqat/billingInfo","projectId":"commqat","billingAccountName":"","billingEnabled":false}
+[info] i  dataconnect: ensuring required API sqladmin.googleapis.com is enabled... 
+[info] i  dataconnect: ensuring required API firebasedataconnect.googleapis.com is enabled... 
+[debug] [2025-08-16T02:18:02.551Z] Checked if tokens are valid: true, expires at: 1755313485974
+[debug] [2025-08-16T02:18:02.551Z] Checked if tokens are valid: true, expires at: 1755313485974
+[debug] [2025-08-16T02:18:02.551Z] >>> [apiv2][query] GET https://firebasedataconnect.googleapis.com/v1/projects/commqat/locations/-/services [none]
+[debug] [2025-08-16T02:18:03.920Z] <<< [apiv2][status] GET https://firebasedataconnect.googleapis.com/v1/projects/commqat/locations/-/services 200
+[debug] [2025-08-16T02:18:03.921Z] <<< [apiv2][body] GET https://firebasedataconnect.googleapis.com/v1/projects/commqat/locations/-/services {}
+[info] i  dataconnect\dataconnect.yaml is unchanged 
+[info] i  dataconnect\schema\schema.gql is unchanged 
+[info] i  dataconnect\connector\connector.yaml is unchanged 
+[info] i  dataconnect\connector\queries.gql is unchanged 
+[info] i  dataconnect\connector\mutations.gql is unchanged 
+[info] i  If you'd like to add the generated SDK to your app later, run firebase init dataconnect:sdk 
+[info] i  If you'd like to provision a CloudSQL Postgres instance on the Firebase Data Connect no-cost trial:
+1. Please upgrade to the pay-as-you-go (Blaze) billing plan. Visit the following page:
+     https://console.firebase.google.com/project/commqat/usage/details
+2. Run firebase init dataconnect again to configure the Cloud SQL instance.
+3. Run firebase deploy --only dataconnect to deploy your Data Connect service. 
+[info] 
+=== Firestore Setup
+[info] i  firestore: ensuring required API firestore.googleapis.com is enabled... 
+[debug] [2025-08-16T02:18:04.063Z] Checked if tokens are valid: true, expires at: 1755313485974
+[debug] [2025-08-16T02:18:04.063Z] Checked if tokens are valid: true, expires at: 1755313485974
+[debug] [2025-08-16T02:18:04.063Z] >>> [apiv2][query] GET https://firestore.googleapis.com/v1/projects/commqat/databases [none]
+[debug] [2025-08-16T02:18:08.534Z] <<< [apiv2][status] GET https://firestore.googleapis.com/v1/projects/commqat/databases 200
+[debug] [2025-08-16T02:18:08.534Z] <<< [apiv2][body] GET https://firestore.googleapis.com/v1/projects/commqat/databases {}
+[debug] [2025-08-16T02:18:08.535Z] Checked if tokens are valid: true, expires at: 1755313485974
+[debug] [2025-08-16T02:18:08.535Z] Checked if tokens are valid: true, expires at: 1755313485974
+[debug] [2025-08-16T02:18:08.535Z] >>> [apiv2][query] GET https://firestore.googleapis.com/v1/projects/commqat/locations [none]
+[debug] [2025-08-16T02:18:11.185Z] <<< [apiv2][status] GET https://firestore.googleapis.com/v1/projects/commqat/locations 200
+[debug] [2025-08-16T02:18:11.185Z] <<< [apiv2][body] GET https://firestore.googleapis.com/v1/projects/commqat/locations {"locations":[{"name":"projects/commqat/locations/eur3","labels":{"appengine.googleapis.com/geo":"europe-west","cloud.googleapis.com/location":"eur3","cloud.googleapis.com/geo":"eur3"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"eur3","displayName":"Europe"},{"name":"projects/commqat/locations/nam5","labels":{"appengine.googleapis.com/geo":"us-central","cloud.googleapis.com/location":"nam5","cloud.googleapis.com/geo":"nam5"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"nam5","displayName":"United States"},{"name":"projects/commqat/locations/nam7","labels":{"cloud.googleapis.com/location":"nam7","cloud.googleapis.com/geo":"nam7"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"nam7","displayName":"United States"},{"name":"projects/commqat/locations/africa-south1","labels":{"cloud.googleapis.com/location":"africa-south1","cloud.googleapis.com/region":"africa-south1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"africa-south1","displayName":"Johannesburg"},{"name":"projects/commqat/locations/asia-east1","labels":{"appengine.googleapis.com/region":"asia-east1","cloud.googleapis.com/location":"asia-east1","cloud.googleapis.com/region":"asia-east1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"asia-east1","displayName":"Taiwan"},{"name":"projects/commqat/locations/asia-east2","labels":{"appengine.googleapis.com/region":"asia-east2","cloud.googleapis.com/location":"asia-east2","cloud.googleapis.com/region":"asia-east2"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"asia-east2","displayName":"Hong Kong"},{"name":"projects/commqat/locations/asia-northeast1","labels":{"appengine.googleapis.com/region":"asia-northeast1","cloud.googleapis.com/location":"asia-northeast1","cloud.googleapis.com/region":"asia-northeast1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"asia-northeast1","displayName":"Tokyo"},{"name":"projects/commqat/locations/asia-northeast2","labels":{"appengine.googleapis.com/region":"asia-northeast2","cloud.googleapis.com/location":"asia-northeast2","cloud.googleapis.com/region":"asia-northeast2"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"asia-northeast2","displayName":"Osaka"},{"name":"projects/commqat/locations/asia-northeast3","labels":{"appengine.googleapis.com/region":"asia-northeast3","cloud.googleapis.com/location":"asia-northeast3","cloud.googleapis.com/region":"asia-northeast3"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"asia-northeast3","displayName":"Seoul"},{"name":"projects/commqat/locations/asia-south1","labels":{"appengine.googleapis.com/region":"asia-south1","cloud.googleapis.com/location":"asia-south1","cloud.googleapis.com/region":"asia-south1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"asia-south1","displayName":"Mumbai"},{"name":"projects/commqat/locations/asia-south2","labels":{"cloud.googleapis.com/location":"asia-south2","cloud.googleapis.com/region":"asia-south2"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"asia-south2","displayName":"Delhi"},{"name":"projects/commqat/locations/asia-southeast1","labels":{"appengine.googleapis.com/region":"asia-southeast1","cloud.googleapis.com/location":"asia-southeast1","cloud.googleapis.com/region":"asia-southeast1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"asia-southeast1","displayName":"Singapore"},{"name":"projects/commqat/locations/asia-southeast2","labels":{"appengine.googleapis.com/region":"asia-southeast2","cloud.googleapis.com/location":"asia-southeast2","cloud.googleapis.com/region":"asia-southeast2"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"asia-southeast2","displayName":"Jakarta"},{"name":"projects/commqat/locations/australia-southeast1","labels":{"appengine.googleapis.com/region":"australia-southeast1","cloud.googleapis.com/location":"australia-southeast1","cloud.googleapis.com/region":"australia-southeast1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"australia-southeast1","displayName":"Sydney"},{"name":"projects/commqat/locations/australia-southeast2","labels":{"cloud.googleapis.com/location":"australia-southeast2","cloud.googleapis.com/region":"australia-southeast2"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"australia-southeast2","displayName":"Melbourne"},{"name":"projects/commqat/locations/europe-central2","labels":{"appengine.googleapis.com/region":"europe-central2","cloud.googleapis.com/location":"europe-central2","cloud.googleapis.com/region":"europe-central2"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"europe-central2","displayName":"Warsaw"},{"name":"projects/commqat/locations/europe-north1","labels":{"cloud.googleapis.com/location":"europe-north1","cloud.googleapis.com/region":"europe-north1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"europe-north1","displayName":"Finland"},{"name":"projects/commqat/locations/europe-north2","labels":{"cloud.googleapis.com/location":"europe-north2","cloud.googleapis.com/region":"europe-north2"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"europe-north2","displayName":"Stockholm"},{"name":"projects/commqat/locations/europe-southwest1","labels":{"cloud.googleapis.com/location":"europe-southwest1","cloud.googleapis.com/region":"europe-southwest1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"europe-southwest1","displayName":"Madrid"},{"name":"projects/commqat/locations/europe-west1","labels":{"cloud.googleapis.com/location":"europe-west1","cloud.googleapis.com/region":"europe-west1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"europe-west1","displayName":"Belgium"},{"name":"projects/commqat/locations/europe-west10","labels":{"cloud.googleapis.com/location":"europe-west10","cloud.googleapis.com/region":"europe-west10"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"europe-west10","displayName":"Berlin"},{"name":"projects/commqat/locations/europe-west12","labels":{"cloud.googleapis.com/location":"europe-west12","cloud.googleapis.com/region":"europe-west12"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"europe-west12","displayName":"Turin"},{"name":"projects/commqat/locations/europe-west2","labels":{"appengine.googleapis.com/region":"europe-west2","cloud.googleapis.com/location":"europe-west2","cloud.googleapis.com/region":"europe-west2"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"europe-west2","displayName":"London"},{"name":"projects/commqat/locations/europe-west3","labels":{"appengine.googleapis.com/region":"europe-west3","cloud.googleapis.com/location":"europe-west3","cloud.googleapis.com/region":"europe-west3"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"europe-west3","displayName":"Frankfurt"},{"name":"projects/commqat/locations/europe-west4","labels":{"cloud.googleapis.com/location":"europe-west4","cloud.googleapis.com/region":"europe-west4"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"europe-west4","displayName":"Netherlands"},{"name":"projects/commqat/locations/europe-west6","labels":{"appengine.googleapis.com/region":"europe-west6","cloud.googleapis.com/location":"europe-west6","cloud.googleapis.com/region":"europe-west6"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"europe-west6","displayName":"Zurich"},{"name":"projects/commqat/locations/europe-west8","labels":{"cloud.googleapis.com/location":"europe-west8","cloud.googleapis.com/region":"europe-west8"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"europe-west8","displayName":"Milan"},{"name":"projects/commqat/locations/europe-west9","labels":{"cloud.googleapis.com/location":"europe-west9","cloud.googleapis.com/region":"europe-west9"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"europe-west9","displayName":"Paris"},{"name":"projects/commqat/locations/me-central1","labels":{"cloud.googleapis.com/location":"me-central1","cloud.googleapis.com/region":"me-central1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"me-central1","displayName":"Doha"},{"name":"projects/commqat/locations/me-central2","labels":{"cloud.googleapis.com/location":"me-central2","cloud.googleapis.com/region":"me-central2"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"me-central2","displayName":"Dammam"},{"name":"projects/commqat/locations/me-west1","labels":{"cloud.googleapis.com/location":"me-west1","cloud.googleapis.com/region":"me-west1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"me-west1","displayName":"Tel Aviv"},{"name":"projects/commqat/locations/northamerica-northeast1","labels":{"appengine.googleapis.com/region":"northamerica-northeast1","cloud.googleapis.com/location":"northamerica-northeast1","cloud.googleapis.com/region":"northamerica-northeast1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"northamerica-northeast1","displayName":"Montréal"},{"name":"projects/commqat/locations/northamerica-northeast2","labels":{"cloud.googleapis.com/location":"northamerica-northeast2","cloud.googleapis.com/region":"northamerica-northeast2"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"northamerica-northeast2","displayName":"Toronto"},{"name":"projects/commqat/locations/northamerica-south1","labels":{"cloud.googleapis.com/location":"northamerica-south1","cloud.googleapis.com/region":"northamerica-south1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"northamerica-south1","displayName":"Mexico"},{"name":"projects/commqat/locations/southamerica-east1","labels":{"appengine.googleapis.com/region":"southamerica-east1","cloud.googleapis.com/location":"southamerica-east1","cloud.googleapis.com/region":"southamerica-east1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"southamerica-east1","displayName":"São Paulo"},{"name":"projects/commqat/locations/southamerica-west1","labels":{"cloud.googleapis.com/location":"southamerica-west1","cloud.googleapis.com/region":"southamerica-west1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"southamerica-west1","displayName":"Santiago"},{"name":"projects/commqat/locations/us-central1","labels":{"cloud.googleapis.com/location":"us-central1","cloud.googleapis.com/region":"us-central1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"us-central1","displayName":"Iowa"},{"name":"projects/commqat/locations/us-east1","labels":{"appengine.googleapis.com/region":"us-east1","cloud.googleapis.com/location":"us-east1","cloud.googleapis.com/region":"us-east1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"us-east1","displayName":"South Carolina"},{"name":"projects/commqat/locations/us-east4","labels":{"appengine.googleapis.com/region":"us-east4","cloud.googleapis.com/location":"us-east4","cloud.googleapis.com/region":"us-east4"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"us-east4","displayName":"Northern Virginia"},{"name":"projects/commqat/locations/us-east5","labels":{"cloud.googleapis.com/location":"us-east5","cloud.googleapis.com/region":"us-east5"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"us-east5","displayName":"Columbus"},{"name":"projects/commqat/locations/us-south1","labels":{"cloud.googleapis.com/location":"us-south1","cloud.googleapis.com/region":"us-south1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"us-south1","displayName":"Dallas"},{"name":"projects/commqat/locations/us-west1","labels":{"appengine.googleapis.com/region":"us-west1","cloud.googleapis.com/location":"us-west1","cloud.googleapis.com/region":"us-west1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"us-west1","displayName":"Oregon"},{"name":"projects/commqat/locations/us-west2","labels":{"appengine.googleapis.com/region":"us-west2","cloud.googleapis.com/location":"us-west2","cloud.googleapis.com/region":"us-west2"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"us-west2","displayName":"Los Angeles"},{"name":"projects/commqat/locations/us-west3","labels":{"appengine.googleapis.com/region":"us-west3","cloud.googleapis.com/location":"us-west3","cloud.googleapis.com/region":"us-west3"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"us-west3","displayName":"Salt Lake City"},{"name":"projects/commqat/locations/us-west4","labels":{"appengine.googleapis.com/region":"us-west4","cloud.googleapis.com/location":"us-west4","cloud.googleapis.com/region":"us-west4"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"us-west4","displayName":"Las Vegas"},{"name":"projects/commqat/locations/us-west8","labels":{"cloud.googleapis.com/location":"us-west8","cloud.googleapis.com/region":"us-west8"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"us-west8","displayName":"Phoenix"}]}
+[info] 
+[info] Firestore Security Rules allow you to define how and when to allow
+[info] requests. You can keep these rules in your project directory
+[info] and publish them with firebase deploy.
+[info] 
+[debug] [2025-08-16T02:19:02.614Z] Checked if tokens are valid: true, expires at: 1755313485974
+[debug] [2025-08-16T02:19:02.614Z] Checked if tokens are valid: true, expires at: 1755313485974
+[debug] [2025-08-16T02:19:02.614Z] >>> [apiv2][query] GET https://firebaserules.googleapis.com/v1/projects/commqat/releases pageSize=10&pageToken=
+[debug] [2025-08-16T02:19:03.214Z] <<< [apiv2][status] GET https://firebaserules.googleapis.com/v1/projects/commqat/releases 200
+[debug] [2025-08-16T02:19:03.214Z] <<< [apiv2][body] GET https://firebaserules.googleapis.com/v1/projects/commqat/releases {}
+[info] i  firestore.rules is unchanged 
+[info] 
+[info] Firestore indexes allow you to perform complex queries while
+[info] maintaining performance that scales with the size of the result
+[info] set. You can keep index definitions in your project directory
+[info] and publish them with firebase deploy.
+[info] 
+[debug] [2025-08-16T02:19:04.532Z] Checked if tokens are valid: true, expires at: 1755313485974
+[debug] [2025-08-16T02:19:04.533Z] Checked if tokens are valid: true, expires at: 1755313485974
+[debug] [2025-08-16T02:19:04.533Z] Checked if tokens are valid: true, expires at: 1755313485974
+[debug] [2025-08-16T02:19:04.533Z] Checked if tokens are valid: true, expires at: 1755313485974
+[debug] [2025-08-16T02:19:04.533Z] >>> [apiv2][query] GET https://firestore.googleapis.com/v1/projects/commqat/databases/(default)/collectionGroups/-/indexes [none]
+[debug] [2025-08-16T02:19:04.536Z] >>> [apiv2][query] GET https://firestore.googleapis.com/v1/projects/commqat/databases/(default)/collectionGroups/-/fields?filter=indexConfig.usesAncestorConfig=false OR ttlConfig:* [none]
+[debug] [2025-08-16T02:19:05.219Z] <<< [apiv2][status] GET https://firestore.googleapis.com/v1/projects/commqat/databases/(default)/collectionGroups/-/indexes 404
+[debug] [2025-08-16T02:19:05.220Z] <<< [apiv2][body] GET https://firestore.googleapis.com/v1/projects/commqat/databases/(default)/collectionGroups/-/indexes {"error":{"code":404,"message":"Project 'commqat' or database '(default)' does not exist.","status":"NOT_FOUND"}}
+[info] i  firestore.indexes.json is unchanged 
+[info] +  Wrote firestore.indexes.json 
+[debug] [2025-08-16T02:19:09.354Z] <<< [apiv2][status] GET https://firestore.googleapis.com/v1/projects/commqat/databases/(default)/collectionGroups/-/fields?filter=indexConfig.usesAncestorConfig=false OR ttlConfig:* 404
+[debug] [2025-08-16T02:19:09.354Z] <<< [apiv2][body] GET https://firestore.googleapis.com/v1/projects/commqat/databases/(default)/collectionGroups/-/fields?filter=indexConfig.usesAncestorConfig=false OR ttlConfig:* {"error":{"code":404,"message":"Project 'commqat' or database '(default)' does not exist.","status":"NOT_FOUND"}}
+[info] 
+=== Genkit Setup
+[debug] [2025-08-16T02:19:24.384Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-08-16T02:19:24.384Z] > authorizing via signed-in user (contacto10@gmail.com)
+[debug] [2025-08-16T02:19:24.385Z] [iam] checking project commqat for permissions ["firebase.projects.get"]
+[debug] [2025-08-16T02:19:24.385Z] Checked if tokens are valid: true, expires at: 1755313485974
+[debug] [2025-08-16T02:19:24.385Z] Checked if tokens are valid: true, expires at: 1755313485974
+[debug] [2025-08-16T02:19:24.385Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/commqat:testIamPermissions [none]
+[debug] [2025-08-16T02:19:24.386Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/commqat:testIamPermissions x-goog-quota-user=projects/commqat
+[debug] [2025-08-16T02:19:24.386Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/commqat:testIamPermissions {"permissions":["firebase.projects.get"]}
+[debug] [2025-08-16T02:19:25.296Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/commqat:testIamPermissions 200
+[debug] [2025-08-16T02:19:25.296Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/commqat:testIamPermissions {"permissions":["firebase.projects.get"]}
+[info] Let's create a new codebase for your functions.
+[info] A directory corresponding to the codebase will be created in your project
+[info] with sample code pre-configured.
+
+[info] See https://firebase.google.com/docs/functions/organize-functions for
+[info] more information on organizing your functions using codebases.
+
+[info] Functions can be deployed with firebase deploy.
+
+[info] i  functions/package.json is unchanged 
+[info] i  functions/.eslintrc.js is unchanged 
+[info] i  functions/tsconfig.dev.json is unchanged 
+[info] i  functions/tsconfig.json is unchanged 
+[info] i  functions/src/index.ts is unchanged 
+[info] i  functions/.gitignore is unchanged 
+[debug] [2025-08-16T02:36:02.803Z] ----------------------------------------------------------------------
+[debug] [2025-08-16T02:36:02.808Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\k_li_\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js init
+[debug] [2025-08-16T02:36:02.809Z] CLI Version:   14.12.1
+[debug] [2025-08-16T02:36:02.809Z] Platform:      win32
+[debug] [2025-08-16T02:36:02.809Z] Node Version:  v20.16.0
+[debug] [2025-08-16T02:36:02.809Z] Time:          Fri Aug 15 2025 21:36:02 GMT-0500 (hora estándar de Colombia)
+[debug] [2025-08-16T02:36:02.810Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2025-08-16T02:36:02.821Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-08-16T02:36:02.822Z] > authorizing via signed-in user (contacto10@gmail.com)
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  G:\Mi unidad\0 GätüTier\Commqat
+
+[info] 
+=== Project Setup
+[info] 
+[info] First, let's associate this project directory with a Firebase project.
+[info] You can create multiple project aliases by running firebase use --add, 
+[info] but for now we'll just set up a default project.
+[info] 
+[debug] [2025-08-16T02:37:45.639Z] Checked if tokens are valid: true, expires at: 1755313485974
+[debug] [2025-08-16T02:37:45.640Z] Checked if tokens are valid: true, expires at: 1755313485974
+[debug] [2025-08-16T02:37:45.643Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects pageSize=100
+[debug] [2025-08-16T02:37:46.421Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects 200
+[debug] [2025-08-16T02:37:46.421Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects [omitted]
+[info] i  Using project commqat (commqat) 
+[info] 
+=== Dataconnect Setup
+[debug] [2025-08-16T02:37:49.205Z] Checked if tokens are valid: true, expires at: 1755313485974
+[debug] [2025-08-16T02:37:49.205Z] Checked if tokens are valid: true, expires at: 1755313485974
+[debug] [2025-08-16T02:37:49.205Z] >>> [apiv2][query] GET https://cloudbilling.googleapis.com/v1/projects/commqat/billingInfo [none]
+[debug] [2025-08-16T02:37:49.770Z] <<< [apiv2][status] GET https://cloudbilling.googleapis.com/v1/projects/commqat/billingInfo 200
+[debug] [2025-08-16T02:37:49.771Z] <<< [apiv2][body] GET https://cloudbilling.googleapis.com/v1/projects/commqat/billingInfo {"name":"projects/commqat/billingInfo","projectId":"commqat","billingAccountName":"","billingEnabled":false}
+[info] i  dataconnect: ensuring required API sqladmin.googleapis.com is enabled... 
+[info] i  dataconnect: ensuring required API firebasedataconnect.googleapis.com is enabled... 
+[debug] [2025-08-16T02:37:49.774Z] Checked if tokens are valid: true, expires at: 1755313485974
+[debug] [2025-08-16T02:37:49.774Z] Checked if tokens are valid: true, expires at: 1755313485974
+[debug] [2025-08-16T02:37:49.774Z] >>> [apiv2][query] GET https://firebasedataconnect.googleapis.com/v1/projects/commqat/locations/-/services [none]
+[debug] [2025-08-16T02:37:51.016Z] <<< [apiv2][status] GET https://firebasedataconnect.googleapis.com/v1/projects/commqat/locations/-/services 200
+[debug] [2025-08-16T02:37:51.016Z] <<< [apiv2][body] GET https://firebasedataconnect.googleapis.com/v1/projects/commqat/locations/-/services {}
+[info] i  dataconnect\dataconnect.yaml is unchanged 
+[info] i  dataconnect\schema\schema.gql is unchanged 
+[info] i  dataconnect\connector\connector.yaml is unchanged 
+[info] i  dataconnect\connector\queries.gql is unchanged 
+[info] i  dataconnect\connector\mutations.gql is unchanged 
+[info] i  If you'd like to add the generated SDK to your app later, run firebase init dataconnect:sdk 
+[info] i  If you'd like to provision a CloudSQL Postgres instance on the Firebase Data Connect no-cost trial:
+1. Please upgrade to the pay-as-you-go (Blaze) billing plan. Visit the following page:
+     https://console.firebase.google.com/project/commqat/usage/details
+2. Run firebase init dataconnect again to configure the Cloud SQL instance.
+3. Run firebase deploy --only dataconnect to deploy your Data Connect service. 
+[info] 
+=== Firestore Setup
+[info] i  firestore: ensuring required API firestore.googleapis.com is enabled... 
+[debug] [2025-08-16T02:37:51.288Z] Checked if tokens are valid: true, expires at: 1755313485974
+[debug] [2025-08-16T02:37:51.288Z] Checked if tokens are valid: true, expires at: 1755313485974
+[debug] [2025-08-16T02:37:51.289Z] >>> [apiv2][query] GET https://firestore.googleapis.com/v1/projects/commqat/databases [none]
+[debug] [2025-08-16T02:37:52.330Z] <<< [apiv2][status] GET https://firestore.googleapis.com/v1/projects/commqat/databases 200
+[debug] [2025-08-16T02:37:52.330Z] <<< [apiv2][body] GET https://firestore.googleapis.com/v1/projects/commqat/databases {}
+[debug] [2025-08-16T02:37:52.330Z] Checked if tokens are valid: true, expires at: 1755313485974
+[debug] [2025-08-16T02:37:52.330Z] Checked if tokens are valid: true, expires at: 1755313485974
+[debug] [2025-08-16T02:37:52.331Z] >>> [apiv2][query] GET https://firestore.googleapis.com/v1/projects/commqat/locations [none]
+[debug] [2025-08-16T02:37:52.590Z] <<< [apiv2][status] GET https://firestore.googleapis.com/v1/projects/commqat/locations 200
+[debug] [2025-08-16T02:37:52.590Z] <<< [apiv2][body] GET https://firestore.googleapis.com/v1/projects/commqat/locations {"locations":[{"name":"projects/commqat/locations/eur3","labels":{"appengine.googleapis.com/geo":"europe-west","cloud.googleapis.com/location":"eur3","cloud.googleapis.com/geo":"eur3"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"eur3","displayName":"Europe"},{"name":"projects/commqat/locations/nam5","labels":{"appengine.googleapis.com/geo":"us-central","cloud.googleapis.com/location":"nam5","cloud.googleapis.com/geo":"nam5"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"nam5","displayName":"United States"},{"name":"projects/commqat/locations/nam7","labels":{"cloud.googleapis.com/location":"nam7","cloud.googleapis.com/geo":"nam7"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"nam7","displayName":"United States"},{"name":"projects/commqat/locations/africa-south1","labels":{"cloud.googleapis.com/location":"africa-south1","cloud.googleapis.com/region":"africa-south1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"africa-south1","displayName":"Johannesburg"},{"name":"projects/commqat/locations/asia-east1","labels":{"appengine.googleapis.com/region":"asia-east1","cloud.googleapis.com/location":"asia-east1","cloud.googleapis.com/region":"asia-east1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"asia-east1","displayName":"Taiwan"},{"name":"projects/commqat/locations/asia-east2","labels":{"appengine.googleapis.com/region":"asia-east2","cloud.googleapis.com/location":"asia-east2","cloud.googleapis.com/region":"asia-east2"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"asia-east2","displayName":"Hong Kong"},{"name":"projects/commqat/locations/asia-northeast1","labels":{"appengine.googleapis.com/region":"asia-northeast1","cloud.googleapis.com/location":"asia-northeast1","cloud.googleapis.com/region":"asia-northeast1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"asia-northeast1","displayName":"Tokyo"},{"name":"projects/commqat/locations/asia-northeast2","labels":{"appengine.googleapis.com/region":"asia-northeast2","cloud.googleapis.com/location":"asia-northeast2","cloud.googleapis.com/region":"asia-northeast2"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"asia-northeast2","displayName":"Osaka"},{"name":"projects/commqat/locations/asia-northeast3","labels":{"appengine.googleapis.com/region":"asia-northeast3","cloud.googleapis.com/location":"asia-northeast3","cloud.googleapis.com/region":"asia-northeast3"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"asia-northeast3","displayName":"Seoul"},{"name":"projects/commqat/locations/asia-south1","labels":{"appengine.googleapis.com/region":"asia-south1","cloud.googleapis.com/location":"asia-south1","cloud.googleapis.com/region":"asia-south1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"asia-south1","displayName":"Mumbai"},{"name":"projects/commqat/locations/asia-south2","labels":{"cloud.googleapis.com/location":"asia-south2","cloud.googleapis.com/region":"asia-south2"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"asia-south2","displayName":"Delhi"},{"name":"projects/commqat/locations/asia-southeast1","labels":{"appengine.googleapis.com/region":"asia-southeast1","cloud.googleapis.com/location":"asia-southeast1","cloud.googleapis.com/region":"asia-southeast1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"asia-southeast1","displayName":"Singapore"},{"name":"projects/commqat/locations/asia-southeast2","labels":{"appengine.googleapis.com/region":"asia-southeast2","cloud.googleapis.com/location":"asia-southeast2","cloud.googleapis.com/region":"asia-southeast2"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"asia-southeast2","displayName":"Jakarta"},{"name":"projects/commqat/locations/australia-southeast1","labels":{"appengine.googleapis.com/region":"australia-southeast1","cloud.googleapis.com/location":"australia-southeast1","cloud.googleapis.com/region":"australia-southeast1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"australia-southeast1","displayName":"Sydney"},{"name":"projects/commqat/locations/australia-southeast2","labels":{"cloud.googleapis.com/location":"australia-southeast2","cloud.googleapis.com/region":"australia-southeast2"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"australia-southeast2","displayName":"Melbourne"},{"name":"projects/commqat/locations/europe-central2","labels":{"appengine.googleapis.com/region":"europe-central2","cloud.googleapis.com/location":"europe-central2","cloud.googleapis.com/region":"europe-central2"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"europe-central2","displayName":"Warsaw"},{"name":"projects/commqat/locations/europe-north1","labels":{"cloud.googleapis.com/location":"europe-north1","cloud.googleapis.com/region":"europe-north1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"europe-north1","displayName":"Finland"},{"name":"projects/commqat/locations/europe-north2","labels":{"cloud.googleapis.com/location":"europe-north2","cloud.googleapis.com/region":"europe-north2"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"europe-north2","displayName":"Stockholm"},{"name":"projects/commqat/locations/europe-southwest1","labels":{"cloud.googleapis.com/location":"europe-southwest1","cloud.googleapis.com/region":"europe-southwest1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"europe-southwest1","displayName":"Madrid"},{"name":"projects/commqat/locations/europe-west1","labels":{"cloud.googleapis.com/location":"europe-west1","cloud.googleapis.com/region":"europe-west1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"europe-west1","displayName":"Belgium"},{"name":"projects/commqat/locations/europe-west10","labels":{"cloud.googleapis.com/location":"europe-west10","cloud.googleapis.com/region":"europe-west10"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"europe-west10","displayName":"Berlin"},{"name":"projects/commqat/locations/europe-west12","labels":{"cloud.googleapis.com/location":"europe-west12","cloud.googleapis.com/region":"europe-west12"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"europe-west12","displayName":"Turin"},{"name":"projects/commqat/locations/europe-west2","labels":{"appengine.googleapis.com/region":"europe-west2","cloud.googleapis.com/location":"europe-west2","cloud.googleapis.com/region":"europe-west2"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"europe-west2","displayName":"London"},{"name":"projects/commqat/locations/europe-west3","labels":{"appengine.googleapis.com/region":"europe-west3","cloud.googleapis.com/location":"europe-west3","cloud.googleapis.com/region":"europe-west3"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"europe-west3","displayName":"Frankfurt"},{"name":"projects/commqat/locations/europe-west4","labels":{"cloud.googleapis.com/location":"europe-west4","cloud.googleapis.com/region":"europe-west4"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"europe-west4","displayName":"Netherlands"},{"name":"projects/commqat/locations/europe-west6","labels":{"appengine.googleapis.com/region":"europe-west6","cloud.googleapis.com/location":"europe-west6","cloud.googleapis.com/region":"europe-west6"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"europe-west6","displayName":"Zurich"},{"name":"projects/commqat/locations/europe-west8","labels":{"cloud.googleapis.com/location":"europe-west8","cloud.googleapis.com/region":"europe-west8"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"europe-west8","displayName":"Milan"},{"name":"projects/commqat/locations/europe-west9","labels":{"cloud.googleapis.com/location":"europe-west9","cloud.googleapis.com/region":"europe-west9"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"europe-west9","displayName":"Paris"},{"name":"projects/commqat/locations/me-central1","labels":{"cloud.googleapis.com/location":"me-central1","cloud.googleapis.com/region":"me-central1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"me-central1","displayName":"Doha"},{"name":"projects/commqat/locations/me-central2","labels":{"cloud.googleapis.com/location":"me-central2","cloud.googleapis.com/region":"me-central2"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"me-central2","displayName":"Dammam"},{"name":"projects/commqat/locations/me-west1","labels":{"cloud.googleapis.com/location":"me-west1","cloud.googleapis.com/region":"me-west1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"me-west1","displayName":"Tel Aviv"},{"name":"projects/commqat/locations/northamerica-northeast1","labels":{"appengine.googleapis.com/region":"northamerica-northeast1","cloud.googleapis.com/location":"northamerica-northeast1","cloud.googleapis.com/region":"northamerica-northeast1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"northamerica-northeast1","displayName":"Montréal"},{"name":"projects/commqat/locations/northamerica-northeast2","labels":{"cloud.googleapis.com/location":"northamerica-northeast2","cloud.googleapis.com/region":"northamerica-northeast2"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"northamerica-northeast2","displayName":"Toronto"},{"name":"projects/commqat/locations/northamerica-south1","labels":{"cloud.googleapis.com/location":"northamerica-south1","cloud.googleapis.com/region":"northamerica-south1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"northamerica-south1","displayName":"Mexico"},{"name":"projects/commqat/locations/southamerica-east1","labels":{"appengine.googleapis.com/region":"southamerica-east1","cloud.googleapis.com/location":"southamerica-east1","cloud.googleapis.com/region":"southamerica-east1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"southamerica-east1","displayName":"São Paulo"},{"name":"projects/commqat/locations/southamerica-west1","labels":{"cloud.googleapis.com/location":"southamerica-west1","cloud.googleapis.com/region":"southamerica-west1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"southamerica-west1","displayName":"Santiago"},{"name":"projects/commqat/locations/us-central1","labels":{"cloud.googleapis.com/location":"us-central1","cloud.googleapis.com/region":"us-central1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"us-central1","displayName":"Iowa"},{"name":"projects/commqat/locations/us-east1","labels":{"appengine.googleapis.com/region":"us-east1","cloud.googleapis.com/location":"us-east1","cloud.googleapis.com/region":"us-east1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"us-east1","displayName":"South Carolina"},{"name":"projects/commqat/locations/us-east4","labels":{"appengine.googleapis.com/region":"us-east4","cloud.googleapis.com/location":"us-east4","cloud.googleapis.com/region":"us-east4"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"us-east4","displayName":"Northern Virginia"},{"name":"projects/commqat/locations/us-east5","labels":{"cloud.googleapis.com/location":"us-east5","cloud.googleapis.com/region":"us-east5"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"us-east5","displayName":"Columbus"},{"name":"projects/commqat/locations/us-south1","labels":{"cloud.googleapis.com/location":"us-south1","cloud.googleapis.com/region":"us-south1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"us-south1","displayName":"Dallas"},{"name":"projects/commqat/locations/us-west1","labels":{"appengine.googleapis.com/region":"us-west1","cloud.googleapis.com/location":"us-west1","cloud.googleapis.com/region":"us-west1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"us-west1","displayName":"Oregon"},{"name":"projects/commqat/locations/us-west2","labels":{"appengine.googleapis.com/region":"us-west2","cloud.googleapis.com/location":"us-west2","cloud.googleapis.com/region":"us-west2"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"us-west2","displayName":"Los Angeles"},{"name":"projects/commqat/locations/us-west3","labels":{"appengine.googleapis.com/region":"us-west3","cloud.googleapis.com/location":"us-west3","cloud.googleapis.com/region":"us-west3"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"us-west3","displayName":"Salt Lake City"},{"name":"projects/commqat/locations/us-west4","labels":{"appengine.googleapis.com/region":"us-west4","cloud.googleapis.com/location":"us-west4","cloud.googleapis.com/region":"us-west4"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"us-west4","displayName":"Las Vegas"},{"name":"projects/commqat/locations/us-west8","labels":{"cloud.googleapis.com/location":"us-west8","cloud.googleapis.com/region":"us-west8"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"us-west8","displayName":"Phoenix"}]}
+[info] 
+[info] Firestore Security Rules allow you to define how and when to allow
+[info] requests. You can keep these rules in your project directory
+[info] and publish them with firebase deploy.
+[info] 
+[debug] [2025-08-16T02:38:08.735Z] Checked if tokens are valid: true, expires at: 1755313485974
+[debug] [2025-08-16T02:38:08.735Z] Checked if tokens are valid: true, expires at: 1755313485974
+[debug] [2025-08-16T02:38:08.735Z] >>> [apiv2][query] GET https://firebaserules.googleapis.com/v1/projects/commqat/releases pageSize=10&pageToken=
+[debug] [2025-08-16T02:38:09.225Z] <<< [apiv2][status] GET https://firebaserules.googleapis.com/v1/projects/commqat/releases 200
+[debug] [2025-08-16T02:38:09.225Z] <<< [apiv2][body] GET https://firebaserules.googleapis.com/v1/projects/commqat/releases {}
+[info] i  firestore.rules is unchanged 
+[info] 
+[info] Firestore indexes allow you to perform complex queries while
+[info] maintaining performance that scales with the size of the result
+[info] set. You can keep index definitions in your project directory
+[info] and publish them with firebase deploy.
+[info] 
+[debug] [2025-08-16T02:38:09.818Z] Checked if tokens are valid: true, expires at: 1755313485974
+[debug] [2025-08-16T02:38:09.818Z] Checked if tokens are valid: true, expires at: 1755313485974
+[debug] [2025-08-16T02:38:09.818Z] Checked if tokens are valid: true, expires at: 1755313485974
+[debug] [2025-08-16T02:38:09.818Z] Checked if tokens are valid: true, expires at: 1755313485974
+[debug] [2025-08-16T02:38:09.819Z] >>> [apiv2][query] GET https://firestore.googleapis.com/v1/projects/commqat/databases/(default)/collectionGroups/-/indexes [none]
+[debug] [2025-08-16T02:38:09.821Z] >>> [apiv2][query] GET https://firestore.googleapis.com/v1/projects/commqat/databases/(default)/collectionGroups/-/fields?filter=indexConfig.usesAncestorConfig=false OR ttlConfig:* [none]
+[debug] [2025-08-16T02:38:10.502Z] <<< [apiv2][status] GET https://firestore.googleapis.com/v1/projects/commqat/databases/(default)/collectionGroups/-/fields?filter=indexConfig.usesAncestorConfig=false OR ttlConfig:* 404
+[debug] [2025-08-16T02:38:10.503Z] <<< [apiv2][body] GET https://firestore.googleapis.com/v1/projects/commqat/databases/(default)/collectionGroups/-/fields?filter=indexConfig.usesAncestorConfig=false OR ttlConfig:* {"error":{"code":404,"message":"Project 'commqat' or database '(default)' does not exist.","status":"NOT_FOUND"}}
+[info] i  firestore.indexes.json is unchanged 
+[info] +  Wrote firestore.indexes.json 
+[debug] [2025-08-16T02:38:10.682Z] <<< [apiv2][status] GET https://firestore.googleapis.com/v1/projects/commqat/databases/(default)/collectionGroups/-/indexes 404
+[debug] [2025-08-16T02:38:10.683Z] <<< [apiv2][body] GET https://firestore.googleapis.com/v1/projects/commqat/databases/(default)/collectionGroups/-/indexes {"error":{"code":404,"message":"Project 'commqat' or database '(default)' does not exist.","status":"NOT_FOUND"}}
+[info] 
+=== Functions Setup
+[debug] [2025-08-16T02:38:11.013Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-08-16T02:38:11.013Z] > authorizing via signed-in user (contacto10@gmail.com)
+[debug] [2025-08-16T02:38:11.013Z] [iam] checking project commqat for permissions ["firebase.projects.get"]
+[debug] [2025-08-16T02:38:11.014Z] Checked if tokens are valid: true, expires at: 1755313485974
+[debug] [2025-08-16T02:38:11.014Z] Checked if tokens are valid: true, expires at: 1755313485974
+[debug] [2025-08-16T02:38:11.014Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/commqat:testIamPermissions [none]
+[debug] [2025-08-16T02:38:11.014Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/commqat:testIamPermissions x-goog-quota-user=projects/commqat
+[debug] [2025-08-16T02:38:11.014Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/commqat:testIamPermissions {"permissions":["firebase.projects.get"]}
+[debug] [2025-08-16T02:38:11.749Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/commqat:testIamPermissions 200
+[debug] [2025-08-16T02:38:11.749Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/commqat:testIamPermissions {"permissions":["firebase.projects.get"]}
+[info] Let's create a new codebase for your functions.
+[info] A directory corresponding to the codebase will be created in your project
+[info] with sample code pre-configured.
+
+[info] See https://firebase.google.com/docs/functions/organize-functions for
+[info] more information on organizing your functions using codebases.
+
+[info] Functions can be deployed with firebase deploy.
+
+[info] +  Wrote functions/package.json 
+[info] +  Wrote functions/.eslintrc.js 
+[info] +  Wrote functions/index.js 
+[info] +  Wrote functions/.gitignore 
+[debug] [2025-08-16T03:02:00.101Z] ----------------------------------------------------------------------
+[debug] [2025-08-16T03:02:00.132Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\k_li_\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js init
+[debug] [2025-08-16T03:02:00.132Z] CLI Version:   14.12.1
+[debug] [2025-08-16T03:02:00.133Z] Platform:      win32
+[debug] [2025-08-16T03:02:00.133Z] Node Version:  v22.18.0
+[debug] [2025-08-16T03:02:00.134Z] Time:          Fri Aug 15 2025 22:02:00 GMT-0500 (hora estándar de Colombia)
+[debug] [2025-08-16T03:02:00.134Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2025-08-16T03:02:00.151Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-08-16T03:02:00.152Z] > authorizing via signed-in user (contacto10@gmail.com)
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  G:\Mi unidad\0 GätüTier\Commqat
+
+[info] 
+=== Project Setup
+[info] 
+[info] First, let's associate this project directory with a Firebase project.
+[info] You can create multiple project aliases by running firebase use --add, 
+[info] but for now we'll just set up a default project.
+[info] 
+[debug] [2025-08-16T03:02:26.956Z] Checked if tokens are valid: false, expires at: 1755313485974
+[debug] [2025-08-16T03:02:26.956Z] Checked if tokens are valid: false, expires at: 1755313485974
+[debug] [2025-08-16T03:02:26.957Z] > refreshing access token with scopes: []
+[debug] [2025-08-16T03:02:26.961Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2025-08-16T03:02:26.961Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2025-08-16T03:02:28.006Z] <<< [apiv2][status] POST https://www.googleapis.com/oauth2/v3/token 200
+[debug] [2025-08-16T03:02:28.007Z] <<< [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2025-08-16T03:02:28.024Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects pageSize=100
+[debug] [2025-08-16T03:02:28.753Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects 200
+[debug] [2025-08-16T03:02:28.753Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects [omitted]
+[info] i  Using project commqat (commqat) 
+[info] 
+=== Dataconnect Setup
+[debug] [2025-08-16T03:02:33.547Z] Checked if tokens are valid: true, expires at: 1755316947007
+[debug] [2025-08-16T03:02:33.547Z] Checked if tokens are valid: true, expires at: 1755316947007
+[debug] [2025-08-16T03:02:33.547Z] >>> [apiv2][query] GET https://cloudbilling.googleapis.com/v1/projects/commqat/billingInfo [none]
+[debug] [2025-08-16T03:02:34.052Z] <<< [apiv2][status] GET https://cloudbilling.googleapis.com/v1/projects/commqat/billingInfo 200
+[debug] [2025-08-16T03:02:34.052Z] <<< [apiv2][body] GET https://cloudbilling.googleapis.com/v1/projects/commqat/billingInfo {"name":"projects/commqat/billingInfo","projectId":"commqat","billingAccountName":"","billingEnabled":false}
+[info] i  dataconnect: ensuring required API sqladmin.googleapis.com is enabled... 
+[info] i  dataconnect: ensuring required API firebasedataconnect.googleapis.com is enabled... 
+[debug] [2025-08-16T03:02:34.055Z] Checked if tokens are valid: true, expires at: 1755316947007
+[debug] [2025-08-16T03:02:34.055Z] Checked if tokens are valid: true, expires at: 1755316947007
+[debug] [2025-08-16T03:02:34.055Z] >>> [apiv2][query] GET https://firebasedataconnect.googleapis.com/v1/projects/commqat/locations/-/services [none]
+[debug] [2025-08-16T03:02:35.186Z] <<< [apiv2][status] GET https://firebasedataconnect.googleapis.com/v1/projects/commqat/locations/-/services 200
+[debug] [2025-08-16T03:02:35.186Z] <<< [apiv2][body] GET https://firebasedataconnect.googleapis.com/v1/projects/commqat/locations/-/services {}
+[info] i  dataconnect\dataconnect.yaml is unchanged 
+[info] i  dataconnect\schema\schema.gql is unchanged 
+[info] i  dataconnect\connector\connector.yaml is unchanged 
+[info] i  dataconnect\connector\queries.gql is unchanged 
+[info] i  dataconnect\connector\mutations.gql is unchanged 
+[info] i  If you'd like to add the generated SDK to your app later, run firebase init dataconnect:sdk 
+[info] i  If you'd like to provision a CloudSQL Postgres instance on the Firebase Data Connect no-cost trial:
+1. Please upgrade to the pay-as-you-go (Blaze) billing plan. Visit the following page:
+     https://console.firebase.google.com/project/commqat/usage/details
+2. Run firebase init dataconnect again to configure the Cloud SQL instance.
+3. Run firebase deploy --only dataconnect to deploy your Data Connect service. 
+[info] 
+=== Firestore Setup
+[info] i  firestore: ensuring required API firestore.googleapis.com is enabled... 
+[debug] [2025-08-16T03:02:35.633Z] Checked if tokens are valid: true, expires at: 1755316947007
+[debug] [2025-08-16T03:02:35.633Z] Checked if tokens are valid: true, expires at: 1755316947007
+[debug] [2025-08-16T03:02:35.633Z] >>> [apiv2][query] GET https://firestore.googleapis.com/v1/projects/commqat/databases [none]
+[debug] [2025-08-16T03:02:36.631Z] <<< [apiv2][status] GET https://firestore.googleapis.com/v1/projects/commqat/databases 200
+[debug] [2025-08-16T03:02:36.631Z] <<< [apiv2][body] GET https://firestore.googleapis.com/v1/projects/commqat/databases {}
+[debug] [2025-08-16T03:02:36.632Z] Checked if tokens are valid: true, expires at: 1755316947007
+[debug] [2025-08-16T03:02:36.632Z] Checked if tokens are valid: true, expires at: 1755316947007
+[debug] [2025-08-16T03:02:36.632Z] >>> [apiv2][query] GET https://firestore.googleapis.com/v1/projects/commqat/locations [none]
+[debug] [2025-08-16T03:02:36.888Z] <<< [apiv2][status] GET https://firestore.googleapis.com/v1/projects/commqat/locations 200
+[debug] [2025-08-16T03:02:36.888Z] <<< [apiv2][body] GET https://firestore.googleapis.com/v1/projects/commqat/locations {"locations":[{"name":"projects/commqat/locations/eur3","labels":{"appengine.googleapis.com/geo":"europe-west","cloud.googleapis.com/location":"eur3","cloud.googleapis.com/geo":"eur3"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"eur3","displayName":"Europe"},{"name":"projects/commqat/locations/nam5","labels":{"appengine.googleapis.com/geo":"us-central","cloud.googleapis.com/location":"nam5","cloud.googleapis.com/geo":"nam5"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"nam5","displayName":"United States"},{"name":"projects/commqat/locations/nam7","labels":{"cloud.googleapis.com/location":"nam7","cloud.googleapis.com/geo":"nam7"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"nam7","displayName":"United States"},{"name":"projects/commqat/locations/africa-south1","labels":{"cloud.googleapis.com/location":"africa-south1","cloud.googleapis.com/region":"africa-south1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"africa-south1","displayName":"Johannesburg"},{"name":"projects/commqat/locations/asia-east1","labels":{"appengine.googleapis.com/region":"asia-east1","cloud.googleapis.com/location":"asia-east1","cloud.googleapis.com/region":"asia-east1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"asia-east1","displayName":"Taiwan"},{"name":"projects/commqat/locations/asia-east2","labels":{"appengine.googleapis.com/region":"asia-east2","cloud.googleapis.com/location":"asia-east2","cloud.googleapis.com/region":"asia-east2"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"asia-east2","displayName":"Hong Kong"},{"name":"projects/commqat/locations/asia-northeast1","labels":{"appengine.googleapis.com/region":"asia-northeast1","cloud.googleapis.com/location":"asia-northeast1","cloud.googleapis.com/region":"asia-northeast1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"asia-northeast1","displayName":"Tokyo"},{"name":"projects/commqat/locations/asia-northeast2","labels":{"appengine.googleapis.com/region":"asia-northeast2","cloud.googleapis.com/location":"asia-northeast2","cloud.googleapis.com/region":"asia-northeast2"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"asia-northeast2","displayName":"Osaka"},{"name":"projects/commqat/locations/asia-northeast3","labels":{"appengine.googleapis.com/region":"asia-northeast3","cloud.googleapis.com/location":"asia-northeast3","cloud.googleapis.com/region":"asia-northeast3"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"asia-northeast3","displayName":"Seoul"},{"name":"projects/commqat/locations/asia-south1","labels":{"appengine.googleapis.com/region":"asia-south1","cloud.googleapis.com/location":"asia-south1","cloud.googleapis.com/region":"asia-south1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"asia-south1","displayName":"Mumbai"},{"name":"projects/commqat/locations/asia-south2","labels":{"cloud.googleapis.com/location":"asia-south2","cloud.googleapis.com/region":"asia-south2"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"asia-south2","displayName":"Delhi"},{"name":"projects/commqat/locations/asia-southeast1","labels":{"appengine.googleapis.com/region":"asia-southeast1","cloud.googleapis.com/location":"asia-southeast1","cloud.googleapis.com/region":"asia-southeast1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"asia-southeast1","displayName":"Singapore"},{"name":"projects/commqat/locations/asia-southeast2","labels":{"appengine.googleapis.com/region":"asia-southeast2","cloud.googleapis.com/location":"asia-southeast2","cloud.googleapis.com/region":"asia-southeast2"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"asia-southeast2","displayName":"Jakarta"},{"name":"projects/commqat/locations/australia-southeast1","labels":{"appengine.googleapis.com/region":"australia-southeast1","cloud.googleapis.com/location":"australia-southeast1","cloud.googleapis.com/region":"australia-southeast1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"australia-southeast1","displayName":"Sydney"},{"name":"projects/commqat/locations/australia-southeast2","labels":{"cloud.googleapis.com/location":"australia-southeast2","cloud.googleapis.com/region":"australia-southeast2"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"australia-southeast2","displayName":"Melbourne"},{"name":"projects/commqat/locations/europe-central2","labels":{"appengine.googleapis.com/region":"europe-central2","cloud.googleapis.com/location":"europe-central2","cloud.googleapis.com/region":"europe-central2"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"europe-central2","displayName":"Warsaw"},{"name":"projects/commqat/locations/europe-north1","labels":{"cloud.googleapis.com/location":"europe-north1","cloud.googleapis.com/region":"europe-north1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"europe-north1","displayName":"Finland"},{"name":"projects/commqat/locations/europe-north2","labels":{"cloud.googleapis.com/location":"europe-north2","cloud.googleapis.com/region":"europe-north2"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"europe-north2","displayName":"Stockholm"},{"name":"projects/commqat/locations/europe-southwest1","labels":{"cloud.googleapis.com/location":"europe-southwest1","cloud.googleapis.com/region":"europe-southwest1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"europe-southwest1","displayName":"Madrid"},{"name":"projects/commqat/locations/europe-west1","labels":{"cloud.googleapis.com/location":"europe-west1","cloud.googleapis.com/region":"europe-west1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"europe-west1","displayName":"Belgium"},{"name":"projects/commqat/locations/europe-west10","labels":{"cloud.googleapis.com/location":"europe-west10","cloud.googleapis.com/region":"europe-west10"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"europe-west10","displayName":"Berlin"},{"name":"projects/commqat/locations/europe-west12","labels":{"cloud.googleapis.com/location":"europe-west12","cloud.googleapis.com/region":"europe-west12"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"europe-west12","displayName":"Turin"},{"name":"projects/commqat/locations/europe-west2","labels":{"appengine.googleapis.com/region":"europe-west2","cloud.googleapis.com/location":"europe-west2","cloud.googleapis.com/region":"europe-west2"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"europe-west2","displayName":"London"},{"name":"projects/commqat/locations/europe-west3","labels":{"appengine.googleapis.com/region":"europe-west3","cloud.googleapis.com/location":"europe-west3","cloud.googleapis.com/region":"europe-west3"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"europe-west3","displayName":"Frankfurt"},{"name":"projects/commqat/locations/europe-west4","labels":{"cloud.googleapis.com/location":"europe-west4","cloud.googleapis.com/region":"europe-west4"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"europe-west4","displayName":"Netherlands"},{"name":"projects/commqat/locations/europe-west6","labels":{"appengine.googleapis.com/region":"europe-west6","cloud.googleapis.com/location":"europe-west6","cloud.googleapis.com/region":"europe-west6"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"europe-west6","displayName":"Zurich"},{"name":"projects/commqat/locations/europe-west8","labels":{"cloud.googleapis.com/location":"europe-west8","cloud.googleapis.com/region":"europe-west8"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"europe-west8","displayName":"Milan"},{"name":"projects/commqat/locations/europe-west9","labels":{"cloud.googleapis.com/location":"europe-west9","cloud.googleapis.com/region":"europe-west9"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"europe-west9","displayName":"Paris"},{"name":"projects/commqat/locations/me-central1","labels":{"cloud.googleapis.com/location":"me-central1","cloud.googleapis.com/region":"me-central1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"me-central1","displayName":"Doha"},{"name":"projects/commqat/locations/me-central2","labels":{"cloud.googleapis.com/location":"me-central2","cloud.googleapis.com/region":"me-central2"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"me-central2","displayName":"Dammam"},{"name":"projects/commqat/locations/me-west1","labels":{"cloud.googleapis.com/location":"me-west1","cloud.googleapis.com/region":"me-west1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"me-west1","displayName":"Tel Aviv"},{"name":"projects/commqat/locations/northamerica-northeast1","labels":{"appengine.googleapis.com/region":"northamerica-northeast1","cloud.googleapis.com/location":"northamerica-northeast1","cloud.googleapis.com/region":"northamerica-northeast1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"northamerica-northeast1","displayName":"Montréal"},{"name":"projects/commqat/locations/northamerica-northeast2","labels":{"cloud.googleapis.com/location":"northamerica-northeast2","cloud.googleapis.com/region":"northamerica-northeast2"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"northamerica-northeast2","displayName":"Toronto"},{"name":"projects/commqat/locations/northamerica-south1","labels":{"cloud.googleapis.com/location":"northamerica-south1","cloud.googleapis.com/region":"northamerica-south1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"northamerica-south1","displayName":"Mexico"},{"name":"projects/commqat/locations/southamerica-east1","labels":{"appengine.googleapis.com/region":"southamerica-east1","cloud.googleapis.com/location":"southamerica-east1","cloud.googleapis.com/region":"southamerica-east1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"southamerica-east1","displayName":"São Paulo"},{"name":"projects/commqat/locations/southamerica-west1","labels":{"cloud.googleapis.com/location":"southamerica-west1","cloud.googleapis.com/region":"southamerica-west1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"southamerica-west1","displayName":"Santiago"},{"name":"projects/commqat/locations/us-central1","labels":{"cloud.googleapis.com/location":"us-central1","cloud.googleapis.com/region":"us-central1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"us-central1","displayName":"Iowa"},{"name":"projects/commqat/locations/us-east1","labels":{"appengine.googleapis.com/region":"us-east1","cloud.googleapis.com/location":"us-east1","cloud.googleapis.com/region":"us-east1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"us-east1","displayName":"South Carolina"},{"name":"projects/commqat/locations/us-east4","labels":{"appengine.googleapis.com/region":"us-east4","cloud.googleapis.com/location":"us-east4","cloud.googleapis.com/region":"us-east4"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"us-east4","displayName":"Northern Virginia"},{"name":"projects/commqat/locations/us-east5","labels":{"cloud.googleapis.com/location":"us-east5","cloud.googleapis.com/region":"us-east5"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"us-east5","displayName":"Columbus"},{"name":"projects/commqat/locations/us-south1","labels":{"cloud.googleapis.com/location":"us-south1","cloud.googleapis.com/region":"us-south1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"us-south1","displayName":"Dallas"},{"name":"projects/commqat/locations/us-west1","labels":{"appengine.googleapis.com/region":"us-west1","cloud.googleapis.com/location":"us-west1","cloud.googleapis.com/region":"us-west1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"us-west1","displayName":"Oregon"},{"name":"projects/commqat/locations/us-west2","labels":{"appengine.googleapis.com/region":"us-west2","cloud.googleapis.com/location":"us-west2","cloud.googleapis.com/region":"us-west2"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"us-west2","displayName":"Los Angeles"},{"name":"projects/commqat/locations/us-west3","labels":{"appengine.googleapis.com/region":"us-west3","cloud.googleapis.com/location":"us-west3","cloud.googleapis.com/region":"us-west3"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"us-west3","displayName":"Salt Lake City"},{"name":"projects/commqat/locations/us-west4","labels":{"appengine.googleapis.com/region":"us-west4","cloud.googleapis.com/location":"us-west4","cloud.googleapis.com/region":"us-west4"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"us-west4","displayName":"Las Vegas"},{"name":"projects/commqat/locations/us-west8","labels":{"cloud.googleapis.com/location":"us-west8","cloud.googleapis.com/region":"us-west8"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"us-west8","displayName":"Phoenix"}]}
+[info] 
+[info] Firestore Security Rules allow you to define how and when to allow
+[info] requests. You can keep these rules in your project directory
+[info] and publish them with firebase deploy.
+[info] 
+[debug] [2025-08-16T03:02:51.211Z] Checked if tokens are valid: true, expires at: 1755316947007
+[debug] [2025-08-16T03:02:51.211Z] Checked if tokens are valid: true, expires at: 1755316947007
+[debug] [2025-08-16T03:02:51.212Z] >>> [apiv2][query] GET https://firebaserules.googleapis.com/v1/projects/commqat/releases pageSize=10&pageToken=
+[debug] [2025-08-16T03:02:51.683Z] <<< [apiv2][status] GET https://firebaserules.googleapis.com/v1/projects/commqat/releases 200
+[debug] [2025-08-16T03:02:51.683Z] <<< [apiv2][body] GET https://firebaserules.googleapis.com/v1/projects/commqat/releases {}
+[info] i  firestore.rules is unchanged 
+[info] 
+[info] Firestore indexes allow you to perform complex queries while
+[info] maintaining performance that scales with the size of the result
+[info] set. You can keep index definitions in your project directory
+[info] and publish them with firebase deploy.
+[info] 
+[debug] [2025-08-16T03:02:52.886Z] Checked if tokens are valid: true, expires at: 1755316947007
+[debug] [2025-08-16T03:02:52.887Z] Checked if tokens are valid: true, expires at: 1755316947007
+[debug] [2025-08-16T03:02:52.887Z] Checked if tokens are valid: true, expires at: 1755316947007
+[debug] [2025-08-16T03:02:52.887Z] Checked if tokens are valid: true, expires at: 1755316947007
+[debug] [2025-08-16T03:02:52.888Z] >>> [apiv2][query] GET https://firestore.googleapis.com/v1/projects/commqat/databases/(default)/collectionGroups/-/indexes [none]
+[debug] [2025-08-16T03:02:52.891Z] >>> [apiv2][query] GET https://firestore.googleapis.com/v1/projects/commqat/databases/(default)/collectionGroups/-/fields?filter=indexConfig.usesAncestorConfig=false OR ttlConfig:* [none]
+[debug] [2025-08-16T03:02:53.491Z] <<< [apiv2][status] GET https://firestore.googleapis.com/v1/projects/commqat/databases/(default)/collectionGroups/-/indexes 404
+[debug] [2025-08-16T03:02:53.491Z] <<< [apiv2][body] GET https://firestore.googleapis.com/v1/projects/commqat/databases/(default)/collectionGroups/-/indexes {"error":{"code":404,"message":"Project 'commqat' or database '(default)' does not exist.","status":"NOT_FOUND"}}
+[info] i  firestore.indexes.json is unchanged 
+[info] +  Wrote firestore.indexes.json 
+[debug] [2025-08-16T03:02:53.531Z] <<< [apiv2][status] GET https://firestore.googleapis.com/v1/projects/commqat/databases/(default)/collectionGroups/-/fields?filter=indexConfig.usesAncestorConfig=false OR ttlConfig:* 404
+[debug] [2025-08-16T03:02:53.531Z] <<< [apiv2][body] GET https://firestore.googleapis.com/v1/projects/commqat/databases/(default)/collectionGroups/-/fields?filter=indexConfig.usesAncestorConfig=false OR ttlConfig:* {"error":{"code":404,"message":"Project 'commqat' or database '(default)' does not exist.","status":"NOT_FOUND"}}
+[info] 
+=== Genkit Setup
+[debug] [2025-08-16T03:03:27.467Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-08-16T03:03:27.468Z] > authorizing via signed-in user (contacto10@gmail.com)
+[debug] [2025-08-16T03:03:27.468Z] [iam] checking project commqat for permissions ["firebase.projects.get"]
+[debug] [2025-08-16T03:03:27.469Z] Checked if tokens are valid: true, expires at: 1755316947007
+[debug] [2025-08-16T03:03:27.469Z] Checked if tokens are valid: true, expires at: 1755316947007
+[debug] [2025-08-16T03:03:27.469Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/commqat:testIamPermissions [none]
+[debug] [2025-08-16T03:03:27.469Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/commqat:testIamPermissions x-goog-quota-user=projects/commqat
+[debug] [2025-08-16T03:03:27.469Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/commqat:testIamPermissions {"permissions":["firebase.projects.get"]}
+[debug] [2025-08-16T03:03:28.215Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/commqat:testIamPermissions 200
+[debug] [2025-08-16T03:03:28.216Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/commqat:testIamPermissions {"permissions":["firebase.projects.get"]}
+[info] Let's create a new codebase for your functions.
+[info] A directory corresponding to the codebase will be created in your project
+[info] with sample code pre-configured.
+
+[info] See https://firebase.google.com/docs/functions/organize-functions for
+[info] more information on organizing your functions using codebases.
+
+[info] Functions can be deployed with firebase deploy.
+
+[info] +  Wrote functions/package.json 
+[info] +  Wrote functions/.eslintrc.js 
+[info] i  functions/tsconfig.dev.json is unchanged 
+[info] i  functions/tsconfig.json is unchanged 
+[info] i  functions/src/index.ts is unchanged 
+[info] +  Wrote functions/.gitignore 
+[debug] [2025-08-16T03:21:37.641Z] ----------------------------------------------------------------------
+[debug] [2025-08-16T03:21:37.647Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\k_li_\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js init
+[debug] [2025-08-16T03:21:37.647Z] CLI Version:   14.12.1
+[debug] [2025-08-16T03:21:37.648Z] Platform:      win32
+[debug] [2025-08-16T03:21:37.648Z] Node Version:  v22.18.0
+[debug] [2025-08-16T03:21:37.648Z] Time:          Fri Aug 15 2025 22:21:37 GMT-0500 (hora estándar de Colombia)
+[debug] [2025-08-16T03:21:37.649Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2025-08-16T03:21:37.663Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-08-16T03:21:37.663Z] > authorizing via signed-in user (contacto10@gmail.com)
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  G:\Mi unidad\0 GätüTier\Commqat
+
+[info] 
+=== Project Setup
+[info] 
+[info] First, let's associate this project directory with a Firebase project.
+[info] You can create multiple project aliases by running firebase use --add, 
+[info] but for now we'll just set up a default project.
+[info] 
+[debug] [2025-08-16T03:22:37.132Z] Checked if tokens are valid: true, expires at: 1755316947007
+[debug] [2025-08-16T03:22:37.132Z] Checked if tokens are valid: true, expires at: 1755316947007
+[debug] [2025-08-16T03:22:37.134Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects pageSize=100
+[debug] [2025-08-16T03:22:37.927Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects 200
+[debug] [2025-08-16T03:22:37.927Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects [omitted]
+[info] i  Using project commqat (commqat) 
+[info] 
+=== Genkit Setup
+[debug] [2025-08-16T03:23:31.609Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-08-16T03:23:31.610Z] > authorizing via signed-in user (contacto10@gmail.com)
+[debug] [2025-08-16T03:23:31.610Z] [iam] checking project commqat for permissions ["firebase.projects.get"]
+[debug] [2025-08-16T03:23:31.610Z] Checked if tokens are valid: true, expires at: 1755316947007
+[debug] [2025-08-16T03:23:31.611Z] Checked if tokens are valid: true, expires at: 1755316947007
+[debug] [2025-08-16T03:23:31.611Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/commqat:testIamPermissions [none]
+[debug] [2025-08-16T03:23:31.611Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/commqat:testIamPermissions x-goog-quota-user=projects/commqat
+[debug] [2025-08-16T03:23:31.611Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/commqat:testIamPermissions {"permissions":["firebase.projects.get"]}
+[debug] [2025-08-16T03:23:32.243Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/commqat:testIamPermissions 200
+[debug] [2025-08-16T03:23:32.243Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/commqat:testIamPermissions {"permissions":["firebase.projects.get"]}
+[info] Let's create a new codebase for your functions.
+[info] A directory corresponding to the codebase will be created in your project
+[info] with sample code pre-configured.
+
+[info] See https://firebase.google.com/docs/functions/organize-functions for
+[info] more information on organizing your functions using codebases.
+
+[info] Functions can be deployed with firebase deploy.
+
+[info] i  functions/package.json is unchanged 
+[info] i  functions/.eslintrc.js is unchanged 
+[info] i  functions/tsconfig.dev.json is unchanged 
+[info] i  functions/tsconfig.json is unchanged 
+[info] i  functions/src/index.ts is unchanged 
+[info] i  functions/.gitignore is unchanged 
