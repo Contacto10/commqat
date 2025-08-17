@@ -23,6 +23,15 @@ function iniciarSesion(email, password) {
     });
 }
 
+// Función para cerrar sesión
+function cerrarSesion() {
+  auth.signOut().then(() => {
+    console.log('Sesión cerrada');
+  }).catch((error) => {
+    console.error('Error al cerrar sesión:', error);
+  });
+}
+
 // Observador para saber si el usuario está autenticado
 auth.onAuthStateChanged((user) => {
   if (user) {
@@ -49,13 +58,15 @@ function guardarDato(coleccion, datos) {
     });
 }
 
-// Función para leer todos los documentos de una colección
-function leerDatos(coleccion) {
-  db.collection(coleccion).get().then((querySnapshot) => {
+// Función para leer todos los documentos de una colección en tiempo real
+function leerDatos(coleccion, callback) {
+  db.collection(coleccion)
+    .orderBy('timestamp')
+    .onSnapshot((querySnapshot) => {
     const documentos = [];
     querySnapshot.forEach((doc) => {
       documentos.push({ id: doc.id, ...doc.data() });
     });
-    console.log('Datos leídos:', documentos);
+    callback(documentos);
   });
 }
