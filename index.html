@@ -3,38 +3,79 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Commqat - Login</title>
+    <title>ATIP - Gestión de Proyectos</title>
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-    <style>
-        body { font-family: sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; background-color: #f0f2f5; }
-        #app { background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        .form-group { margin-bottom: 1rem; }
-        label { display: block; margin-bottom: 0.5rem; }
-        input { width: 100%; padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px; }
-        button { width: 100%; padding: 0.75rem; border: none; border-radius: 4px; background-color: #007bff; color: white; font-size: 1rem; cursor: pointer; }
-        button:hover { background-color: #0056b3; }
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div id="app">
         <section v-if="user">
-            <h2>Bienvenido, {{ user.email }}</h2>
-            <button @click="handleLogout">Cerrar Sesión</button>
+            <header style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                <h1>ATIP - Gestión de Proyectos</h1>
+                <div>
+                    <span>{{ user.email }}</span>
+                    <button @click="handleLogout" style="margin-left: 1rem; width: auto; padding: 0.5rem 1rem;">Cerrar Sesión</button>
+                </div>
+            </header>
 
-            <div class="chat-container">
-                <h3>Chat</h3>
-                <div class="message-list">
-                    <div v-for="message in messages" :key="message.id" class="message">
-                        <strong>{{ message.email }}:</strong> {{ message.text }}
+            <main v-if="currentView === 'projectSelection'">
+                <h2>Seleccionar Proyecto</h2>
+                <div class="project-selector">
+                    <select v-model="selectedProject">
+                        <option disabled value="">Seleccione un proyecto</option>
+                        <option v-for="project in projects" :key="project.id" :value="project.id">{{ project.nombre }}</option>
+                    </select>
+                    <button @click="currentView = 'dashboard'" :disabled="!selectedProject">Ir al Proyecto</button>
+                    <button @click="currentView = 'createProject'" class="btn-secondary">Crear Nuevo Proyecto</button>
+                </div>
+            </main>
+
+            <main v-if="currentView === 'createProject'">
+                <h2>Crear Nuevo Proyecto</h2>
+                <form @submit.prevent="createProject">
+                    <div class="form-group">
+                        <label for="projectName">Nombre del Proyecto</label>
+                        <input type="text" id="projectName" v-model="newProjectName" required>
+                    </div>
+                    <button type="submit">Crear Proyecto</button>
+                    <button @click="currentView = 'projectSelection'" class="btn-secondary">Cancelar</button>
+                </form>
+            </main>
+
+            <main v-if="currentView === 'dashboard'" class="dashboard">
+                <button @click="currentView = 'projectSelection'" class="btn-secondary" style="margin-bottom: 1rem; width: auto; padding: 0.5rem 1rem;">Volver a Proyectos</button>
+                <div class="dashboard-card">
+                    <h2>Preservación</h2>
+                    <p>Gestión de la preservación de equipos y materiales.</p>
+                    <div class="card-buttons">
+                        <button class="btn-secondary" @click="currentView = 'consumablesManagement'">Gestion de Consumibles</button>
+                        <button class="btn-secondary" @click="currentView = 'preservationPlan'">Plan de Preservacion</button>
                     </div>
                 </div>
-                <form @submit.prevent="handleSendMessage">
-                    <div class="form-group">
-                        <input type="text" v-model="newMessage" placeholder="Escribe un mensaje...">
-                    </div>
-                    <button type="submit">Enviar</button>
-                </form>
-            </div>
+                <div class="dashboard-card">
+                    <h2>Faltantes constructivos</h2>
+                    <p>Gestión de pendientes constructivos del proyecto.</p>
+                </div>
+                <div class="dashboard-card">
+                    <h2>Pruebas Funcionales</h2>
+                    <p>Gestión de pruebas funcionales y comisionamiento.</p>
+                </div>
+            </main>
+
+            <main v-if="currentView === 'preservationPlan'">
+                <button @click="currentView = 'dashboard'" class="btn-secondary" style="margin-bottom: 1rem; width: auto; padding: 0.5rem 1rem;">Volver al Dashboard</button>
+                <h2>Plan de Preservación</h2>
+                <div class="iframe-container">
+                </div>
+            </main>
+
+            <main v-if="currentView === 'consumablesManagement'">
+                <button @click="currentView = 'dashboard'" class="btn-secondary" style="margin-bottom: 1rem; width: auto; padding: 0.5rem 1rem;">Volver al Dashboard</button>
+                <h2>Gestión de Consumibles</h2>
+                <div class="iframe-container">
+                    <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQYtfoxXN6eezzw1lRh9UpAHui58k_2efsRCDhi43rlS818KnpfNOGUEoBeIV3c80QojFB3Ch1mHMbU/pubhtml?gid=1474824512&single=true&widget=false&headers=false&chrome=false&theme=light&embed=true" style="width: 100%; height: 600px; border: none; frameborder: 0; margin: 0; padding: 0; overflow: hidden; position: relative; "></iframe>
+                </div>
+            </main>
         </section>
 
         <section v-else>
@@ -47,7 +88,10 @@
                     </div>
                     <div class="form-group">
                         <label for="password">Contraseña</label>
-                        <input type="password" id="password" v-model="password" required>
+                        <div class="password-container">
+                            <input :type="showPassword ? 'text' : 'password'" id="password" v-model="password" required autocomplete="current-password">
+                            <span class="toggle-password" @click="showPassword = !showPassword">👁️</span>
+                        </div>
                     </div>
                     <button type="submit">Ingresar</button>
                 </form>
@@ -59,11 +103,14 @@
                 <form @submit.prevent="handleRegister">
                     <div class="form-group">
                         <label for="email">Correo Electrónico</label>
-                        <input type="email" id="email" v-model="email" required>
+                        <input type="email" id="email" v-model="email" required autocomplete="email">
                     </div>
                     <div class="form-group">
                         <label for="password">Contraseña</label>
-                        <input type="password" id="password" v-model="password" required>
+                        <div class="password-container">
+                            <input :type="showPassword ? 'text' : 'password'" id="password" v-model="password" required autocomplete="new-password">
+                            <span class="toggle-password" @click="showPassword = !showPassword">👁️</span>
+                        </div>
                     </div>
                     <button type="submit">Registrarse</button>
                 </form>
@@ -72,58 +119,89 @@
         </section>
     </div>
 
-    <script defer src="/__/firebase/12.1.0/firebase-app-compat.js"></script>
-    <script defer src="/__/firebase/12.1.0/firebase-auth-compat.js"></script>
-    <script defer src="/__/firebase/12.1.0/firebase-firestore-compat.js"></script>
-    <script defer src="/__/firebase/init.js?useEmulator=true"></script>
-    <script src="app.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/12.1.0/firebase-app-compat.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/12.1.0/firebase-auth-compat.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore-compat.js"></script>
+    <script defer src="app.js"></script>
     <script>
-        const { createApp } = Vue
+        document.addEventListener('DOMContentLoaded', function() {
+            const { createApp } = Vue
 
-        const app = createApp({
-            data() {
-                return {
-                    email: '',
-                    password: '',
-                    showLogin: true,
-                    user: null,
-                    messages: [],
-                    newMessage: ''
-                }
-            },
-            methods: {
-                handleLogin() {
-                    iniciarSesion(this.email, this.password);
+            const app = createApp({
+                data() {
+                    return {
+                        email: '',
+                        password: '',
+                        showLogin: true,
+                        user: null,
+                        showPassword: false,
+                        showLoginErrorModal: false,
+                        loginErrorMessage: '',
+                        currentView: 'projectSelection',
+                        projects: [],
+                        selectedProject: '',
+                        newProjectName: ''
+                    }
                 },
-                handleRegister() {
-                    registrar(this.email, this.password);
-                },
-                handleLogout() {
-                    cerrarSesion();
-                },
-                handleSendMessage() {
-                    if (this.newMessage.trim() === '') return;
+                methods: {
+        
 
-                    guardarDato('messages', {
-                        email: this.user.email,
-                        text: this.newMessage,
-                        timestamp: firebase.firestore.FieldValue.serverTimestamp()
-                    });
 
-                    this.newMessage = '';
-                }
-            },
-            mounted() {
-                auth.onAuthStateChanged(user => {
-                    this.user = user;
-                    if (user) {
-                        leerDatos('messages', (messages) => {
-                            this.messages = messages;
+                    handleLogin() {
+                        iniciarSesion(this.email, this.password, (error) => {
+                            if (error) {
+                                this.loginErrorMessage = 'Usuario o contraseña incorrectos. Por favor, verifique sus datos.';
+                                this.showLoginErrorModal = true;
+                            }
+                        });
+                    },
+                    
+                    handleRegister() {
+                        registrar(this.email, this.password, (error) => {
+                            if (error) {
+                                console.error('Error en el registro:', error);
+                                alert('Error en el registro: ' + error);
+                            } else {
+                                console.log('Registro exitoso, por favor inicie sesión.');
+                                this.showLogin = true;
+                            }
+                        });
+                    },
+                    handleLogout() {
+                        cerrarSesion();
+                    },
+                    createProject() {
+                        crearProyecto(this.newProjectName, (error, projectId) => {
+                            if (error) {
+                                console.error('Error creating project:', error);
+                            } else {
+                                this.newProjectName = '';
+                                this.loadProjects();
+                                this.currentView = 'projectSelection';
+                            }
+                        });
+                    },
+                    loadProjects() {
+                        cargarProyectos((error, projects) => {
+                            if (error) {
+                                console.error('Error loading projects:', error);
+                            } else {
+                                console.log('Projects loaded:', projects);
+                                this.projects = projects;
+                            }
                         });
                     }
-                });
-            }
-        }).mount('#app')
+                },
+                mounted() {
+                    firebase.auth().onAuthStateChanged(user => {
+                        this.user = user;
+                        if (user) {
+                            this.loadProjects();
+                        }
+                    });
+                }
+            }).mount('#app')
+        });
     </script>
 </body>
 </html>

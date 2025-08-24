@@ -1,25 +1,49 @@
+// ATENCIÓN: La configuración de Firebase que pegaste aquí es visible públicamente.
+// Te recomiendo que vayas a la consola de Firebase y regeneres la clave de API (API Key)
+// para asegurar que nadie más pueda usarla.
+
+// Configuración de Firebase
+const firebaseConfig = {
+  apiKey: "AIzaSyB47qGmUrXN_5qJSFhEX3WLD2BvLd5oEGs",
+  authDomain: "commqat.firebaseapp.com",
+  projectId: "commqat",
+  storageBucket: "commqat.firebasestorage.app",
+  messagingSenderId: "218735319330",
+  appId: "1:218735319330:web:8f686fba441ce11c0f2d7b",
+  measurementId: "G-FY8XM94GT9"
+};
+
+// Inicializar Firebase
+firebase.initializeApp(firebaseConfig);
+
 // Instancias de los servicios
 const auth = firebase.auth();
+const db = firebase.firestore();
 
 // Función para registrar un nuevo usuario
-function registrar(email, password) {
+function registrar(email, password, callback) {
   auth.createUserWithEmailAndPassword(email, password)
     .then((userCredential) => {
       console.log('Usuario registrado con éxito:', userCredential.user);
+      callback(null);
     })
     .catch((error) => {
       console.error('Error en el registro:', error.message);
+      callback(error.message);
     });
 }
 
 // Función para iniciar sesión
-function iniciarSesion(email, password) {
+function iniciarSesion(email, password, callback) {
+  console.log('Attempting to sign in with email:', email);
   auth.signInWithEmailAndPassword(email, password)
     .then((userCredential) => {
       console.log('Inicio de sesión exitoso:', userCredential.user);
+      callback(null);
     })
     .catch((error) => {
-      console.error('Error al iniciar sesión:', error.message);
+      console.error('Error al iniciar sesión:', error.code, error.message);
+      callback(error.message);
     });
 }
 
@@ -43,13 +67,47 @@ auth.onAuthStateChanged((user) => {
   }
 });
 
+// Función para crear un nuevo proyecto
+function crearProyecto(nombre, callback) {
+  const user = auth.currentUser;
+  if (user) {
+    db.collection('Proyectos').add({
+      nombre: nombre,
+      owner: user.uid
+    })
+    .then((docRef) => {
+      console.log('Proyecto creado con ID:', docRef.id);
+      callback(null, docRef.id);
+    })
+    .catch((error) => {
+      console.error('Error al crear proyecto:', error);
+      callback(error);
+    });
+  }
+}
 
-// Instancia de Firestore
-const db = firebase.firestore();
+// Función para cargar los proyectos de un usuario
+function cargarProyectos(callback) {
+  const user = auth.currentUser;
+  if (user) {
+    db.collection('Proyectos').where('owner', '==', user.uid).get()
+      .then((querySnapshot) => {
+        const proyectos = [];
+        querySnapshot.forEach((doc) => {
+          proyectos.push({ id: doc.id, ...doc.data() });
+        });
+        callback(null, proyectos);
+      })
+      .catch((error) => {
+        console.error('Error al cargar proyectos:', error);
+        callback(error);
+      });
+  }
+}
 
 // Función para guardar un nuevo documento en una colección
-function guardarDato(coleccion, datos) {
-  db.collection(coleccion).add(datos)
+function guardarDato(coleccion, projectId, datos) {
+  db.collection('Proyectos').doc(projectId).collection(coleccion).add(datos)
     .then((docRef) => {
       console.log('Documento guardado con ID:', docRef.id);
     })
@@ -58,9 +116,20 @@ function guardarDato(coleccion, datos) {
     });
 }
 
+// Función para guardar un nuevo documento en una colección con un ID específico
+function guardarDatoConId(coleccion, id, datos) {
+  db.collection(coleccion).doc(id).set(datos)
+    .then(() => {
+      console.log('Documento guardado con ID:', id);
+    })
+    .catch((error) => {
+      console.error('Error al guardar:', error);
+    });
+}
+
 // Función para leer todos los documentos de una colección en tiempo real
-function leerDatos(coleccion, callback) {
-  db.collection(coleccion)
+function leerDatos(coleccion, projectId, callback) {
+  db.collection('Proyectos').doc(projectId).collection(coleccion)
     .orderBy('timestamp')
     .onSnapshot((querySnapshot) => {
     const documentos = [];
