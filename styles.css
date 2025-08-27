@@ -172,3 +172,46 @@ button:hover {
     border: 1px solid var(--border-color);
     border-radius: 4px;
 }
+
+.missing-item-card {
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    background-color: var(--bg-color);
+}
+
+.btn-open {
+    background-color: var(--error-color);
+    color: var(--bg-color);
+    width: auto;
+    padding: 0.5rem 1rem;
+}
+
+.btn-closed {
+    background-color: #4caf50; /* Green */
+    color: white;
+    width: auto;
+    padding: 0.5rem 1rem;
+}
+
+.missing-items-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+
+.missing-items-table th, .missing-items-table td {
+    border: 1px solid var(--border-color);
+    padding: 0.5rem;
+    text-align: left;
+}
+
+.missing-items-table th {
+    background-color: var(--bg-color);
+}
+
+.filter-buttons button {
+    width: auto;
+    margin-right: 0.5rem;
+}

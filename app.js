@@ -130,12 +130,75 @@ function guardarDatoConId(coleccion, id, datos) {
 // Función para leer todos los documentos de una colección en tiempo real
 function leerDatos(coleccion, projectId, callback) {
   db.collection('Proyectos').doc(projectId).collection(coleccion)
-    .orderBy('timestamp')
     .onSnapshot((querySnapshot) => {
     const documentos = [];
     querySnapshot.forEach((doc) => {
       documentos.push({ id: doc.id, ...doc.data() });
     });
-    callback(documentos);
+    callback(null, documentos);
+  }, (error) => {
+    console.error(`Error al leer datos de ${coleccion}:`, error);
+    callback(error, null);
   });
+}
+
+// Función para guardar un nuevo faltante
+function guardarFaltante(faltante, callback) {
+  db.collection('faltantes').add(faltante)
+    .then((docRef) => {
+      console.log('Faltante guardado con ID:', docRef.id);
+      callback(null, docRef.id);
+    })
+    .catch((error) => {
+      console.error('Error al guardar faltante:', error);
+      callback(error);
+    });
+}
+
+// Función para leer los faltantes de un proyecto
+function leerFaltantes(projectId, callback) {
+  db.collection('faltantes').where('projectId', '==', projectId).onSnapshot((querySnapshot) => {
+    const faltantes = [];
+    querySnapshot.forEach((doc) => {
+      faltantes.push({ id: doc.id, ...doc.data() });
+    });
+    callback(null, faltantes);
+  }, (error) => {
+    console.error('Error al leer faltantes:', error);
+    callback(error);
+  });
+}
+
+// Función para actualizar el estado de un faltante
+function actualizarEstadoFaltante(faltanteId, nuevoEstado, callback) {
+  db.collection('faltantes').doc(faltanteId).update({
+    status: nuevoEstado
+  })
+  .then(() => {
+    console.log('Estado del faltante actualizado');
+    callback(null);
+  })
+  .catch((error) => {
+    console.error('Error al actualizar estado:', error);
+    callback(error);
+  });
+}
+
+// Función para guardar documentos en lote
+function batchSave(collectionName, documents, projectId, callback) {
+  const batch = db.batch();
+  documents.forEach((doc) => {
+    const docRef = db.collection('Proyectos').doc(projectId).collection(collectionName).doc();
+    batch.set(docRef, doc);
+  });
+
+  batch.commit()
+    .then(() => {
+      console.log('Lote de documentos guardado con éxito.');
+      callback(null);
+    })
+    .catch((error) => {
+      console.error('Error al guardar el lote:', error);
+      callback(error);
+    });
 }

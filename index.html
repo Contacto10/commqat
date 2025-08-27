@@ -5,13 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ATIP - Gestión de Proyectos</title>
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div id="app">
         <section v-if="user">
             <header style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
-                <h1>ATIP - Gestión de Proyectos</h1>
+                <h1>ATIP - Gestión de Proyectos <span v-if="selectedProjectObject" :style="{ color: '#8ab4f8' }">- {{ selectedProjectObject.nombre }}</span></h1>
                 <div>
                     <span>{{ user.email }}</span>
                     <button @click="handleLogout" style="margin-left: 1rem; width: auto; padding: 0.5rem 1rem;">Cerrar Sesión</button>
@@ -43,7 +44,10 @@
             </main>
 
             <main v-if="currentView === 'dashboard'" class="dashboard">
-                <button @click="currentView = 'projectSelection'" class="btn-secondary" style="margin-bottom: 1rem; width: auto; padding: 0.5rem 1rem;">Volver a Proyectos</button>
+                <div style="display: flex; flex-direction: column; gap: 1rem;">
+                    <button @click="currentView = 'projectSelection'" class="btn-secondary" style="width: auto; padding: 0.5rem 1rem;">Volver a Proyectos</button>
+                    <button @click="currentView = 'engineeringData'" class="btn-secondary" style="width: auto; padding: 0.5rem 1rem;">Datos de Ingenieria</button>
+                </div>
                 <div class="dashboard-card">
                     <h2>Preservación</h2>
                     <p>Gestión de la preservación de equipos y materiales.</p>
@@ -55,10 +59,21 @@
                 <div class="dashboard-card">
                     <h2>Faltantes constructivos</h2>
                     <p>Gestión de pendientes constructivos del proyecto.</p>
+                    <div class="card-buttons">
+                        <button class="btn-secondary" @click="currentView = 'createMissingItem'">Cargue de Faltantes</button>
+                        <button class="btn-secondary" @click="currentView = 'missingItemsManagement'">Gestion de Faltantes</button>
+                    </div>
                 </div>
                 <div class="dashboard-card">
                     <h2>Pruebas Funcionales</h2>
                     <p>Gestión de pruebas funcionales y comisionamiento.</p>
+                </div>
+                <div class="dashboard-card">
+                    <h2>Gestión HSE</h2>
+                    <p>Gestión de permisos de trabajo.</p>
+                    <div class="card-buttons">
+                        <button class="btn-secondary" @click="currentView = 'workPermits'">Permisos de Trabajo</button>
+                    </div>
                 </div>
             </main>
 
@@ -72,8 +87,213 @@
             <main v-if="currentView === 'consumablesManagement'">
                 <button @click="currentView = 'dashboard'" class="btn-secondary" style="margin-bottom: 1rem; width: auto; padding: 0.5rem 1rem;">Volver al Dashboard</button>
                 <h2>Gestión de Consumibles</h2>
+                <div v-if="user && (user.email === 'contacto10@gmail.com' || user.email === 'garibello.ignacio@gmail.com')" style="margin-bottom: 1rem;">
+                    <a href="https://forms.gle/vcndBzx6XUMngBto8" target="_blank" class="btn-secondary" style="display: inline-block; text-decoration: none; padding: 0.5rem 1rem;">Gestion de Consumibles</a>
+                </div>
                 <div class="iframe-container">
                     <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQYtfoxXN6eezzw1lRh9UpAHui58k_2efsRCDhi43rlS818KnpfNOGUEoBeIV3c80QojFB3Ch1mHMbU/pubhtml?gid=1474824512&single=true&widget=false&headers=false&chrome=false&theme=light&embed=true" style="width: 100%; height: 600px; border: none; frameborder: 0; margin: 0; padding: 0; overflow: hidden; position: relative; "></iframe>
+                </div>
+            </main>
+
+            <main v-if="currentView === 'workPermits'">
+                <button @click="currentView = 'dashboard'" class="btn-secondary" style="margin-bottom: 1rem; width: auto; padding: 0.5rem 1rem;">Volver al Dashboard</button>
+                <h2>Permisos de Trabajo</h2>
+                <div class="iframe-container">
+                </div>
+            </main>
+
+            <main v-if="currentView === 'createMissingItem'">
+                <button @click="currentView = 'dashboard'" class="btn-secondary" style="margin-bottom: 1rem; width: auto; padding: 0.5rem 1rem;">Volver al Dashboard</button>
+                <h2>Cargar Faltante Constructivo</h2>
+                <div style="margin-bottom: 1rem;">
+                    <input type="file" @change="handleFileUpload" accept=".xls,.xlsx" ref="fileInput" style="display: none;">
+                    <button class="btn-secondary" @click="$refs.fileInput.click()">Cargue Masivo desde Excel</button>
+                    <p style="font-size: 0.8rem; color: var(--secondary-color); margin-top: 0.5rem;">
+                        El archivo de Excel debe contener las siguientes columnas: Equipo, Descripcion, Tipo (Tipo A o Tipo B), FechaCierre (YYYY-MM-DD)
+                    </p>
+                </div>
+                <form @submit.prevent="createMissingItem">
+                    <div class="form-group">
+                        <label for="missingItemProject">Proyecto</label>
+                        <input type="text" id="missingItemProject" :value="selectedProjectObject.nombre" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label for="missingItemEquipment">Equipo</label>
+                        <input type="text" id="missingItemEquipment" v-model="newMissingItem.equipment" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="missingItemDescription">Descripción del Faltante</label>
+                        <textarea id="missingItemDescription" v-model="newMissingItem.description" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="missingItemType">Tipo de Faltante</label>
+                        <select id="missingItemType" v-model="newMissingItem.type" required>
+                            <option value="Tipo A">Tipo A</option>
+                            <option value="Tipo B">Tipo B</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="missingItemDate">Fecha Tentativa de Cierre</label>
+                        <input type="date" id="missingItemDate" v-model="newMissingItem.closingDate" required>
+                    </div>
+                    <button type="submit">Crear Faltante</button>
+                </form>
+            </main>
+
+            <main v-if="currentView === 'missingItemsManagement'">
+                <button @click="currentView = 'dashboard'" class="btn-secondary" style="margin-bottom: 1rem; width: auto; padding: 0.5rem 1rem;">Volver al Dashboard</button>
+                <h2>Gestión de Faltantes</h2>
+
+                <div class="filter-buttons" style="margin-bottom: 1rem;">
+                    <button @click="setMissingItemsFilter('All')" class="btn-secondary">Mostrar Todos</button>
+                    <button @click="setMissingItemsFilter('A')" class="btn-secondary">Filtrar Tipo A</button>
+                    <button @click="setMissingItemsFilter('B')" class="btn-secondary">Filtrar Tipo B</button>
+                </div>
+
+                <div class="summary" style="margin-bottom: 1rem;">
+                    <p>Faltantes Tipo A: {{ summaryCounts.totalA }} (Abiertos: {{ summaryCounts.openA }})</p>
+                    <p>Faltantes Tipo B: {{ summaryCounts.totalB }} (Abiertos: {{ summaryCounts.openB }})</p>
+                </div>
+
+                <table class="missing-items-table">
+                    <thead>
+                        <tr>
+                            <th>Equipo</th>
+                            <th>Descripción</th>
+                            <th>Tipo</th>
+                            <th>Fecha Cierre</th>
+                            <th>Estado</th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="item in filteredMissingItems" :key="item.id">
+                            <td>{{ item.equipment }}</td>
+                            <td>{{ item.description }}</td>
+                            <td>{{ item.type }}</td>
+                            <td>{{ item.closingDate }}</td>
+                            <td>{{ item.status }}</td>
+                            <td>
+                                <button @click="toggleMissingItemStatus(item)" :class="item.status === 'Abierto' ? 'btn-open' : 'btn-closed'">
+                                    {{ item.status === 'Abierto' ? 'Cerrar' : 'Abrir' }}
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </main>
+
+            <main v-if="currentView === 'engineeringData'">
+                <button @click="currentView = 'dashboard'" class="btn-secondary" style="margin-bottom: 1rem; width: auto; padding: 0.5rem 1rem;">Volver al Dashboard</button>
+                <h2>Datos de Ingeniería</h2>
+
+                <div class="engineering-section">
+                    <h3>Descripción del Proyecto</h3>
+                    <p>{{ selectedProjectObject.description || 'No hay descripción para este proyecto.' }}</p>
+                </div>
+
+                <div class="engineering-section">
+                    <h3>Instrumentos Comisionables</h3>
+                    <div style="margin-bottom: 1rem;">
+                        <button @click="$refs.instrumentsFileInput.click()" class="btn-secondary">Cargar</button>
+                        <p style="font-size: 0.8rem; color: var(--secondary-color); margin-top: 0.5rem;">
+                            El archivo de Excel debe contener las siguientes columnas: Instrumento, Rango, Alarmas, Interlocks
+                        </p>
+                    </div>
+                    <input type="file" @change="uploadEngineeringData('instruments', $event)" ref="instrumentsFileInput" style="display: none;" accept=".xls,.xlsx">
+                    <table class="missing-items-table">
+                        <thead>
+                            <tr>
+                                <th>Instrumento</th>
+                                <th>Rango</th>
+                                <th>Alarmas</th>
+                                <th>Interlocks</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="instrument in engineeringData.instruments" :key="instrument.id">
+                                <td>{{ instrument.name }}</td>
+                                <td>{{ instrument.range }}</td>
+                                <td>{{ instrument.alarms }}</td>
+                                <td>{{ instrument.interlocks }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="engineering-section">
+                    <h3>Interlocks</h3>
+                    <div style="margin-bottom: 1rem;">
+                        <button @click="$refs.interlocksFileInput.click()" class="btn-secondary">Cargar</button>
+                        <p style="font-size: 0.8rem; color: var(--secondary-color); margin-top: 0.5rem;">
+                            El archivo de Excel debe contener las siguientes columnas: Interlock, Descripcion
+                        </p>
+                    </div>
+                    <input type="file" @change="uploadEngineeringData('interlocks', $event)" ref="interlocksFileInput" style="display: none;" accept=".xls,.xlsx">
+                    <table class="missing-items-table">
+                        <thead>
+                            <tr>
+                                <th>Interlock</th>
+                                <th>Descripción</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="interlock in engineeringData.interlocks" :key="interlock.id">
+                                <td>{{ interlock.name }}</td>
+                                <td>{{ interlock.description }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="engineering-section">
+                    <h3>Motores</h3>
+                    <div style="margin-bottom: 1rem;">
+                        <button @click="$refs.motorsFileInput.click()" class="btn-secondary">Cargar</button>
+                        <p style="font-size: 0.8rem; color: var(--secondary-color); margin-top: 0.5rem;">
+                            El archivo de Excel debe contener las siguientes columnas: Motor, Descripcion
+                        </p>
+                    </div>
+                    <input type="file" @change="uploadEngineeringData('motors', $event)" ref="motorsFileInput" style="display: none;" accept=".xls,.xlsx" multiple>
+                    <table class="missing-items-table">
+                        <thead>
+                            <tr>
+                                <th>Motor</th>
+                                <th>Descripción</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="motor in engineeringData.motors" :key="motor.id">
+                                <td>{{ motor.name }}</td>
+                                <td>{{ motor.description }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="engineering-section">
+                    <h3>Lazos de Control</h3>
+                    <div style="margin-bottom: 1rem;">
+                        <button @click="$refs.controlLoopsFileInput.click()" class="btn-secondary">Cargar</button>
+                        <p style="font-size: 0.8rem; color: var(--secondary-color); margin-top: 0.5rem;">
+                            El archivo de Excel debe contener las siguientes columnas: Lazo, Descripcion
+                        </p>
+                    </div>
+                    <input type="file" @change="uploadEngineeringData('controlLoops', $event)" ref="controlLoopsFileInput" style="display: none;" accept=".xls,.xlsx" multiple>
+                    <table class="missing-items-table">
+                        <thead>
+                            <tr>
+                                <th>Lazo</th>
+                                <th>Descripción</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="loop in engineeringData.controlLoops" :key="loop.id">
+                                <td>{{ loop.name }}</td>
+                                <td>{{ loop.description }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </main>
         </section>
@@ -102,13 +322,13 @@
                 <h2>Registrarse</h2>
                 <form @submit.prevent="handleRegister">
                     <div class="form-group">
-                        <label for="email">Correo Electrónico</label>
-                        <input type="email" id="email" v-model="email" required autocomplete="email">
+                        <label for="register-email">Correo Electrónico</label>
+                        <input type="email" id="register-email" v-model="email" required autocomplete="email">
                     </div>
                     <div class="form-group">
-                        <label for="password">Contraseña</label>
+                        <label for="register-password">Contraseña</label>
                         <div class="password-container">
-                            <input :type="showPassword ? 'text' : 'password'" id="password" v-model="password" required autocomplete="new-password">
+                            <input :type="showPassword ? 'text' : 'password'" id="register-password" v-model="password" required autocomplete="new-password">
                             <span class="toggle-password" @click="showPassword = !showPassword">👁️</span>
                         </div>
                     </div>
@@ -140,13 +360,229 @@
                         currentView: 'projectSelection',
                         projects: [],
                         selectedProject: '',
-                        newProjectName: ''
+                        newProjectName: '',
+                        newMissingItem: {
+                            equipment: '',
+                            description: '',
+                            type: 'Tipo A',
+                            closingDate: ''
+                        },
+                        missingItems: [],
+                        missingItemsFilter: 'All',
+                        engineeringData: {
+                            instruments: [],
+                            interlocks: [],
+                            motors: [],
+                            controlLoops: []
+                        }
+                    }
+                },
+                computed: {
+                    selectedProjectObject() {
+                        if (!this.selectedProject) return null;
+                        return this.projects.find(p => p.id === this.selectedProject);
+                    },
+                    filteredMissingItems() {
+                        if (this.missingItemsFilter === 'All') {
+                            return this.missingItems;
+                        }
+                        return this.missingItems.filter(item => item.type === `Tipo ${this.missingItemsFilter}`);
+                    },
+                    summaryCounts() {
+                        const totalA = this.missingItems.filter(item => item.type === 'Tipo A').length;
+                        const openA = this.missingItems.filter(item => item.type === 'Tipo A' && item.status === 'Abierto').length;
+                        const totalB = this.missingItems.filter(item => item.type === 'Tipo B').length;
+                        const openB = this.missingItems.filter(item => item.type === 'Tipo B' && item.status === 'Abierto').length;
+                        return { totalA, openA, totalB, openB };
+                    }
+                },
+                watch: {
+                    currentView(newView, oldView) {
+                        if (newView === 'missingItemsManagement') {
+                            this.loadMissingItems();
+                        }
+                        if (newView === 'engineeringData') {
+                            this.loadEngineeringData();
+                        }
                     }
                 },
                 methods: {
-        
+                    loadEngineeringData() {
+                        leerDatos('instruments', this.selectedProject, (error, data) => {
+                            if (error) {
+                                console.error('Error loading instruments:', error);
+                            } else {
+                                this.engineeringData.instruments = data;
+                            }
+                        });
+                        leerDatos('interlocks', this.selectedProject, (error, data) => {
+                            if (error) {
+                                console.error('Error loading interlocks:', error);
+                            } else {
+                                this.engineeringData.interlocks = data;
+                            }
+                        });
+                        leerDatos('motors', this.selectedProject, (error, data) => {
+                            if (error) {
+                                console.error('Error loading motors:', error);
+                            } else {
+                                this.engineeringData.motors = data;
+                            }
+                        });
+                        leerDatos('controlLoops', this.selectedProject, (error, data) => {
+                            if (error) {
+                                console.error('Error loading control loops:', error);
+                            } else {
+                                this.engineeringData.controlLoops = data;
+                            }
+                        });
+                    },
+                    setMissingItemsFilter(type) {
+                        this.missingItemsFilter = type;
+                    },
+                    loadMissingItems() {
+                        leerFaltantes(this.selectedProject, (error, faltantes) => {
+                            if (error) {
+                                console.error('Error loading missing items:', error);
+                                alert('Error al cargar los faltantes.');
+                            } else {
+                                this.missingItems = faltantes;
+                            }
+                        });
+                    },
+                    toggleMissingItemStatus(item) {
+                        const newStatus = item.status === 'Abierto' ? 'Cerrado' : 'Abierto';
+                        actualizarEstadoFaltante(item.id, newStatus, (error) => {
+                            if (error) {
+                                console.error('Error updating status:', error);
+                                alert('Error al actualizar el estado.');
+                            } else {
+                                console.log('Status updated successfully');
+                            }
+                        });
+                    },
+                    handleFileUpload(event) {
+                        const file = event.target.files[0];
+                        if (file) {
+                            const reader = new FileReader();
+                            reader.onload = (e) => {
+                                const data = new Uint8Array(e.target.result);
+                                const workbook = XLSX.read(data, { type: 'array' });
+                                const firstSheetName = workbook.SheetNames[0];
+                                const worksheet = workbook.Sheets[firstSheetName];
+                                const json = XLSX.utils.sheet_to_json(worksheet);
 
+                                const faltantes = json.map(row => ({
+                                    projectId: this.selectedProject,
+                                    equipment: row.Equipo,
+                                    description: row.Descripcion,
+                                    type: row.Tipo,
+                                    closingDate: row.FechaCierre,
+                                    status: 'Abierto',
+                                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                                }));
 
+                                batchSave('faltantes', faltantes, (error) => {
+                                    if (error) {
+                                        console.error('Error saving batch:', error);
+                                        alert('Error al cargar los faltantes.');
+                                    } else {
+                                        alert('Cargue masivo de faltantes exitoso.');
+                                    }
+                                });
+                            };
+                            reader.readAsArrayBuffer(file);
+                        }
+                    },
+                    uploadEngineeringData(dataType, event) {
+                        const file = event.target.files[0];
+                        if (file) {
+                            const reader = new FileReader();
+                            reader.onload = (e) => {
+                                const data = new Uint8Array(e.target.result);
+                                const workbook = XLSX.read(data, { type: 'array' });
+                                const firstSheetName = workbook.SheetNames[0];
+                                const worksheet = workbook.Sheets[firstSheetName];
+                                const json = XLSX.utils.sheet_to_json(worksheet);
+
+                                let documents;
+                                if (dataType === 'controlLoops') {
+                                    documents = json.map(row => ({
+                                        name: row.Lazo, // Map 'Lazo' column to 'name'
+                                        description: row.Descripcion, // Map 'Descripcion' column to 'description'
+                                        projectId: this.selectedProject,
+                                        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                                    }));
+                                } else if (dataType === 'instruments') {
+                                    documents = json.map(row => ({
+                                        name: row.Instrumento,
+                                        range: row.Rango,
+                                        alarms: row.Alarmas,
+                                        interlocks: row.Interlocks,
+                                        projectId: this.selectedProject,
+                                        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                                    }));
+                                } else if (dataType === 'interlocks') {
+                                    documents = json.map(row => ({
+                                        name: row.Interlock,
+                                        description: row.Descripcion,
+                                        projectId: this.selectedProject,
+                                        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                                    }));
+                                } else if (dataType === 'motors') {
+                                    documents = json.map(row => ({
+                                        name: row.Motor,
+                                        description: row.Descripcion,
+                                        projectId: this.selectedProject,
+                                        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                                    }));
+                                } else {
+                                    documents = json.map(row => ({
+                                        ...row,
+                                        projectId: this.selectedProject,
+                                        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                                    }));
+                                }
+
+                                batchSave(dataType, documents, this.selectedProject, (error) => {
+                                    if (error) {
+                                        console.error(`Error saving batch for ${dataType}:`, error);
+                                        alert(`Error al cargar los datos de ${dataType}.`);
+                                    } else {
+                                        alert(`Cargue masivo de ${dataType} exitoso.`);
+                                    }
+                                });
+                            };
+                            reader.readAsArrayBuffer(file);
+                        }
+                    },
+                    createMissingItem() {
+                        const faltante = {
+                            projectId: this.selectedProject,
+                            equipment: this.newMissingItem.equipment,
+                            description: this.newMissingItem.description,
+                            type: this.newMissingItem.type,
+                            closingDate: this.newMissingItem.closingDate,
+                            status: 'Abierto',
+                            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                        };
+                        guardarFaltante(faltante, (error, id) => {
+                            if (error) {
+                                console.error('Error creating missing item:', error);
+                                alert('Error al crear el faltante.');
+                            } else {
+                                console.log('Missing item created with id:', id);
+                                // Reset form
+                                this.newMissingItem = {
+                                    equipment: '',
+                                    description: '',
+                                    type: 'Tipo A',
+                                    closingDate: ''
+                                };
+                                this.currentView = 'dashboard';
+                            }
+                        });
+                    },
                     handleLogin() {
                         iniciarSesion(this.email, this.password, (error) => {
                             if (error) {
