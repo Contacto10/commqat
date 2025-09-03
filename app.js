@@ -68,12 +68,12 @@ auth.onAuthStateChanged((user) => {
 });
 
 // Función para crear un nuevo proyecto
-function crearProyecto(nombre, callback) {
+function crearProyecto(nombre, description, callback) {
   const user = auth.currentUser;
   if (user) {
     db.collection('Proyectos').add({
       nombre: nombre,
-      owner: user.uid
+      description: description
     })
     .then((docRef) => {
       console.log('Proyecto creado con ID:', docRef.id);
@@ -90,7 +90,7 @@ function crearProyecto(nombre, callback) {
 function cargarProyectos(callback) {
   const user = auth.currentUser;
   if (user) {
-    db.collection('Proyectos').where('owner', '==', user.uid).get()
+    db.collection('Proyectos').get()
       .then((querySnapshot) => {
         const proyectos = [];
         querySnapshot.forEach((doc) => {
@@ -105,9 +105,22 @@ function cargarProyectos(callback) {
   }
 }
 
+// Función para actualizar un proyecto
+function actualizarProyecto(projectId, newData, callback) {
+  db.collection('Proyectos').doc(projectId).update(newData)
+    .then(() => {
+      console.log('Proyecto actualizado con éxito');
+      callback(null);
+    })
+    .catch((error) => {
+      console.error('Error al actualizar el proyecto:', error);
+      callback(error);
+    });
+}
+
 // Función para guardar un nuevo documento en una colección
 function guardarDato(coleccion, projectId, datos) {
-  db.collection('Proyectos').doc(projectId).collection(coleccion).add(datos)
+  db.collection(coleccion).add({ ...datos, projectId: projectId })
     .then((docRef) => {
       console.log('Documento guardado con ID:', docRef.id);
     })
@@ -129,7 +142,7 @@ function guardarDatoConId(coleccion, id, datos) {
 
 // Función para leer todos los documentos de una colección en tiempo real
 function leerDatos(coleccion, projectId, callback) {
-  db.collection('Proyectos').doc(projectId).collection(coleccion)
+  db.collection(coleccion).where('projectId', '==', projectId)
     .onSnapshot((querySnapshot) => {
     const documentos = [];
     querySnapshot.forEach((doc) => {
@@ -188,8 +201,8 @@ function actualizarEstadoFaltante(faltanteId, nuevoEstado, callback) {
 function batchSave(collectionName, documents, projectId, callback) {
   const batch = db.batch();
   documents.forEach((doc) => {
-    const docRef = db.collection('Proyectos').doc(projectId).collection(collectionName).doc();
-    batch.set(docRef, doc);
+    const docRef = db.collection(collectionName).doc();
+    batch.set(docRef, { ...doc, projectId: projectId });
   });
 
   batch.commit()
@@ -201,4 +214,28 @@ function batchSave(collectionName, documents, projectId, callback) {
       console.error('Error al guardar el lote:', error);
       callback(error);
     });
+}
+
+function guardarPruebaFuncional(testData, callback) {
+    db.collection('pruebasFuncionales').doc(testData.instrumentId).set(testData)
+        .then(() => {
+            console.log('Prueba funcional guardada con éxito');
+            callback(null);
+        })
+        .catch((error) => {
+            console.error('Error al guardar la prueba funcional:', error);
+            callback(error);
+        });
+}
+
+function actualizarDatoIngenieria(collectionName, docId, newData, callback) {
+    db.collection(collectionName).doc(docId).update(newData)
+        .then(() => {
+            console.log('Dato de ingeniería actualizado con éxito');
+            callback(null);
+        })
+        .catch((error) => {
+            console.error('Error al actualizar el dato de ingeniería:', error);
+            callback(error);
+        });
 }

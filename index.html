@@ -27,6 +27,7 @@
                         <option v-for="project in projects" :key="project.id" :value="project.id">{{ project.nombre }}</option>
                     </select>
                     <button @click="currentView = 'dashboard'" :disabled="!selectedProject">Ir al Proyecto</button>
+                    <button @click="openEditProjectModal(selectedProjectObject)" :disabled="!selectedProject" class="btn-secondary">Editar Proyecto</button>
                     <button @click="currentView = 'createProject'" class="btn-secondary">Crear Nuevo Proyecto</button>
                 </div>
             </main>
@@ -37,6 +38,10 @@
                     <div class="form-group">
                         <label for="projectName">Nombre del Proyecto</label>
                         <input type="text" id="projectName" v-model="newProjectName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="projectDescription">Descripción del Proyecto</label>
+                        <textarea id="projectDescription" v-model="newProjectDescription"></textarea>
                     </div>
                     <button type="submit">Crear Proyecto</button>
                     <button @click="currentView = 'projectSelection'" class="btn-secondary">Cancelar</button>
@@ -67,6 +72,9 @@
                 <div class="dashboard-card">
                     <h2>Pruebas Funcionales</h2>
                     <p>Gestión de pruebas funcionales y comisionamiento.</p>
+                    <div class="card-buttons">
+                        <button class="btn-secondary" @click="currentView = 'functionalTests'">Gestion de Pruebas</button>
+                    </div>
                 </div>
                 <div class="dashboard-card">
                     <h2>Gestión HSE</h2>
@@ -76,6 +84,82 @@
                     </div>
                 </div>
             </main>
+
+            <main v-if="currentView === 'functionalTests'">
+                <button @click="currentView = 'dashboard'" class="btn-secondary" style="margin-bottom: 1rem; width: auto; padding: 0.5rem 1rem;">Volver al Dashboard</button>
+                <h2>Gestión de Pruebas Funcionales</h2>
+                <input type="text" v-model="instrumentFilter" placeholder="Filtrar instrumentos..." style="margin-bottom: 1rem; width: 100%; padding: 0.5rem;">
+                <table class="missing-items-table">
+                    <thead>
+                        <tr>
+                            <th>Instrumento</th>
+                            <th>Estado</th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="instrument in filteredInstruments" :key="instrument.id">
+                            <td>{{ instrument.name }}</td>
+                            <td>{{ getFunctionalTestProgress(instrument.id) }}</td>
+                            <td>
+                                <button @click="openFunctionalTestModal(instrument)" class="btn-secondary">Editar</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </main>
+
+            <div v-if="showFunctionalTestModal" class="modal">
+                <div class="modal-content">
+                    <span class="close" @click="closeFunctionalTestModal">&times;</span>
+                    <h2>Prueba Funcional para {{ selectedInstrument.name }}</h2>
+                    <form @submit.prevent="saveFunctionalTest">
+                        <div class="form-group">
+                            <label for="marca">Marca</label>
+                            <input type="text" id="marca" v-model="newFunctionalTest.marca">
+                        </div>
+                        <div class="form-group">
+                            <label for="modelo">Modelo</label>
+                            <input type="text" id="modelo" v-model="newFunctionalTest.modelo">
+                        </div>
+                        <div class="form-group">
+                            <label for="serial">Serial</label>
+                            <input type="text" id="serial" v-model="newFunctionalTest.serial">
+                        </div>
+                        <div class="form-group">
+                            <label><input type="checkbox" v-model="newFunctionalTest.ajusteCero"> Ajuste de cero</label>
+                            <label><input type="checkbox" v-model="newFunctionalTest.pruebaLazo"> Prueba de Lazo</label>
+                            <label><input type="checkbox" v-model="newFunctionalTest.pruebaAlarma"> Prueba Alarma</label>
+                            <label><input type="checkbox" v-model="newFunctionalTest.pruebaDesconexion"> Prueba Desconexion</label>
+                            <label><input type="checkbox" v-model="newFunctionalTest.limitesSaturacion"> Limites de Saturacion</label>
+                            <label><input type="checkbox" v-model="newFunctionalTest.pruebaSensorDesconectado"> Prueba Sensor desconectado</label>
+                        </div>
+                        <div class="form-group">
+                            <label for="observaciones">Observaciones</label>
+                            <textarea id="observaciones" v-model="newFunctionalTest.observaciones"></textarea>
+                        </div>
+                        <button type="submit">Guardar</button>
+                    </form>
+                </div>
+            </div>
+
+            <div v-if="showEditProjectModal" class="modal">
+                <div class="modal-content">
+                    <span class="close" @click="closeEditProjectModal">&times;</span>
+                    <h2>Editar Proyecto</h2>
+                    <form @submit.prevent="updateProject">
+                        <div class="form-group">
+                            <label for="editProjectName">Nombre del Proyecto</label>
+                            <input type="text" id="editProjectName" v-model="editedProjectName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editProjectDescription">Descripción del Proyecto</label>
+                            <textarea id="editProjectDescription" v-model="editedProjectDescription"></textarea>
+                        </div>
+                        <button type="submit">Guardar Cambios</button>
+                    </form>
+                </div>
+            </div>
 
             <main v-if="currentView === 'preservationPlan'">
                 <button @click="currentView = 'dashboard'" class="btn-secondary" style="margin-bottom: 1rem; width: auto; padding: 0.5rem 1rem;">Volver al Dashboard</button>
@@ -151,14 +235,20 @@
                 </div>
 
                 <div class="summary" style="margin-bottom: 1rem;">
-                    <p>Faltantes Tipo A: {{ summaryCounts.totalA }} (Abiertos: {{ summaryCounts.openA }})</p>
-                    <p>Faltantes Tipo B: {{ summaryCounts.totalB }} (Abiertos: {{ summaryCounts.openB }})</p>
+                    <p>Faltantes Tipo A: {{ summaryCounts.totalA }} (Abiertos: {{ summaryCounts.openA }}, Cerrados: {{ summaryCounts.closedA }})</p>
+                    <p>Faltantes Tipo B: {{ summaryCounts.totalB }} (Abiertos: {{ summaryCounts.openB }}, Cerrados: {{ summaryCounts.closedB }})</p>
                 </div>
 
                 <table class="missing-items-table">
                     <thead>
                         <tr>
-                            <th>Equipo</th>
+                            <th @click="sortMissingItems('equipment')">
+                                Equipo
+                                <span v-if="missingItemsSortColumn === 'equipment'">
+                                    <span v-if="missingItemsSortOrder === 'asc'">▲</span>
+                                    <span v-else>▼</span>
+                                </span>
+                            </th>
                             <th>Descripción</th>
                             <th>Tipo</th>
                             <th>Fecha Cierre</th>
@@ -195,7 +285,8 @@
                 <div class="engineering-section">
                     <h3>Instrumentos Comisionables</h3>
                     <div style="margin-bottom: 1rem;">
-                        <button @click="$refs.instrumentsFileInput.click()" class="btn-secondary">Cargar</button>
+                        <button @click="$refs.instrumentsFileInput.click()" class="btn-secondary">Cargar desde Excel</button>
+                        <button @click="openEditEngineeringDataModal('instruments', engineeringData.instruments)" class="btn-secondary">Editar Información</button>
                         <p style="font-size: 0.8rem; color: var(--secondary-color); margin-top: 0.5rem;">
                             El archivo de Excel debe contener las siguientes columnas: Instrumento, Rango, Alarmas, Interlocks
                         </p>
@@ -224,9 +315,10 @@
                 <div class="engineering-section">
                     <h3>Interlocks</h3>
                     <div style="margin-bottom: 1rem;">
-                        <button @click="$refs.interlocksFileInput.click()" class="btn-secondary">Cargar</button>
+                        <button @click="$refs.interlocksFileInput.click()" class="btn-secondary">Cargar desde Excel</button>
+                        <button @click="openEditEngineeringDataModal('interlocks', engineeringData.interlocks)" class="btn-secondary">Editar Información</button>
                         <p style="font-size: 0.8rem; color: var(--secondary-color); margin-top: 0.5rem;">
-                            El archivo de Excel debe contener las siguientes columnas: Interlock, Descripcion
+                            El archivo de Excel debe contener las siguientes columnas: Interlock, Causa, Efecto
                         </p>
                     </div>
                     <input type="file" @change="uploadEngineeringData('interlocks', $event)" ref="interlocksFileInput" style="display: none;" accept=".xls,.xlsx">
@@ -234,13 +326,15 @@
                         <thead>
                             <tr>
                                 <th>Interlock</th>
-                                <th>Descripción</th>
+                                <th>Causa</th>
+                                <th>Efecto</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr v-for="interlock in engineeringData.interlocks" :key="interlock.id">
                                 <td>{{ interlock.name }}</td>
-                                <td>{{ interlock.description }}</td>
+                                <td>{{ interlock.causa }}</td>
+                                <td>{{ interlock.efecto }}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -249,7 +343,8 @@
                 <div class="engineering-section">
                     <h3>Motores</h3>
                     <div style="margin-bottom: 1rem;">
-                        <button @click="$refs.motorsFileInput.click()" class="btn-secondary">Cargar</button>
+                        <button @click="$refs.motorsFileInput.click()" class="btn-secondary">Cargar desde Excel</button>
+                        <button @click="openEditEngineeringDataModal('motors', engineeringData.motors)" class="btn-secondary">Editar Información</button>
                         <p style="font-size: 0.8rem; color: var(--secondary-color); margin-top: 0.5rem;">
                             El archivo de Excel debe contener las siguientes columnas: Motor, Descripcion
                         </p>
@@ -274,7 +369,8 @@
                 <div class="engineering-section">
                     <h3>Lazos de Control</h3>
                     <div style="margin-bottom: 1rem;">
-                        <button @click="$refs.controlLoopsFileInput.click()" class="btn-secondary">Cargar</button>
+                        <button @click="$refs.controlLoopsFileInput.click()" class="btn-secondary">Cargar desde Excel</button>
+                        <button @click="openEditEngineeringDataModal('controlLoops', engineeringData.controlLoops)" class="btn-secondary">Editar Información</button>
                         <p style="font-size: 0.8rem; color: var(--secondary-color); margin-top: 0.5rem;">
                             El archivo de Excel debe contener las siguientes columnas: Lazo, Descripcion
                         </p>
@@ -296,6 +392,82 @@
                     </table>
                 </div>
             </main>
+
+            <div v-if="showEditEngineeringDataModal" class="modal">
+                <div class="modal-content">
+                    <span class="close" @click="closeEditEngineeringDataModal">&times;</span>
+                    <h2>{{ editModalTitle }}</h2>
+                    <form @submit.prevent="updateEngineeringData">
+                        <div class="form-group">
+                            <label>Seleccionar Item</label>
+                            <select v-model="selectedItemId" @change="loadDataForEditing">
+                                <option disabled value="">-- Seleccione un item --</option>
+                                <option v-for="item in editingDataArray" :key="item.id" :value="item.id">
+                                    {{ item.name }}
+                                </option>
+                            </select>
+                        </div>
+
+                        <div v-if="selectedItemId">
+                            <!-- Dynamic fields based on editingDataType -->
+                            <template v-if="editingDataType === 'instruments'">
+                                <div class="form-group">
+                                    <label for="edit-instrument-name">Instrumento</label>
+                                    <input type="text" id="edit-instrument-name" v-model="editedData.name">
+                                </div>
+                                <div class="form-group">
+                                    <label for="edit-instrument-range">Rango</label>
+                                    <input type="text" id="edit-instrument-range" v-model="editedData.range">
+                                </div>
+                                <div class="form-group">
+                                    <label for="edit-instrument-alarms">Alarmas</label>
+                                    <input type="text" id="edit-instrument-alarms" v-model="editedData.alarms">
+                                </div>
+                                <div class="form-group">
+                                    <label for="edit-instrument-interlocks">Interlocks</label>
+                                    <input type="text" id="edit-instrument-interlocks" v-model="editedData.interlocks">
+                                </div>
+                            </template>
+                            <template v-if="editingDataType === 'interlocks'">
+                                <div class="form-group">
+                                    <label for="edit-interlock-name">Interlock</label>
+                                    <input type="text" id="edit-interlock-name" v-model="editedData.name">
+                                </div>
+                                <div class="form-group">
+                                    <label for="edit-interlock-causa">Causa</label>
+                                    <input type="text" id="edit-interlock-causa" v-model="editedData.causa">
+                                </div>
+                                <div class="form-group">
+                                    <label for="edit-interlock-efecto">Efecto</label>
+                                    <input type="text" id="edit-interlock-efecto" v-model="editedData.efecto">
+                                </div>
+                            </template>
+                            <template v-if="editingDataType === 'motors'">
+                                <div class="form-group">
+                                    <label for="edit-motor-name">Motor</label>
+                                    <input type="text" id="edit-motor-name" v-model="editedData.name">
+                                </div>
+                                <div class="form-group">
+                                    <label for="edit-motor-description">Descripción</label>
+                                    <input type="text" id="edit-motor-description" v-model="editedData.description">
+                                </div>
+                            </template>
+                            <template v-if="editingDataType === 'controlLoops'">
+                                <div class="form-group">
+                                    <label for="edit-loop-name">Lazo</label>
+                                    <input type="text" id="edit-loop-name" v-model="editedData.name">
+                                </div>
+                                <div class="form-group">
+                                    <label for="edit-loop-description">Descripción</label>
+                                    <input type="text" id="edit-loop-description" v-model="editedData.description">
+                                </div>
+                            </template>
+                        </div>
+
+                        <button type="submit" :disabled="!selectedItemId">Guardar Cambios</button>
+                    </form>
+                </div>
+            </div>
         </section>
 
         <section v-else>
@@ -361,6 +533,7 @@
                         projects: [],
                         selectedProject: '',
                         newProjectName: '',
+                        newProjectDescription: '',
                         newMissingItem: {
                             equipment: '',
                             description: '',
@@ -369,11 +542,38 @@
                         },
                         missingItems: [],
                         missingItemsFilter: 'All',
+                        missingItemsSortColumn: 'equipment',
+                        missingItemsSortOrder: 'asc',
                         engineeringData: {
                             instruments: [],
                             interlocks: [],
                             motors: [],
                             controlLoops: []
+                        },
+                        instrumentFilter: '',
+                        showFunctionalTestModal: false,
+                        selectedInstrument: null,
+                        showEditProjectModal: false,
+                        editingProject: null,
+                        editedProjectName: '',
+                        editedProjectDescription: '',
+                        showEditEngineeringDataModal: false,
+                        editingDataType: null,
+                        editingDataArray: [],
+                        selectedItemId: '',
+                        editedData: {},
+                        functionalTests: [],
+                        newFunctionalTest: {
+                            marca: '',
+                            modelo: '',
+                            serial: '',
+                            ajusteCero: false,
+                            pruebaLazo: false,
+                            pruebaAlarma: false,
+                            pruebaDesconexion: false,
+                            limitesSaturacion: false,
+                            pruebaSensorDesconectado: false,
+                            observaciones: ''
                         }
                     }
                 },
@@ -382,18 +582,54 @@
                         if (!this.selectedProject) return null;
                         return this.projects.find(p => p.id === this.selectedProject);
                     },
+                    sortedMissingItems() {
+                        return [...this.missingItems].sort((a, b) => {
+                            const col = this.missingItemsSortColumn;
+                            const order = this.missingItemsSortOrder === 'asc' ? 1 : -1;
+                            
+                            const valA = a[col] ? a[col].toLowerCase() : '';
+                            const valB = b[col] ? b[col].toLowerCase() : '';
+
+                            if (valA < valB) return -1 * order;
+                            if (valA > valB) return 1 * order;
+                            return 0;
+                        });
+                    },
                     filteredMissingItems() {
+                        const itemsToFilter = this.sortedMissingItems;
+
                         if (this.missingItemsFilter === 'All') {
-                            return this.missingItems;
+                            return itemsToFilter;
                         }
-                        return this.missingItems.filter(item => item.type === `Tipo ${this.missingItemsFilter}`);
+                        const filter = `Tipo ${this.missingItemsFilter}`;
+                        return itemsToFilter.filter(item => item.type === filter);
                     },
                     summaryCounts() {
                         const totalA = this.missingItems.filter(item => item.type === 'Tipo A').length;
                         const openA = this.missingItems.filter(item => item.type === 'Tipo A' && item.status === 'Abierto').length;
+                        const closedA = totalA - openA;
                         const totalB = this.missingItems.filter(item => item.type === 'Tipo B').length;
                         const openB = this.missingItems.filter(item => item.type === 'Tipo B' && item.status === 'Abierto').length;
-                        return { totalA, openA, totalB, openB };
+                        const closedB = totalB - openB;
+                        return { totalA, openA, closedA, totalB, openB, closedB };
+                    },
+                    filteredInstruments() {
+                        if (!this.instrumentFilter) {
+                            return this.engineeringData.instruments;
+                        }
+                        return this.engineeringData.instruments.filter(instrument => {
+                            return instrument.name.toLowerCase().includes(this.instrumentFilter.toLowerCase());
+                        });
+                    },
+                    editModalTitle() {
+                        if (!this.editingDataType) return '';
+                        const titles = {
+                            instruments: 'Instrumentos Comisionables',
+                            interlocks: 'Interlocks',
+                            motors: 'Motores',
+                            controlLoops: 'Lazos de Control'
+                        };
+                        return `Editar ${titles[this.editingDataType]}`;
                     }
                 },
                 watch: {
@@ -404,9 +640,116 @@
                         if (newView === 'engineeringData') {
                             this.loadEngineeringData();
                         }
+                        if (newView === 'functionalTests') {
+                            this.loadFunctionalTests();
+                        }
                     }
                 },
                 methods: {
+                    getFunctionalTestProgress(instrumentId) {
+                        const test = this.functionalTests.find(t => t.instrumentId === instrumentId);
+                        if (!test) {
+                            return '0%';
+                        }
+
+                        // For backwards compatibility, calculate from fields if not stored
+                        if (test.completedFields === undefined || test.totalFields === undefined) {
+                            const fields = [
+                                test.marca, test.modelo, test.serial,
+                                test.ajusteCero, test.pruebaLazo, test.pruebaAlarma,
+                                test.pruebaDesconexion, test.limitesSaturacion,
+                                test.pruebaSensorDesconectado, test.observaciones
+                            ];
+                            const totalFields = 10; // Hardcoded for now
+                            let completedFields = 0;
+                            fields.forEach(field => {
+                                if (typeof field === 'boolean' && field) {
+                                    completedFields++;
+                                } else if (typeof field === 'string' && field.trim() !== '') {
+                                    completedFields++;
+                                }
+                            });
+                            const percentage = (completedFields / totalFields) * 100;
+                            return `${Math.round(percentage)}%`;
+                        }
+
+                        const percentage = (test.completedFields / test.totalFields) * 100;
+                        return `${Math.round(percentage)}%`;
+                    },
+                    openFunctionalTestModal(instrument) {
+                        this.selectedInstrument = instrument;
+                        const test = this.functionalTests.find(t => t.instrumentId === instrument.id);
+                        if (test) {
+                            this.newFunctionalTest = { ...test };
+                        } else {
+                            this.newFunctionalTest = {
+                                marca: '',
+                                modelo: '',
+                                serial: '',
+                                ajusteCero: false,
+                                pruebaLazo: false,
+                                pruebaAlarma: false,
+                                pruebaDesconexion: false,
+                                limitesSaturacion: false,
+                                pruebaSensorDesconectado: false,
+                                observaciones: ''
+                            };
+                        }
+                        this.showFunctionalTestModal = true;
+                    },
+                    closeFunctionalTestModal() {
+                        this.showFunctionalTestModal = false;
+                        this.selectedInstrument = null;
+                    },
+                    saveFunctionalTest() {
+                        const testData = {
+                            ...this.newFunctionalTest,
+                            projectId: this.selectedProject,
+                            instrumentId: this.selectedInstrument.id
+                        };
+
+                        const totalFields = 10;
+                        let completedFields = 0;
+                        
+                        // Ensure all fields are at least defined
+                        const marca = testData.marca || "";
+                        const modelo = testData.modelo || "";
+                        const serial = testData.serial || "";
+                        const observaciones = testData.observaciones || "";
+
+                        if (marca.trim() !== '') completedFields++;
+                        if (modelo.trim() !== '') completedFields++;
+                        if (serial.trim() !== '') completedFields++;
+                        if (observaciones.trim() !== '') completedFields++;
+                        if (testData.ajusteCero) completedFields++;
+                        if (testData.pruebaLazo) completedFields++;
+                        if (testData.pruebaAlarma) completedFields++;
+                        if (testData.pruebaDesconexion) completedFields++;
+                        if (testData.limitesSaturacion) completedFields++;
+                        if (testData.pruebaSensorDesconectado) completedFields++;
+
+                        testData.completedFields = completedFields;
+                        testData.totalFields = totalFields;
+
+                        guardarPruebaFuncional(testData, (error) => {
+                            if (error) {
+                                console.error('Error saving functional test:', error);
+                                alert('Error al guardar la prueba funcional.');
+                            } else {
+                                console.log('Functional test saved successfully');
+                                this.closeFunctionalTestModal();
+                            }
+                        });
+                    },
+                    loadFunctionalTests() {
+                        leerDatos('pruebasFuncionales', this.selectedProject, (error, data) => {
+                            if (error) {
+                                console.error('Error loading functional tests:', error);
+                            } else {
+                                this.functionalTests = data;
+                            }
+                        });
+                    },
                     loadEngineeringData() {
                         leerDatos('instruments', this.selectedProject, (error, data) => {
                             if (error) {
@@ -433,12 +776,24 @@
                             if (error) {
                                 console.error('Error loading control loops:', error);
                             } else {
-                                this.engineeringData.controlLoops = data;
+                                this.engineeringData.controlLoops = data.map(loop => ({
+                                    ...loop,
+                                    name: loop.name || loop.Lazo,
+                                    description: loop.description || loop.Descripcion
+                                }));
                             }
                         });
                     },
                     setMissingItemsFilter(type) {
                         this.missingItemsFilter = type;
+                    },
+                    sortMissingItems(column) {
+                        if (this.missingItemsSortColumn === column) {
+                            this.missingItemsSortOrder = this.missingItemsSortOrder === 'asc' ? 'desc' : 'asc';
+                        } else {
+                            this.missingItemsSortColumn = column;
+                            this.missingItemsSortOrder = 'asc';
+                        }
                     },
                     loadMissingItems() {
                         leerFaltantes(this.selectedProject, (error, faltantes) => {
@@ -446,7 +801,21 @@
                                 console.error('Error loading missing items:', error);
                                 alert('Error al cargar los faltantes.');
                             } else {
-                                this.missingItems = faltantes;
+                                this.missingItems = faltantes.map(item => {
+                                    let normalizedType = '';
+                                    if (item.type) {
+                                        const typeStr = item.type.trim().toLowerCase();
+                                        if (typeStr === 'a' || typeStr === 'tipo a') {
+                                            normalizedType = 'Tipo A';
+                                        } else if (typeStr === 'b' || typeStr === 'tipo b') {
+                                            normalizedType = 'Tipo B';
+                                        }
+                                    }
+                                    return {
+                                        ...item,
+                                        type: normalizedType
+                                    };
+                                });
                             }
                         });
                     },
@@ -482,7 +851,7 @@
                                     createdAt: firebase.firestore.FieldValue.serverTimestamp()
                                 }));
 
-                                batchSave('faltantes', faltantes, (error) => {
+                                batchSave('faltantes', faltantes, this.selectedProject, (error) => {
                                     if (error) {
                                         console.error('Error saving batch:', error);
                                         alert('Error al cargar los faltantes.');
@@ -508,39 +877,30 @@
                                 let documents;
                                 if (dataType === 'controlLoops') {
                                     documents = json.map(row => ({
-                                        name: row.Lazo, // Map 'Lazo' column to 'name'
-                                        description: row.Descripcion, // Map 'Descripcion' column to 'description'
-                                        projectId: this.selectedProject,
-                                        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                                        name: row.Lazo || '', // Map 'Lazo' column to 'name'
+                                        description: row.Descripcion || '', // Map 'Descripcion' column to 'description'
                                     }));
                                 } else if (dataType === 'instruments') {
                                     documents = json.map(row => ({
-                                        name: row.Instrumento,
-                                        range: row.Rango,
-                                        alarms: row.Alarmas,
-                                        interlocks: row.Interlocks,
-                                        projectId: this.selectedProject,
-                                        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                                        name: row.Instrumento || '',
+                                        range: row.Rango || '',
+                                        alarms: row.Alarmas || '',
+                                        interlocks: row.Interlocks || '',
                                     }));
                                 } else if (dataType === 'interlocks') {
                                     documents = json.map(row => ({
-                                        name: row.Interlock,
-                                        description: row.Descripcion,
-                                        projectId: this.selectedProject,
-                                        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                                        name: row.Interlock || '',
+                                        causa: row.Causa || '',
+                                        efecto: row.Efecto || ''
                                     }));
                                 } else if (dataType === 'motors') {
                                     documents = json.map(row => ({
-                                        name: row.Motor,
-                                        description: row.Descripcion,
-                                        projectId: this.selectedProject,
-                                        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                                        name: row.Motor || '',
+                                        description: row.Descripcion || '',
                                     }));
                                 } else {
                                     documents = json.map(row => ({
                                         ...row,
-                                        projectId: this.selectedProject,
-                                        createdAt: firebase.firestore.FieldValue.serverTimestamp()
                                     }));
                                 }
 
@@ -607,11 +967,12 @@
                         cerrarSesion();
                     },
                     createProject() {
-                        crearProyecto(this.newProjectName, (error, projectId) => {
+                        crearProyecto(this.newProjectName, this.newProjectDescription, (error, projectId) => {
                             if (error) {
                                 console.error('Error creating project:', error);
                             } else {
                                 this.newProjectName = '';
+                                this.newProjectDescription = '';
                                 this.loadProjects();
                                 this.currentView = 'projectSelection';
                             }
@@ -624,6 +985,71 @@
                             } else {
                                 console.log('Projects loaded:', projects);
                                 this.projects = projects;
+                            }
+                        });
+                    },
+                    openEditProjectModal(project) {
+                        if (!project) return;
+                        this.editingProject = project;
+                        this.editedProjectName = project.nombre;
+                        this.editedProjectDescription = project.description || '';
+                        this.showEditProjectModal = true;
+                    },
+                    closeEditProjectModal() {
+                        this.showEditProjectModal = false;
+                        this.editingProject = null;
+                        this.editedProjectName = '';
+                        this.editedProjectDescription = '';
+                    },
+                    updateProject() {
+                        if (!this.editingProject) return;
+                        const updatedData = {
+                            nombre: this.editedProjectName,
+                            description: this.editedProjectDescription
+                        };
+                        actualizarProyecto(this.editingProject.id, updatedData, (error) => {
+                            if (error) {
+                                console.error('Error updating project:', error);
+                                alert('Error al actualizar el proyecto.');
+                            } else {
+                                console.log('Project updated successfully');
+                                this.closeEditProjectModal();
+                                this.loadProjects(); // Reload projects to reflect changes
+                            }
+                        });
+                    },
+                    openEditEngineeringDataModal(type, data) {
+                        this.editingDataType = type;
+                        this.editingDataArray = data;
+                        this.showEditEngineeringDataModal = true;
+                    },
+                    closeEditEngineeringDataModal() {
+                        this.showEditEngineeringDataModal = false;
+                        this.editingDataType = null;
+                        this.editingDataArray = [];
+                        this.selectedItemId = '';
+                        this.editedData = {};
+                    },
+                    loadDataForEditing() {
+                        if (!this.selectedItemId) {
+                            this.editedData = {};
+                            return;
+                        }
+                        const item = this.editingDataArray.find(i => i.id === this.selectedItemId);
+                        if (item) {
+                            this.editedData = { ...item };
+                        }
+                    },
+                    updateEngineeringData() {
+                        if (!this.selectedItemId || !this.editingDataType) return;
+                        actualizarDatoIngenieria(this.editingDataType, this.selectedItemId, this.editedData, (error) => {
+                            if (error) {
+                                console.error('Error updating engineering data:', error);
+                                alert('Error al actualizar los datos de ingeniería.');
+                            } else {
+                                console.log('Engineering data updated successfully');
+                                this.closeEditEngineeringDataModal();
+                                this.loadEngineeringData(); // Reload data
                             }
                         });
                     }
