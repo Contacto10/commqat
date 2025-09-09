@@ -21,11 +21,24 @@ const auth = firebase.auth();
 const db = firebase.firestore();
 
 // Función para registrar un nuevo usuario
-function registrar(email, password, callback) {
+function registrar(email, password, fullName, callback) {
   auth.createUserWithEmailAndPassword(email, password)
     .then((userCredential) => {
       console.log('Usuario registrado con éxito:', userCredential.user);
-      callback(null);
+      // Crear un documento en la colección 'users'
+      const userRef = db.collection('users').doc(userCredential.user.uid);
+      userRef.set({
+        email: email,
+        fullName: fullName,
+        level: email === 'contacto10@gmail.com' ? 'admin' : 'normal'
+      })
+      .then(() => {
+        callback(null);
+      })
+      .catch((error) => {
+        console.error('Error al guardar datos de usuario:', error);
+        callback(error.message);
+      });
     })
     .catch((error) => {
       console.error('Error en el registro:', error.message);
@@ -214,6 +227,36 @@ function batchSave(collectionName, documents, projectId, callback) {
       console.error('Error al guardar el lote:', error);
       callback(error);
     });
+}
+
+async function batchUpsertInstruments(collectionName, documents, projectId, callback) {
+  const promises = documents.map(async (doc) => {
+    const query = db.collection(collectionName)
+      .where('projectId', '==', projectId)
+      .where('name', '==', doc.name);
+    
+    const querySnapshot = await query.get();
+    
+    if (querySnapshot.empty) {
+      // No existing document, create a new one
+      const docRef = db.collection(collectionName).doc();
+      return docRef.set({ ...doc, projectId: projectId });
+    } else {
+      // Existing document(s) found, update the first one
+      const existingDocId = querySnapshot.docs[0].id;
+      const docRef = db.collection(collectionName).doc(existingDocId);
+      return docRef.update(doc);
+    }
+  });
+
+  try {
+    await Promise.all(promises);
+    console.log('Lote de instrumentos guardado/actualizado con éxito.');
+    callback(null);
+  } catch (error) {
+    console.error('Error al guardar/actualizar el lote de instrumentos:', error);
+    callback(error);
+  }
 }
 
 function guardarPruebaFuncional(testData, callback) {

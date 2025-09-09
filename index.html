@@ -54,6 +54,13 @@
                     <button @click="currentView = 'engineeringData'" class="btn-secondary" style="width: auto; padding: 0.5rem 1rem;">Datos de Ingenieria</button>
                 </div>
                 <div class="dashboard-card">
+                    <h2>Gestión HSE</h2>
+                    <p>Gestión de permisos de trabajo.</p>
+                    <div class="card-buttons">
+                        <button class="btn-secondary" @click="currentView = 'workPermits'">Permisos de Trabajo</button>
+                    </div>
+                </div>
+                <div class="dashboard-card">
                     <h2>Preservación</h2>
                     <p>Gestión de la preservación de equipos y materiales.</p>
                     <div class="card-buttons">
@@ -76,20 +83,19 @@
                         <button class="btn-secondary" @click="currentView = 'functionalTests'">Gestion de Pruebas</button>
                     </div>
                 </div>
-                <div class="dashboard-card">
-                    <h2>Gestión HSE</h2>
-                    <p>Gestión de permisos de trabajo.</p>
-                    <div class="card-buttons">
-                        <button class="btn-secondary" @click="currentView = 'workPermits'">Permisos de Trabajo</button>
-                    </div>
-                </div>
             </main>
 
             <main v-if="currentView === 'functionalTests'">
                 <button @click="currentView = 'dashboard'" class="btn-secondary" style="margin-bottom: 1rem; width: auto; padding: 0.5rem 1rem;">Volver al Dashboard</button>
                 <h2>Gestión de Pruebas Funcionales</h2>
                 <input type="text" v-model="instrumentFilter" placeholder="Filtrar instrumentos..." style="margin-bottom: 1rem; width: 100%; padding: 0.5rem;">
-                <table class="missing-items-table">
+                
+                <p style="margin-bottom: 1rem;">
+                    Mostrando {{ incompleteInstruments.length }} instrumentos pendientes y {{ completedInstruments.length }} completados.
+                </p>
+
+                <div class="responsive-table">
+                    <table class="missing-items-table">
                     <thead>
                         <tr>
                             <th>Instrumento</th>
@@ -98,7 +104,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="instrument in filteredInstruments" :key="instrument.id">
+                        <tr v-for="instrument in incompleteInstruments" :key="instrument.id">
                             <td>{{ instrument.name }}</td>
                             <td>{{ getFunctionalTestProgress(instrument.id) }}</td>
                             <td>
@@ -107,6 +113,29 @@
                         </tr>
                     </tbody>
                 </table>
+                </div>
+                
+                <h3 style="margin-top: 2rem; margin-bottom: 1rem;">Pruebas Completadas</h3>
+                <div class="responsive-table">
+                    <table class="missing-items-table">
+                        <thead>
+                            <tr>
+                                <th>Instrumento</th>
+                                <th>Estado</th>
+                                <th>Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="instrument in completedInstruments" :key="instrument.id">
+                                <td>{{ instrument.name }}</td>
+                                <td>{{ getFunctionalTestProgress(instrument.id) }}</td>
+                                <td>
+                                    <button @click="openFunctionalTestModal(instrument)" class="btn-secondary">Ver/Editar</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </main>
 
             <div v-if="showFunctionalTestModal" class="modal">
@@ -402,8 +431,8 @@
                             <label>Seleccionar Item</label>
                             <select v-model="selectedItemId" @change="loadDataForEditing">
                                 <option disabled value="">-- Seleccione un item --</option>
-                                <option v-for="item in editingDataArray" :key="item.id" :value="item.id">
-                                    {{ item.name }}
+                                <option v-for="item in sortedEditingDataArray" :key="item.id" :value="item.id">
+                                    {{ item.name || item.equipment || item.descripcion || item.serial || item.modelo || item.marca || item.id }}
                                 </option>
                             </select>
                         </div>
@@ -494,6 +523,10 @@
                 <h2>Registrarse</h2>
                 <form @submit.prevent="handleRegister">
                     <div class="form-group">
+                        <label for="register-name">Nombre y Apellido</label>
+                        <input type="text" id="register-name" v-model="fullName" required>
+                    </div>
+                    <div class="form-group">
                         <label for="register-email">Correo Electrónico</label>
                         <input type="email" id="register-email" v-model="email" required autocomplete="email">
                     </div>
@@ -524,6 +557,7 @@
                     return {
                         email: '',
                         password: '',
+                        fullName: '',
                         showLogin: true,
                         user: null,
                         showPassword: false,
@@ -621,6 +655,12 @@
                             return instrument.name.toLowerCase().includes(this.instrumentFilter.toLowerCase());
                         });
                     },
+                    incompleteInstruments() {
+                        return this.filteredInstruments.filter(instrument => this.getFunctionalTestProgress(instrument.id) !== '100%');
+                    },
+                    completedInstruments() {
+                        return this.filteredInstruments.filter(instrument => this.getFunctionalTestProgress(instrument.id) === '100%');
+                    },
                     editModalTitle() {
                         if (!this.editingDataType) return '';
                         const titles = {
@@ -630,7 +670,15 @@
                             controlLoops: 'Lazos de Control'
                         };
                         return `Editar ${titles[this.editingDataType]}`;
-                    }
+                    },
+                    sortedEditingDataArray() {
+                        if (!this.editingDataArray || !Array.isArray(this.editingDataArray)) return [];
+                        // Ordena por el campo 'name', si existe, si no por otros posibles campos
+                        return [...this.editingDataArray].sort((a, b) => {
+                            const getSortValue = (item) => item.name || item.equipment || item.descripcion || item.serial || item.modelo || item.marca || item.id || '';
+                            return getSortValue(a).localeCompare(getSortValue(b), 'es', { sensitivity: 'base' });
+                        });
+                    },
                 },
                 watch: {
                     currentView(newView, oldView) {
@@ -641,6 +689,7 @@
                             this.loadEngineeringData();
                         }
                         if (newView === 'functionalTests') {
+                            this.loadEngineeringData();
                             this.loadFunctionalTests();
                         }
                     }
@@ -904,14 +953,25 @@
                                     }));
                                 }
 
-                                batchSave(dataType, documents, this.selectedProject, (error) => {
-                                    if (error) {
-                                        console.error(`Error saving batch for ${dataType}:`, error);
-                                        alert(`Error al cargar los datos de ${dataType}.`);
-                                    } else {
-                                        alert(`Cargue masivo de ${dataType} exitoso.`);
-                                    }
-                                });
+                                if (dataType === 'instruments') {
+                                    batchUpsertInstruments(dataType, documents, this.selectedProject, (error) => {
+                                        if (error) {
+                                            console.error(`Error saving batch for ${dataType}:`, error);
+                                            alert(`Error al cargar los datos de ${dataType}.`);
+                                        } else {
+                                            alert(`Cargue masivo de ${dataType} exitoso.`);
+                                        }
+                                    });
+                                } else {
+                                    batchSave(dataType, documents, this.selectedProject, (error) => {
+                                        if (error) {
+                                            console.error(`Error saving batch for ${dataType}:`, error);
+                                            alert(`Error al cargar los datos de ${dataType}.`);
+                                        } else {
+                                            alert(`Cargue masivo de ${dataType} exitoso.`);
+                                        }
+                                    });
+                                }
                             };
                             reader.readAsArrayBuffer(file);
                         }
@@ -953,7 +1013,7 @@
                     },
                     
                     handleRegister() {
-                        registrar(this.email, this.password, (error) => {
+                        registrar(this.email, this.password, this.fullName, (error) => {
                             if (error) {
                                 console.error('Error en el registro:', error);
                                 alert('Error en el registro: ' + error);

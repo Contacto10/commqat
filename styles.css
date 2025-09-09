@@ -1,3 +1,11 @@
+/* Responsive table for mobile scroll */
+.responsive-table {
+    width: 100%;
+    overflow-x: auto;
+}
+.missing-items-table {
+    min-width: 600px;
+}
 :root {
     --bg-color: #202124;
     --surface-color: #303134;
@@ -214,4 +222,14 @@ button:hover {
 .filter-buttons button {
     width: auto;
     margin-right: 0.5rem;
+}
+
+@media (max-width: 768px) {
+    .project-selector {
+        flex-direction: column;
+    }
+
+    .project-selector button {
+        width: 100%;
+    }
 }
