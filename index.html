@@ -51,7 +51,7 @@
             <main v-if="currentView === 'dashboard'" class="dashboard">
                 <div style="display: flex; flex-direction: column; gap: 1rem;">
                     <button @click="currentView = 'projectSelection'" class="btn-secondary" style="width: auto; padding: 0.5rem 1rem;">Volver a Proyectos</button>
-                    <button @click="currentView = 'engineeringData'" class="btn-secondary" style="width: auto; padding: 0.5rem 1rem;">Datos de Ingenieria</button>
+                    <button @click="goToEngineeringData" :disabled="!selectedProject" class="btn-secondary" style="width: auto; padding: 0.5rem 1rem;">Datos de Ingenieria</button>
                 </div>
                 <div class="dashboard-card">
                     <h2>Gestión HSE</h2>
@@ -211,7 +211,29 @@
             <main v-if="currentView === 'workPermits'">
                 <button @click="currentView = 'dashboard'" class="btn-secondary" style="margin-bottom: 1rem; width: auto; padding: 0.5rem 1rem;">Volver al Dashboard</button>
                 <h2>Permisos de Trabajo</h2>
+                <button @click="showWorkPermitForm = true" class="btn-secondary" style="margin-bottom: 1rem; width: auto; padding: 0.5rem 1rem;">Cargar Permiso</button>
                 <div class="iframe-container">
+                </div>
+                <div v-if="showWorkPermitForm" class="modal">
+                    <div class="modal-content">
+                        <span class="close" @click="showWorkPermitForm = false">&times;</span>
+                        <h3>Cargar Permiso de Trabajo</h3>
+                        <form @submit.prevent="submitWorkPermit">
+                            <div class="form-group"><label>#</label><input type="text" v-model="newWorkPermit.numero" required></div>
+                            <div class="form-group"><label>Fecha de Solicitud</label><input type="date" v-model="newWorkPermit.fechaSolicitud" required></div>
+                            <div class="form-group"><label>Fecha de Inicio</label><input type="date" v-model="newWorkPermit.fechaInicio" required></div>
+                            <div class="form-group"><label>Fecha de Finalización</label><input type="date" v-model="newWorkPermit.fechaFin" required></div>
+                            <div class="form-group"><label>Tipo de Permiso</label><input type="text" v-model="newWorkPermit.tipoPermiso" required></div>
+                            <div class="form-group"><label>Área</label><input type="text" v-model="newWorkPermit.area" required></div>
+                            <div class="form-group"><label>Empresa ejecutora</label><input type="text" v-model="newWorkPermit.empresaEjecutora" required></div>
+                            <div class="form-group"><label>Especialidad</label><input type="text" v-model="newWorkPermit.especialidad" required></div>
+                            <div class="form-group"><label>Descripción</label><textarea v-model="newWorkPermit.descripcion" required></textarea></div>
+                            <div class="form-group"><label>Estado</label><input type="text" v-model="newWorkPermit.estado" required></div>
+                            <div class="form-group"><label>Sub-estado</label><input type="text" v-model="newWorkPermit.subestado" required></div>
+                            <div class="form-group"><label>Valoración del Riesgo</label><input type="text" v-model="newWorkPermit.valoracionRiesgo" required></div>
+                            <button type="submit">Guardar Permiso</button>
+                        </form>
+                    </div>
                 </div>
             </main>
 
@@ -268,7 +290,8 @@
                     <p>Faltantes Tipo B: {{ summaryCounts.totalB }} (Abiertos: {{ summaryCounts.openB }}, Cerrados: {{ summaryCounts.closedB }})</p>
                 </div>
 
-                <table class="missing-items-table">
+                <div class="responsive-table">
+                    <table class="missing-items-table">
                     <thead>
                         <tr>
                             <th @click="sortMissingItems('equipment')">
@@ -299,12 +322,14 @@
                             </td>
                         </tr>
                     </tbody>
-                </table>
+                    </table>
+                </div>
             </main>
 
             <main v-if="currentView === 'engineeringData'">
                 <button @click="currentView = 'dashboard'" class="btn-secondary" style="margin-bottom: 1rem; width: auto; padding: 0.5rem 1rem;">Volver al Dashboard</button>
                 <h2>Datos de Ingeniería</h2>
+                <p>Engineering Data section is rendered.</p>
 
                 <div class="engineering-section">
                     <h3>Descripción del Proyecto</h3>
@@ -324,14 +349,20 @@
                     <table class="missing-items-table">
                         <thead>
                             <tr>
-                                <th>Instrumento</th>
+                                <th @click="sortEngineering('instruments', 'name')" style="cursor:pointer;">
+                                    Instrumento
+                                    <span v-if="engineeringSort.type === 'instruments' && engineeringSort.field === 'name'">
+                                        <span v-if="engineeringSort.order === 'asc'">▲</span>
+                                        <span v-else>▼</span>
+                                    </span>
+                                </th>
                                 <th>Rango</th>
                                 <th>Alarmas</th>
                                 <th>Interlocks</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="instrument in engineeringData.instruments" :key="instrument.id">
+                            <tr v-for="instrument in sortedEngineeringInstruments" :key="instrument.id">
                                 <td>{{ instrument.name }}</td>
                                 <td>{{ instrument.range }}</td>
                                 <td>{{ instrument.alarms }}</td>
@@ -354,13 +385,19 @@
                     <table class="missing-items-table">
                         <thead>
                             <tr>
-                                <th>Interlock</th>
+                                <th @click="sortEngineering('interlocks', 'name')" style="cursor:pointer;">
+                                    Interlock
+                                    <span v-if="engineeringSort.type === 'interlocks' && engineeringSort.field === 'name'">
+                                        <span v-if="engineeringSort.order === 'asc'">▲</span>
+                                        <span v-else>▼</span>
+                                    </span>
+                                </th>
                                 <th>Causa</th>
                                 <th>Efecto</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="interlock in engineeringData.interlocks" :key="interlock.id">
+                            <tr v-for="interlock in sortedEngineeringInterlocks" :key="interlock.id">
                                 <td>{{ interlock.name }}</td>
                                 <td>{{ interlock.causa }}</td>
                                 <td>{{ interlock.efecto }}</td>
@@ -382,12 +419,18 @@
                     <table class="missing-items-table">
                         <thead>
                             <tr>
-                                <th>Motor</th>
+                                <th @click="sortEngineering('motors', 'name')" style="cursor:pointer;">
+                                    Motor
+                                    <span v-if="engineeringSort.type === 'motors' && engineeringSort.field === 'name'">
+                                        <span v-if="engineeringSort.order === 'asc'">▲</span>
+                                        <span v-else>▼</span>
+                                    </span>
+                                </th>
                                 <th>Descripción</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="motor in engineeringData.motors" :key="motor.id">
+                            <tr v-for="motor in sortedEngineeringMotors" :key="motor.id">
                                 <td>{{ motor.name }}</td>
                                 <td>{{ motor.description }}</td>
                             </tr>
@@ -408,12 +451,18 @@
                     <table class="missing-items-table">
                         <thead>
                             <tr>
-                                <th>Lazo</th>
+                                <th @click="sortEngineering('controlLoops', 'name')" style="cursor:pointer;">
+                                    Lazo
+                                    <span v-if="engineeringSort.type === 'controlLoops' && engineeringSort.field === 'name'">
+                                        <span v-if="engineeringSort.order === 'asc'">▲</span>
+                                        <span v-else>▼</span>
+                                    </span>
+                                </th>
                                 <th>Descripción</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="loop in engineeringData.controlLoops" :key="loop.id">
+                            <tr v-for="loop in sortedEngineeringControlLoops" :key="loop.id">
                                 <td>{{ loop.name }}</td>
                                 <td>{{ loop.description }}</td>
                             </tr>
@@ -608,10 +657,59 @@
                             limitesSaturacion: false,
                             pruebaSensorDesconectado: false,
                             observaciones: ''
+                        },
+                        engineeringSort: {
+                            type: '',
+                            field: '',
+                            order: 'asc'
                         }
                     }
                 },
                 computed: {
+                    sortedEngineeringInstruments() {
+                        let arr = this.engineeringData.instruments || [];
+                        if (this.engineeringSort.type !== 'instruments' || this.engineeringSort.field !== 'name') return arr;
+                        return [...arr].sort((a, b) => {
+                            const valA = (a.name || '').toString().toLowerCase();
+                            const valB = (b.name || '').toString().toLowerCase();
+                            if (valA < valB) return this.engineeringSort.order === 'asc' ? -1 : 1;
+                            if (valA > valB) return this.engineeringSort.order === 'asc' ? 1 : -1;
+                            return 0;
+                        });
+                    },
+                    sortedEngineeringInterlocks() {
+                        let arr = this.engineeringData.interlocks || [];
+                        if (this.engineeringSort.type !== 'interlocks' || this.engineeringSort.field !== 'name') return arr;
+                        return [...arr].sort((a, b) => {
+                            const valA = (a.name || '').toString().toLowerCase();
+                            const valB = (b.name || '').toString().toLowerCase();
+                            if (valA < valB) return this.engineeringSort.order === 'asc' ? -1 : 1;
+                            if (valA > valB) return this.engineeringSort.order === 'asc' ? 1 : -1;
+                            return 0;
+                        });
+                    },
+                    sortedEngineeringMotors() {
+                        let arr = this.engineeringData.motors || [];
+                        if (this.engineeringSort.type !== 'motors' || this.engineeringSort.field !== 'name') return arr;
+                        return [...arr].sort((a, b) => {
+                            const valA = (a.name || '').toString().toLowerCase();
+                            const valB = (b.name || '').toString().toLowerCase();
+                            if (valA < valB) return this.engineeringSort.order === 'asc' ? -1 : 1;
+                            if (valA > valB) return this.engineeringSort.order === 'asc' ? 1 : -1;
+                            return 0;
+                        });
+                    },
+                    sortedEngineeringControlLoops() {
+                        let arr = this.engineeringData.controlLoops || [];
+                        if (this.engineeringSort.type !== 'controlLoops' || this.engineeringSort.field !== 'name') return arr;
+                        return [...arr].sort((a, b) => {
+                            const valA = (a.name || '').toString().toLowerCase();
+                            const valB = (b.name || '').toString().toLowerCase();
+                            if (valA < valB) return this.engineeringSort.order === 'asc' ? -1 : 1;
+                            if (valA > valB) return this.engineeringSort.order === 'asc' ? 1 : -1;
+                            return 0;
+                        });
+                    },
                     selectedProjectObject() {
                         if (!this.selectedProject) return null;
                         return this.projects.find(p => p.id === this.selectedProject);
@@ -682,10 +780,12 @@
                 },
                 watch: {
                     currentView(newView, oldView) {
+                        console.log(`currentView changed from ${oldView} to ${newView}`);
                         if (newView === 'missingItemsManagement') {
                             this.loadMissingItems();
                         }
                         if (newView === 'engineeringData') {
+                            console.log('Loading engineering data section.');
                             this.loadEngineeringData();
                         }
                         if (newView === 'functionalTests') {
@@ -695,6 +795,26 @@
                     }
                 },
                 methods: {
+                    goToEngineeringData() {
+                        if (!this.selectedProject) {
+                            alert('Por favor, seleccione un proyecto antes de ver los datos de ingeniería.');
+                            return;
+                        }
+                        this.currentView = 'engineeringData';
+                        this.$nextTick(() => {
+                            this.loadEngineeringData();
+                            this.$forceUpdate && this.$forceUpdate();
+                        });
+                    },
+                    sortEngineering(type, field) {
+                        if (this.engineeringSort.type === type && this.engineeringSort.field === field) {
+                            this.engineeringSort.order = this.engineeringSort.order === 'asc' ? 'desc' : 'asc';
+                        } else {
+                            this.engineeringSort.type = type;
+                            this.engineeringSort.field = field;
+                            this.engineeringSort.order = 'asc';
+                        }
+                    },
                     getFunctionalTestProgress(instrumentId) {
                         const test = this.functionalTests.find(t => t.instrumentId === instrumentId);
                         if (!test) {
@@ -794,7 +914,8 @@
                         leerDatos('pruebasFuncionales', this.selectedProject, (error, data) => {
                             if (error) {
                                 console.error('Error loading functional tests:', error);
-                            } else {
+                            }
+                            else {
                                 this.functionalTests = data;
                             }
                         });
@@ -803,28 +924,32 @@
                         leerDatos('instruments', this.selectedProject, (error, data) => {
                             if (error) {
                                 console.error('Error loading instruments:', error);
-                            } else {
+                            }
+                            else {
                                 this.engineeringData.instruments = data;
                             }
                         });
                         leerDatos('interlocks', this.selectedProject, (error, data) => {
                             if (error) {
                                 console.error('Error loading interlocks:', error);
-                            } else {
+                            }
+                            else {
                                 this.engineeringData.interlocks = data;
                             }
                         });
                         leerDatos('motors', this.selectedProject, (error, data) => {
                             if (error) {
                                 console.error('Error loading motors:', error);
-                            } else {
+                            }
+                            else {
                                 this.engineeringData.motors = data;
                             }
                         });
                         leerDatos('controlLoops', this.selectedProject, (error, data) => {
                             if (error) {
                                 console.error('Error loading control loops:', error);
-                            } else {
+                            }
+                            else {
                                 this.engineeringData.controlLoops = data.map(loop => ({
                                     ...loop,
                                     name: loop.name || loop.Lazo,
@@ -914,27 +1039,39 @@
                     },
                     uploadEngineeringData(dataType, event) {
                         const file = event.target.files[0];
-                        if (file) {
-                            const reader = new FileReader();
-                            reader.onload = (e) => {
-                                const data = new Uint8Array(e.target.result);
-                                const workbook = XLSX.read(data, { type: 'array' });
-                                const firstSheetName = workbook.SheetNames[0];
-                                const worksheet = workbook.Sheets[firstSheetName];
-                                const json = XLSX.utils.sheet_to_json(worksheet);
+                        if (!file) return;
 
+                        const reader = new FileReader();
+                        reader.onload = (e) => {
+                            const data = new Uint8Array(e.target.result);
+                            const workbook = XLSX.read(data, { type: 'array' });
+                            const firstSheetName = workbook.SheetNames[0];
+                            const worksheet = workbook.Sheets[firstSheetName];
+                            const json = XLSX.utils.sheet_to_json(worksheet);
+
+                            if (dataType === 'instruments') {
+                                const instruments = json.map(row => ({
+                                    name: row.Instrumento || '',
+                                    range: row.Rango || '',
+                                    alarms: row.Alarmas || '',
+                                    interlocks: row.Interlocks || '',
+                                }));
+                                // Call the existing upsert function
+                                batchUpsertInstruments(dataType, instruments, this.selectedProject, (error) => {
+                                    if (error) {
+                                        console.error(`Error upserting instruments:`, error);
+                                        alert(`Error al cargar los datos de instrumentos.`);
+                                    } else {
+                                        alert(`Cargue masivo de instrumentos exitoso. Los registros existentes fueron actualizados.`);
+                                    }
+                                });
+                            } else {
+                                // Keep original logic for other data types
                                 let documents;
                                 if (dataType === 'controlLoops') {
                                     documents = json.map(row => ({
-                                        name: row.Lazo || '', // Map 'Lazo' column to 'name'
-                                        description: row.Descripcion || '', // Map 'Descripcion' column to 'description'
-                                    }));
-                                } else if (dataType === 'instruments') {
-                                    documents = json.map(row => ({
-                                        name: row.Instrumento || '',
-                                        range: row.Rango || '',
-                                        alarms: row.Alarmas || '',
-                                        interlocks: row.Interlocks || '',
+                                        name: row.Lazo || '',
+                                        description: row.Descripcion || '',
                                     }));
                                 } else if (dataType === 'interlocks') {
                                     documents = json.map(row => ({
@@ -948,33 +1085,20 @@
                                         description: row.Descripcion || '',
                                     }));
                                 } else {
-                                    documents = json.map(row => ({
-                                        ...row,
-                                    }));
+                                    documents = json.map(row => ({ ...row }));
                                 }
-
-                                if (dataType === 'instruments') {
-                                    batchUpsertInstruments(dataType, documents, this.selectedProject, (error) => {
-                                        if (error) {
-                                            console.error(`Error saving batch for ${dataType}:`, error);
-                                            alert(`Error al cargar los datos de ${dataType}.`);
-                                        } else {
-                                            alert(`Cargue masivo de ${dataType} exitoso.`);
-                                        }
-                                    });
-                                } else {
-                                    batchSave(dataType, documents, this.selectedProject, (error) => {
-                                        if (error) {
-                                            console.error(`Error saving batch for ${dataType}:`, error);
-                                            alert(`Error al cargar los datos de ${dataType}.`);
-                                        } else {
-                                            alert(`Cargue masivo de ${dataType} exitoso.`);
-                                        }
-                                    });
-                                }
-                            };
-                            reader.readAsArrayBuffer(file);
-                        }
+                                // Use the old batchSave for other types
+                                batchSave(dataType, documents, this.selectedProject, (error) => {
+                                    if (error) {
+                                        console.error(`Error saving batch for ${dataType}:`, error);
+                                        alert(`Error al cargar los datos de ${dataType}.`);
+                                    } else {
+                                        alert(`Cargue masivo de ${dataType} exitoso.`);
+                                    }
+                                });
+                            }
+                        };
+                        reader.readAsArrayBuffer(file);
                     },
                     createMissingItem() {
                         const faltante = {
@@ -1017,7 +1141,8 @@
                             if (error) {
                                 console.error('Error en el registro:', error);
                                 alert('Error en el registro: ' + error);
-                            } else {
+                            }
+                            else {
                                 console.log('Registro exitoso, por favor inicie sesión.');
                                 this.showLogin = true;
                             }
@@ -1042,7 +1167,8 @@
                         cargarProyectos((error, projects) => {
                             if (error) {
                                 console.error('Error loading projects:', error);
-                            } else {
+                            }
+                            else {
                                 console.log('Projects loaded:', projects);
                                 this.projects = projects;
                             }
@@ -1112,6 +1238,27 @@
                                 this.loadEngineeringData(); // Reload data
                             }
                         });
+                    }, 
+                    deleteEngineeringData(item) {
+
+                        const dataTypeMap = {
+                            instruments: 'instrumento',
+                            interlocks: 'interlock',
+                            motors: 'motor',
+                            controlLoops: 'lazo de control'
+                        };
+                        const typeName = dataTypeMap[this.editingDataType] || 'elemento';
+                        if (confirm(`¿Estás seguro de que deseas eliminar el ${typeName} "${item.name}"?`)) {
+                            eliminarDatoIngenieria(this.editingDataType, item.id, (error) => {
+                                if (error) {
+                                    console.error(`Error deleting ${typeName}:`, error);
+                                    alert(`Error al eliminar el ${typeName}.`);
+                                } else {
+                                    alert(`${typeName.charAt(0).toUpperCase() + typeName.slice(1)} eliminado con éxito.`);
+                                    // The list will update automatically thanks to onSnapshot
+                                }
+                            });
+                        }
                     }
                 },
                 mounted() {

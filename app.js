@@ -282,3 +282,33 @@ function actualizarDatoIngenieria(collectionName, docId, newData, callback) {
             callback(error);
         });
 }
+
+function eliminarDatoIngenieria(collectionName, docId, callback) {
+    db.collection(collectionName).doc(docId).delete()
+        .then(() => {
+            console.log('Documento eliminado con éxito');
+            callback(null);
+        })
+        .catch((error) => {
+            console.error('Error al eliminar el documento:', error);
+            callback(error);
+        });
+}
+
+function batchDelete(collectionName, docIds, callback) {
+    const batch = db.batch();
+    docIds.forEach(id => {
+        const docRef = db.collection(collectionName).doc(id);
+        batch.delete(docRef);
+    });
+
+    batch.commit()
+        .then(() => {
+            console.log('Lote de documentos eliminado con éxito.');
+            callback(null);
+        })
+        .catch((error) => {
+            console.error('Error al eliminar el lote de documentos:', error);
+            callback(error);
+        });
+}
