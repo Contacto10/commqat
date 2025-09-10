@@ -133,12 +133,14 @@ function actualizarProyecto(projectId, newData, callback) {
 
 // Función para guardar un nuevo documento en una colección
 function guardarDato(coleccion, projectId, datos) {
-  db.collection(coleccion).add({ ...datos, projectId: projectId })
+  return db.collection(coleccion).add({ ...datos, projectId: projectId })
     .then((docRef) => {
       console.log('Documento guardado con ID:', docRef.id);
+      return docRef;
     })
     .catch((error) => {
       console.error('Error al guardar:', error);
+      throw error;
     });
 }
 
@@ -225,6 +227,39 @@ function batchSave(collectionName, documents, projectId, callback) {
     })
     .catch((error) => {
       console.error('Error al guardar el lote:', error);
+      callback(error);
+    });
+}
+
+// Upsert documents by a key field (e.g. 'name') within a project:
+// - If a document with the same keyField exists for the project, update it
+// - Otherwise, create a new document
+function upsertDocumentsByName(collectionName, documents, projectId, keyField, callback) {
+  const promises = documents.map(doc => {
+    const keyValue = doc[keyField] || '';
+    return db.collection(collectionName)
+      .where('projectId', '==', projectId)
+      .where(keyField, '==', keyValue)
+      .get()
+      .then(querySnapshot => {
+        if (!querySnapshot.empty) {
+          // Update first matching document
+          const docRef = querySnapshot.docs[0].ref;
+          return docRef.update({ ...doc, projectId: projectId });
+        } else {
+          // Create new document
+          return db.collection(collectionName).add({ ...doc, projectId: projectId });
+        }
+      });
+  });
+
+  Promise.all(promises)
+    .then(() => {
+      console.log(`Upsert de ${documents.length} documentos en ${collectionName} completado.`);
+      callback(null);
+    })
+    .catch((error) => {
+      console.error(`Error en upsertDocumentsByName para ${collectionName}:`, error);
       callback(error);
     });
 }

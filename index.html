@@ -21,6 +21,32 @@
 
             <main v-if="currentView === 'projectSelection'">
                 <h2>Seleccionar Proyecto</h2>
+
+                <!-- Secciones generales -->
+                <div class="project-selection-cards">
+                    <div class="dashboard-card">
+                        <span class="card-icon" aria-hidden="true">
+                            <svg class="icon" width="32" height="32" aria-hidden="true"><use xlink:href="assets/icons.svg#icon-shield"></use></svg>
+                        </span>
+                        <h2>Preservación</h2>
+                        <p>Gestión de la preservación de equipos y materiales.</p>
+                        <div class="card-buttons">
+                            <button class="btn-secondary" title="Abrir la hoja de consumibles" @click="currentView = 'consumablesManagement'">Gestion de Consumibles</button>
+                            <button class="btn-secondary" title="Ver/editar el plan de preservación" @click="currentView = 'preservationPlan'">Plan de Preservacion</button>
+                        </div>
+                    </div>
+                    <div class="dashboard-card">
+                        <span class="card-icon" aria-hidden="true">
+                            <svg class="icon" width="32" height="32" aria-hidden="true"><use xlink:href="assets/icons.svg#icon-helmet"></use></svg>
+                        </span>
+                        <h2>Gestión HSE</h2>
+                        <p>Gestión de permisos de trabajo.</p>
+                        <div class="card-buttons">
+                            <button class="btn-secondary" title="Administrar permisos de trabajo" @click="currentView = 'workPermits'">Permisos de Trabajo</button>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="project-selector">
                     <select v-model="selectedProject">
                         <option disabled value="">Seleccione un proyecto</option>
@@ -54,33 +80,24 @@
                     <button @click="goToEngineeringData" :disabled="!selectedProject" class="btn-secondary" style="width: auto; padding: 0.5rem 1rem;">Datos de Ingenieria</button>
                 </div>
                 <div class="dashboard-card">
-                    <h2>Gestión HSE</h2>
-                    <p>Gestión de permisos de trabajo.</p>
-                    <div class="card-buttons">
-                        <button class="btn-secondary" @click="currentView = 'workPermits'">Permisos de Trabajo</button>
-                    </div>
-                </div>
-                <div class="dashboard-card">
-                    <h2>Preservación</h2>
-                    <p>Gestión de la preservación de equipos y materiales.</p>
-                    <div class="card-buttons">
-                        <button class="btn-secondary" @click="currentView = 'consumablesManagement'">Gestion de Consumibles</button>
-                        <button class="btn-secondary" @click="currentView = 'preservationPlan'">Plan de Preservacion</button>
-                    </div>
-                </div>
-                <div class="dashboard-card">
+                    <span class="card-icon" aria-hidden="true">
+                        <svg class="icon" width="32" height="32" aria-hidden="true"><use xlink:href="assets/icons.svg#icon-clipboard"></use></svg>
+                    </span>
                     <h2>Faltantes constructivos</h2>
                     <p>Gestión de pendientes constructivos del proyecto.</p>
                     <div class="card-buttons">
-                        <button class="btn-secondary" @click="currentView = 'createMissingItem'">Cargue de Faltantes</button>
-                        <button class="btn-secondary" @click="currentView = 'missingItemsManagement'">Gestion de Faltantes</button>
+                        <button class="btn-secondary" title="Cargar faltantes desde formulario o Excel" @click="currentView = 'createMissingItem'">Cargue de Faltantes</button>
+                        <button class="btn-secondary" title="Ver y gestionar la lista de faltantes" @click="currentView = 'missingItemsManagement'">Gestion de Faltantes</button>
                     </div>
                 </div>
                 <div class="dashboard-card">
+                    <span class="card-icon" aria-hidden="true">
+                        <svg class="icon" width="32" height="32" aria-hidden="true"><use xlink:href="assets/icons.svg#icon-check"></use></svg>
+                    </span>
                     <h2>Pruebas Funcionales</h2>
                     <p>Gestión de pruebas funcionales y comisionamiento.</p>
                     <div class="card-buttons">
-                        <button class="btn-secondary" @click="currentView = 'functionalTests'">Gestion de Pruebas</button>
+                        <button class="btn-secondary" title="Abrir el gestor de pruebas funcionales" @click="currentView = 'functionalTests'">Gestion de Pruebas</button>
                     </div>
                 </div>
             </main>
@@ -100,6 +117,7 @@
                         <tr>
                             <th>Instrumento</th>
                             <th>Estado</th>
+                            <th>Fecha de Cierre</th>
                             <th>Acción</th>
                         </tr>
                     </thead>
@@ -107,6 +125,7 @@
                         <tr v-for="instrument in incompleteInstruments" :key="instrument.id">
                             <td>{{ instrument.name }}</td>
                             <td>{{ getFunctionalTestProgress(instrument.id) }}</td>
+                            <td>{{ getFunctionalTestFechaCierre(instrument.id) }}</td>
                             <td>
                                 <button @click="openFunctionalTestModal(instrument)" class="btn-secondary">Editar</button>
                             </td>
@@ -122,6 +141,7 @@
                             <tr>
                                 <th>Instrumento</th>
                                 <th>Estado</th>
+                                <th>Fecha de Cierre</th>
                                 <th>Acción</th>
                             </tr>
                         </thead>
@@ -129,6 +149,7 @@
                             <tr v-for="instrument in completedInstruments" :key="instrument.id">
                                 <td>{{ instrument.name }}</td>
                                 <td>{{ getFunctionalTestProgress(instrument.id) }}</td>
+                                <td>{{ getFunctionalTestFechaCierre(instrument.id) }}</td>
                                 <td>
                                     <button @click="openFunctionalTestModal(instrument)" class="btn-secondary">Ver/Editar</button>
                                 </td>
@@ -167,6 +188,10 @@
                             <label for="observaciones">Observaciones</label>
                             <textarea id="observaciones" v-model="newFunctionalTest.observaciones"></textarea>
                         </div>
+                        <div class="form-group">
+                            <label for="fechaCierre">Fecha de Cierre</label>
+                            <input type="date" id="fechaCierre" v-model="newFunctionalTest.fechaCierre" aria-label="Fecha de Cierre de la prueba">
+                        </div>
                         <button type="submit">Guardar</button>
                     </form>
                 </div>
@@ -204,7 +229,7 @@
                     <a href="https://forms.gle/vcndBzx6XUMngBto8" target="_blank" class="btn-secondary" style="display: inline-block; text-decoration: none; padding: 0.5rem 1rem;">Gestion de Consumibles</a>
                 </div>
                 <div class="iframe-container">
-                    <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQYtfoxXN6eezzw1lRh9UpAHui58k_2efsRCDhi43rlS818KnpfNOGUEoBeIV3c80QojFB3Ch1mHMbU/pubhtml?gid=1474824512&single=true&widget=false&headers=false&chrome=false&theme=light&embed=true" style="width: 100%; height: 600px; border: none; frameborder: 0; margin: 0; padding: 0; overflow: hidden; position: relative; "></iframe>
+                    <iframe title="Hoja de Consumibles" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQYtfoxXN6eezzw1lRh9UpAHui58k_2efsRCDhi43rlS818KnpfNOGUEoBeIV3c80QojFB3Ch1mHMbU/pubhtml?gid=1474824512&single=true&widget=false&headers=false&chrome=false&theme=light&embed=true" style="width: 100%; height: 600px; border: none; margin: 0; padding: 0; overflow: hidden; position: relative; "></iframe>
                 </div>
             </main>
 
@@ -214,27 +239,33 @@
                 <button @click="showWorkPermitForm = true" class="btn-secondary" style="margin-bottom: 1rem; width: auto; padding: 0.5rem 1rem;">Cargar Permiso</button>
                 <div class="iframe-container">
                 </div>
-                <div v-if="showWorkPermitForm" class="modal">
+                <dialog v-if="showWorkPermitForm" class="modal" id="workpermit-dialog" aria-labelledby="workpermit-title" open>
                     <div class="modal-content">
-                        <span class="close" @click="showWorkPermitForm = false">&times;</span>
-                        <h3>Cargar Permiso de Trabajo</h3>
+                        <button class="close" aria-label="Cerrar" @click="showWorkPermitForm = false">&times;</button>
+                        <h3 id="workpermit-title">Cargar Permiso de Trabajo</h3>
                         <form @submit.prevent="submitWorkPermit">
-                            <div class="form-group"><label>#</label><input type="text" v-model="newWorkPermit.numero" required></div>
-                            <div class="form-group"><label>Fecha de Solicitud</label><input type="date" v-model="newWorkPermit.fechaSolicitud" required></div>
-                            <div class="form-group"><label>Fecha de Inicio</label><input type="date" v-model="newWorkPermit.fechaInicio" required></div>
-                            <div class="form-group"><label>Fecha de Finalización</label><input type="date" v-model="newWorkPermit.fechaFin" required></div>
-                            <div class="form-group"><label>Tipo de Permiso</label><input type="text" v-model="newWorkPermit.tipoPermiso" required></div>
-                            <div class="form-group"><label>Área</label><input type="text" v-model="newWorkPermit.area" required></div>
-                            <div class="form-group"><label>Empresa ejecutora</label><input type="text" v-model="newWorkPermit.empresaEjecutora" required></div>
-                            <div class="form-group"><label>Especialidad</label><input type="text" v-model="newWorkPermit.especialidad" required></div>
-                            <div class="form-group"><label>Descripción</label><textarea v-model="newWorkPermit.descripcion" required></textarea></div>
-                            <div class="form-group"><label>Estado</label><input type="text" v-model="newWorkPermit.estado" required></div>
-                            <div class="form-group"><label>Sub-estado</label><input type="text" v-model="newWorkPermit.subestado" required></div>
-                            <div class="form-group"><label>Valoración del Riesgo</label><input type="text" v-model="newWorkPermit.valoracionRiesgo" required></div>
-                            <button type="submit">Guardar Permiso</button>
+                            <div class="form-group"><label for="wp-numero">#</label><input id="wp-numero" type="text" v-model="newWorkPermit.numero" required aria-required="true"></div>
+                            <div class="form-group"><label for="wp-fechaSolicitud">Fecha de Solicitud</label><input id="wp-fechaSolicitud" type="date" v-model="newWorkPermit.fechaSolicitud" required aria-required="true"></div>
+                            <div class="form-group"><label for="wp-fechaInicio">Fecha de Inicio</label><input id="wp-fechaInicio" type="date" v-model="newWorkPermit.fechaInicio" required aria-required="true"></div>
+                            <div class="form-group"><label for="wp-fechaFin">Fecha de Finalización</label><input id="wp-fechaFin" type="date" v-model="newWorkPermit.fechaFin" required aria-required="true"></div>
+                            <div class="form-group"><label for="wp-tipo">Tipo de Permiso</label><input id="wp-tipo" type="text" v-model="newWorkPermit.tipoPermiso" required aria-required="true"></div>
+                            <div class="form-group"><label for="wp-area">Área</label><input id="wp-area" type="text" v-model="newWorkPermit.area" required aria-required="true"></div>
+                            <div class="form-group"><label for="wp-empresa">Empresa ejecutora</label><input id="wp-empresa" type="text" v-model="newWorkPermit.empresaEjecutora" required aria-required="true"></div>
+                            <div class="form-group"><label for="wp-especialidad">Especialidad</label><input id="wp-especialidad" type="text" v-model="newWorkPermit.especialidad" required aria-required="true"></div>
+                            <div class="form-group"><label for="wp-descripcion">Descripción</label><textarea id="wp-descripcion" v-model="newWorkPermit.descripcion" required aria-required="true"></textarea></div>
+                            <div class="form-group"><label for="wp-estado">Estado</label><input id="wp-estado" type="text" v-model="newWorkPermit.estado" required aria-required="true"></div>
+                            <div class="form-group"><label for="wp-subestado">Sub-estado</label><input id="wp-subestado" type="text" v-model="newWorkPermit.subestado" required aria-required="true"></div>
+                            <div class="form-group"><label for="wp-valoracion">Valoración del Riesgo</label><input id="wp-valoracion" type="text" v-model="newWorkPermit.valoracionRiesgo" required aria-required="true"></div>
+                            <div style="margin-top: 1rem; display:flex; gap:0.5rem; align-items:center; justify-content:center;">
+                                <button type="submit" :disabled="isSavingWorkPermit">Guardar Permiso
+                                    <span v-if="isSavingWorkPermit" class="inline-spinner" aria-hidden="true"></span>
+                                </button>
+                                <button type="button" class="btn-secondary" @click="showWorkPermitForm = false" :disabled="isSavingWorkPermit">Cancelar</button>
+                            </div>
                         </form>
                     </div>
-                </div>
+                </dialog>
+                <output v-if="toastVisible" class="toast" aria-live="polite">{{ toastMessage }}</output>
             </main>
 
             <main v-if="currentView === 'createMissingItem'">
@@ -477,8 +508,8 @@
                     <h2>{{ editModalTitle }}</h2>
                     <form @submit.prevent="updateEngineeringData">
                         <div class="form-group">
-                            <label>Seleccionar Item</label>
-                            <select v-model="selectedItemId" @change="loadDataForEditing">
+                            <label for="edit-item-select">Seleccionar Item</label>
+                            <select id="edit-item-select" v-model="selectedItemId" @change="loadDataForEditing">
                                 <option disabled value="">-- Seleccione un item --</option>
                                 <option v-for="item in sortedEditingDataArray" :key="item.id" :value="item.id">
                                     {{ item.name || item.equipment || item.descripcion || item.serial || item.modelo || item.marca || item.id }}
@@ -551,18 +582,19 @@
         <section v-else>
             <div v-if="showLogin">
                 <h2>Iniciar Sesión</h2>
-                <form @submit.prevent="handleLogin">
+                        <form @submit.prevent="handleLogin">
                     <div class="form-group">
                         <label for="email">Correo Electrónico</label>
-                        <input type="email" id="email" v-model="email" required>
+                        <input type="email" id="email" name="email" v-model="email" required autocomplete="username">
                     </div>
-                    <div class="form-group">
-                        <label for="password">Contraseña</label>
-                        <div class="password-container">
-                            <input :type="showPassword ? 'text' : 'password'" id="password" v-model="password" required autocomplete="current-password">
-                            <span class="toggle-password" @click="showPassword = !showPassword">👁️</span>
+                        <div class="form-group">
+                            <label for="password">Contraseña</label>
+                            <div class="password-container">
+                                <input v-if="!showPassword" type="password" id="password" name="password" v-model="password" required autocomplete="current-password">
+                                <input v-else type="text" id="password-text" v-model="password" aria-hidden="false">
+                                <button type="button" class="toggle-password" @click="showPassword = !showPassword" @keydown.enter.prevent="showPassword = !showPassword" :aria-pressed="showPassword" aria-label="Mostrar u ocultar contraseña">👁️</button>
+                            </div>
                         </div>
-                    </div>
                     <button type="submit">Ingresar</button>
                 </form>
                 <p>¿No tienes cuenta? <a href="#" @click.prevent="showLogin = false">Regístrate</a></p>
@@ -571,21 +603,23 @@
             <div v-else>
                 <h2>Registrarse</h2>
                 <form @submit.prevent="handleRegister">
-                    <div class="form-group">
+                        <div class="form-group">
                         <label for="register-name">Nombre y Apellido</label>
-                        <input type="text" id="register-name" v-model="fullName" required>
+                        <input type="text" id="register-name" name="name" v-model="fullName" required autocomplete="name">
                     </div>
                     <div class="form-group">
                         <label for="register-email">Correo Electrónico</label>
-                        <input type="email" id="register-email" v-model="email" required autocomplete="email">
+                        <input type="email" id="register-email" name="email" v-model="email" required autocomplete="email">
                     </div>
-                    <div class="form-group">
-                        <label for="register-password">Contraseña</label>
-                        <div class="password-container">
-                            <input :type="showPassword ? 'text' : 'password'" id="register-password" v-model="password" required autocomplete="new-password">
-                            <span class="toggle-password" @click="showPassword = !showPassword">👁️</span>
+                        <div class="form-group">
+                            <label for="register-password">Contraseña</label>
+                            <div class="password-container">
+                            <input v-if="!showPassword" type="password" id="register-password" name="password" v-model="password" required autocomplete="new-password" aria-describedby="register-password-help">
+                            <input v-else type="text" id="register-password-text" v-model="password" aria-hidden="false">
+                            <button type="button" class="toggle-password" @click="showPassword = !showPassword" @keydown.enter.prevent="showPassword = !showPassword" :aria-pressed="showPassword" aria-label="Mostrar u ocultar contraseña">👁️</button>
+                            </div>
+                            <small id="register-password-help" style="color:var(--secondary-color);">Usa una contraseña segura de al menos 8 caracteres.</small>
                         </div>
-                    </div>
                     <button type="submit">Registrarse</button>
                 </form>
                 <p>¿Ya tienes cuenta? <a href="#" @click.prevent="showLogin = true">Inicia Sesión</a></p>
@@ -601,7 +635,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             const { createApp } = Vue
 
-            const app = createApp({
+            createApp({
                 data() {
                     return {
                         email: '',
@@ -656,13 +690,34 @@
                             pruebaDesconexion: false,
                             limitesSaturacion: false,
                             pruebaSensorDesconectado: false,
-                            observaciones: ''
+                            observaciones: '',
+                            fechaCierre: ''
+                        },
+                        showWorkPermitForm: false,
+                        newWorkPermit: {
+                            numero: '',
+                            fechaSolicitud: '',
+                            fechaInicio: '',
+                            fechaFin: '',
+                            tipoPermiso: '',
+                            area: '',
+                            empresaEjecutora: '',
+                            especialidad: '',
+                            descripcion: '',
+                            estado: '',
+                            subestado: '',
+                            valoracionRiesgo: ''
                         },
                         engineeringSort: {
                             type: '',
                             field: '',
                             order: 'asc'
                         }
+                    ,
+                    // UI state
+                    isSavingWorkPermit: false,
+                    toastMessage: '',
+                    toastVisible: false
                     }
                 },
                 computed: {
@@ -824,20 +879,16 @@
                         // For backwards compatibility, calculate from fields if not stored
                         if (test.completedFields === undefined || test.totalFields === undefined) {
                             const fields = [
-                                test.marca, test.modelo, test.serial,
+                                test.marca, test.modelo, test.serial, test.observaciones,
                                 test.ajusteCero, test.pruebaLazo, test.pruebaAlarma,
-                                test.pruebaDesconexion, test.limitesSaturacion,
-                                test.pruebaSensorDesconectado, test.observaciones
+                                test.pruebaDesconexion, test.limitesSaturacion, test.pruebaSensorDesconectado
                             ];
-                            const totalFields = 10; // Hardcoded for now
-                            let completedFields = 0;
-                            fields.forEach(field => {
-                                if (typeof field === 'boolean' && field) {
-                                    completedFields++;
-                                } else if (typeof field === 'string' && field.trim() !== '') {
-                                    completedFields++;
-                                }
-                            });
+                            const totalFields = fields.length;
+                            const completedFields = fields.reduce((acc, field) => {
+                                if (typeof field === 'boolean') return acc + (field ? 1 : 0);
+                                if (typeof field === 'string') return acc + (field.trim() !== '' ? 1 : 0);
+                                return acc;
+                            }, 0);
                             const percentage = (completedFields / totalFields) * 100;
                             return `${Math.round(percentage)}%`;
                         }
@@ -861,7 +912,8 @@
                                 pruebaDesconexion: false,
                                 limitesSaturacion: false,
                                 pruebaSensorDesconectado: false,
-                                observaciones: ''
+                                observaciones: '',
+                                fechaCierre: ''
                             };
                         }
                         this.showFunctionalTestModal = true;
@@ -877,25 +929,18 @@
                             instrumentId: this.selectedInstrument.id
                         };
 
-                        const totalFields = 10;
-                        let completedFields = 0;
-                        
-                        // Ensure all fields are at least defined
-                        const marca = testData.marca || "";
-                        const modelo = testData.modelo || "";
-                        const serial = testData.serial || "";
-                        const observaciones = testData.observaciones || "";
-
-                        if (marca.trim() !== '') completedFields++;
-                        if (modelo.trim() !== '') completedFields++;
-                        if (serial.trim() !== '') completedFields++;
-                        if (observaciones.trim() !== '') completedFields++;
-                        if (testData.ajusteCero) completedFields++;
-                        if (testData.pruebaLazo) completedFields++;
-                        if (testData.pruebaAlarma) completedFields++;
-                        if (testData.pruebaDesconexion) completedFields++;
-                        if (testData.limitesSaturacion) completedFields++;
-                        if (testData.pruebaSensorDesconectado) completedFields++;
+                        // Include fechaCierre in the completion metric
+                        const fields = [
+                            testData.marca, testData.modelo, testData.serial, testData.observaciones, testData.fechaCierre,
+                            testData.ajusteCero, testData.pruebaLazo, testData.pruebaAlarma,
+                            testData.pruebaDesconexion, testData.limitesSaturacion, testData.pruebaSensorDesconectado
+                        ];
+                        const totalFields = fields.length;
+                        let completedFields = fields.reduce((acc, f) => {
+                            if (typeof f === 'boolean') return acc + (f ? 1 : 0);
+                            if (typeof f === 'string') return acc + (f.trim() !== '' ? 1 : 0);
+                            return acc;
+                        }, 0);
 
                         testData.completedFields = completedFields;
                         testData.totalFields = totalFields;
@@ -909,6 +954,67 @@
                                 this.closeFunctionalTestModal();
                             }
                         });
+                    },
+                    getFunctionalTestFechaCierre(instrumentId) {
+                        const test = this.functionalTests.find(t => t.instrumentId === instrumentId);
+                        if (!test || !test.fechaCierre) return '-';
+                        // Handle Firestore Timestamp or ISO string
+                        const fecha = test.fechaCierre;
+                        if (fecha && typeof fecha.toDate === 'function') {
+                            const d = fecha.toDate();
+                            return d.toISOString().slice(0,10);
+                        }
+                        if (typeof fecha === 'string') {
+                            const parsed = Date.parse(fecha);
+                            if (!isNaN(parsed)) {
+                                return new Date(parsed).toISOString().slice(0,10);
+                            }
+                            return fecha;
+                        }
+                        return '-';
+                    },
+                    async submitWorkPermit() {
+                        if (!this.selectedProject) {
+                            alert('Seleccione un proyecto antes de cargar un permiso.');
+                            return;
+                        }
+
+                        const permitData = {
+                            ...this.newWorkPermit,
+                            projectId: this.selectedProject,
+                            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                        };
+
+                        try {
+                            this.isSavingWorkPermit = true;
+                            await guardarDato('workPermits', this.selectedProject, permitData);
+                            // reset form and close modal after successful save
+                            this.newWorkPermit = {
+                                numero: '',
+                                fechaSolicitud: '',
+                                fechaInicio: '',
+                                fechaFin: '',
+                                tipoPermiso: '',
+                                area: '',
+                                empresaEjecutora: '',
+                                especialidad: '',
+                                descripcion: '',
+                                estado: '',
+                                subestado: '',
+                                valoracionRiesgo: ''
+                            };
+                            this.showWorkPermitForm = false;
+                            this.toastMessage = 'Permiso cargado correctamente.';
+                            this.toastVisible = true;
+                            setTimeout(() => { this.toastVisible = false; this.toastMessage = ''; }, 3500);
+                        } catch (error) {
+                            console.error('Error al guardar permiso:', error);
+                            this.toastMessage = 'Error al guardar el permiso. Ver consola para más detalles.';
+                            this.toastVisible = true;
+                            setTimeout(() => { this.toastVisible = false; this.toastMessage = ''; }, 5000);
+                        } finally {
+                            this.isSavingWorkPermit = false;
+                        }
                     },
                     loadFunctionalTests() {
                         leerDatos('pruebasFuncionales', this.selectedProject, (error, data) => {
@@ -1075,10 +1181,26 @@
                                     }));
                                 } else if (dataType === 'interlocks') {
                                     documents = json.map(row => ({
-                                        name: row.Interlock || '',
+                                        name: (row.Interlock || '').toString().trim(),
                                         causa: row.Causa || '',
                                         efecto: row.Efecto || ''
                                     }));
+                                    // Upsert interlocks by 'name' to avoid duplicates
+                                    if (documents.length) {
+                                        // call the upsert helper defined in app.js
+                                        upsertDocumentsByName('interlocks', documents, this.selectedProject, 'name', (error) => {
+                                            if (error) {
+                                                console.error(`Error upserting interlocks:`, error);
+                                                alert(`Error al cargar los interlocks.`);
+                                            } else {
+                                                alert(`Cargue masivo de interlocks exitoso. Los registros existentes fueron actualizados.`);
+                                                // reload data
+                                                this.loadEngineeringData();
+                                            }
+                                        });
+                                        // skip the default batchSave below
+                                        return;
+                                    }
                                 } else if (dataType === 'motors') {
                                     documents = json.map(row => ({
                                         name: row.Motor || '',
