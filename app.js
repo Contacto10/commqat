@@ -157,8 +157,9 @@ function guardarDatoConId(coleccion, id, datos) {
 
 // Función para leer todos los documentos de una colección en tiempo real
 function leerDatos(coleccion, projectId, callback) {
-  db.collection(coleccion).where('projectId', '==', projectId)
-    .onSnapshot((querySnapshot) => {
+  const query = db.collection(coleccion).where('projectId', '==', projectId);
+  // Return the unsubscribe function so callers can detach the listener if needed
+  const unsubscribe = query.onSnapshot((querySnapshot) => {
     const documentos = [];
     querySnapshot.forEach((doc) => {
       documentos.push({ id: doc.id, ...doc.data() });
@@ -168,6 +169,8 @@ function leerDatos(coleccion, projectId, callback) {
     console.error(`Error al leer datos de ${coleccion}:`, error);
     callback(error, null);
   });
+
+  return unsubscribe;
 }
 
 // Función para guardar un nuevo faltante
@@ -195,6 +198,35 @@ function leerFaltantes(projectId, callback) {
     console.error('Error al leer faltantes:', error);
     callback(error);
   });
+}
+
+// Leer una colección completa en tiempo real (sin filtrar por projectId)
+// Devuelve la función unsubscribe
+function leerColeccion(coleccion, callback) {
+  const unsubscribe = db.collection(coleccion).onSnapshot((querySnapshot) => {
+    const documentos = [];
+    querySnapshot.forEach((doc) => {
+      documentos.push({ id: doc.id, ...doc.data() });
+    });
+    callback(null, documentos);
+  }, (error) => {
+    console.error(`Error al leer la colección ${coleccion}:`, error);
+    callback(error, null);
+  });
+  return unsubscribe;
+}
+
+// Guardar un documento en una colección sin agregar projectId
+function guardarDatoGlobal(coleccion, datos) {
+  return db.collection(coleccion).add(datos)
+    .then((docRef) => {
+      console.log('Documento guardado con ID (global):', docRef.id);
+      return docRef;
+    })
+    .catch((error) => {
+      console.error('Error al guardar (global):', error);
+      throw error;
+    });
 }
 
 // Función para actualizar el estado de un faltante
@@ -235,30 +267,50 @@ function batchSave(collectionName, documents, projectId, callback) {
 // - If a document with the same keyField exists for the project, update it
 // - Otherwise, create a new document
 function upsertDocumentsByName(collectionName, documents, projectId, keyField, callback) {
-  const promises = documents.map(doc => {
-    const keyValue = doc[keyField] || '';
-    return db.collection(collectionName)
-      .where('projectId', '==', projectId)
-      .where(keyField, '==', keyValue)
-      .get()
-      .then(querySnapshot => {
-        if (!querySnapshot.empty) {
-          // Update first matching document
-          const docRef = querySnapshot.docs[0].ref;
-          return docRef.update({ ...doc, projectId: projectId });
+  // Helper to normalize keys: remove diacritics, collapse spaces, lowercase
+  function normalizeKey(value) {
+    if (value === undefined || value === null) return '';
+    try {
+      const s = value.toString();
+      return s.normalize('NFKD').replace(/\p{Diacritic}/gu, '').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/\s+/g, ' ').trim();
+    } catch (e) {
+      return ('' + value).toString().toLowerCase().trim();
+    }
+  }
+
+  // Fetch existing docs for the project and build a lookup by normalized key
+  db.collection(collectionName).where('projectId', '==', projectId).get()
+    .then(querySnapshot => {
+      const existingMap = {};
+      querySnapshot.forEach(docSnap => {
+        const data = docSnap.data() || {};
+        const keyVal = data[keyField] || '';
+        const nk = normalizeKey(keyVal);
+        if (nk) existingMap[nk] = docSnap.ref;
+      });
+
+      const ops = documents.map(doc => {
+        const rawKey = doc[keyField] || '';
+        const nk = normalizeKey(rawKey);
+
+        if (nk && existingMap[nk]) {
+          // Update existing document
+          const docRef = existingMap[nk];
+          const payload = { ...doc, projectId: projectId };
+          return docRef.update(payload);
         } else {
           // Create new document
-          return db.collection(collectionName).add({ ...doc, projectId: projectId });
+          const payload = { ...doc, projectId: projectId };
+          return db.collection(collectionName).add(payload);
         }
       });
-  });
 
-  Promise.all(promises)
-    .then(() => {
-      console.log(`Upsert de ${documents.length} documentos en ${collectionName} completado.`);
-      callback(null);
+      return Promise.all(ops).then(() => {
+        console.log(`Upsert de ${documents.length} documentos en ${collectionName} completado.`);
+        callback(null);
+      });
     })
-    .catch((error) => {
+    .catch(error => {
       console.error(`Error en upsertDocumentsByName para ${collectionName}:`, error);
       callback(error);
     });

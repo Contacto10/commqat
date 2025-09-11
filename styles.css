@@ -145,6 +145,7 @@ button:hover {
     gap: 1rem;
     align-items: stretch;
     margin-top: 1rem;
+    margin-bottom: 1.5rem; /* add space below the cards so the selector isn't cramped */
 }
 
 .project-selection-cards .dashboard-card {
@@ -275,6 +276,7 @@ button:hover {
     gap: 1rem;
     align-items: center;
     margin-bottom: 2rem;
+    padding-top: 0.75rem; /* extra breathing room from the cards above */
 }
 
 .project-selector select {
@@ -324,9 +326,73 @@ button:hover {
     background-color: var(--bg-color);
 }
 
+/* Table toggle button */
+.table-toggle {
+    display: inline-block;
+    margin-bottom: 0.5rem;
+    padding: 0.3rem 0.6rem;
+    font-size: 0.9rem;
+    border-radius: 6px;
+    background: rgba(255,255,255,0.04);
+    color: var(--text-color);
+    border: 1px solid rgba(255,255,255,0.03);
+    cursor: pointer;
+}
+.table-toggle[aria-pressed="true"] {
+    background: rgba(79,179,255,0.12);
+    border-color: rgba(79,179,255,0.18);
+}
+
 .filter-buttons button {
     width: auto;
     margin-right: 0.5rem;
+}
+
+.kanban-board {
+    display: flex;
+    gap: 1rem;
+}
+
+.kanban-column {
+    flex: 1;
+    background-color: #f4f4f4;
+    padding: 1rem;
+    border-radius: 8px;
+}
+
+
+
+.kanban-card {
+    background-color: #ffffff;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    cursor: grab;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    border-left: 6px solid transparent;
+}
+
+/* Ensure text on light card backgrounds is dark and readable */
+.kanban-card, .kanban-card h4, .kanban-card p, .kanban-card small {
+    color: #0b1220; /* dark slate for high contrast */
+}
+
+.kanban-column h3 {
+    margin-top: 0;
+    color: #0b1220;
+}
+
+.kanban-card.pendiente {
+    background: linear-gradient(90deg, #fffaf0, #fff6e6);
+    border-left-color: #f59e0b; /* amber */
+}
+.kanban-card.enProgreso {
+    background: linear-gradient(90deg, #f0f9ff, #e6f7ff);
+    border-left-color: #3b82f6; /* blue */
+}
+.kanban-card.completado {
+    background: linear-gradient(90deg, #f0fdf4, #e6fcef);
+    border-left-color: #10b981; /* green */
 }
 
 @media (max-width: 768px) {
